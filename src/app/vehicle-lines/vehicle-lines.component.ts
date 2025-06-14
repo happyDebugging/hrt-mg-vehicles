@@ -7,4 +7,12 @@ import { Component } from '@angular/core';
 })
 export class VehicleLinesComponent {
 
+  ngOnInit() {
+
+  }
+
+  SetVehicleTypeAndModel(vehicleModel: string) {
+    sessionStorage.setItem('vehicleToPreview', vehicleModel);
+  }
+
 }
