@@ -8,6 +8,8 @@ const routes: Routes = [
   //{ path: 'auth', component: AuthComponent, pathMatch: 'full', canActivate: [LoggedInGuard]}, 
   //{ path: 'reset-password/session/:session-id', pathMatch: 'full', component: ResetPasswordComponent},
 
+  {path: 'vehicle/:vehicle-id', component: VehicleDetailsComponent}, //, canActivate: [AuthGuard]
+
   { path: '', pathMatch: 'full', component: VehicleLinesComponent }, //, canActivate: [AuthGuard] // redirect to `app-component`  { path: '**', component: PageNotFoundComponent },  // Wildcard route for a 404 page
   { path: '**', pathMatch: 'full', redirectTo: ''},  //, canActivate: [AuthGuard] // Wildcard route for a 404 page
 
