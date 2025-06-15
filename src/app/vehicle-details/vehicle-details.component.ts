@@ -9,6 +9,7 @@ export class VehicleDetailsComponent {
 
   vehicleToPreview = '';
   vehicleName = '';
+  vehicleType = '';
 
   kilometersSum = 0;
   kteoExpiryDate = '';
@@ -19,9 +20,12 @@ export class VehicleDetailsComponent {
   fuelAdditionCost = 0;
   fuelAdditionDate = '';
 
+  registrationCertificate = '';
+
   ngOnInit() {
     this.vehicleToPreview = JSON.parse(JSON.stringify(sessionStorage.getItem('vehicleToPreview')));
     this.vehicleName = this.vehicleToPreview.replaceAll('-',' ');
+    this.vehicleType = JSON.parse(JSON.stringify(sessionStorage.getItem('vehicleType')));
   }
 
 }
