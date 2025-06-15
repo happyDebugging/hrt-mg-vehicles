@@ -3,18 +3,18 @@ export class VehicleDetails {
     VehicleName!: string;
     VehicleType!: string;  //vehicle, boat
 
-    kilometersSum!: number;
-    kteoExpiryDate!: string;
-    insuranceExpiryDate!: string;
-    lastServiceDate!: string;
-    carTiresReplacementDate!: string;
-    carExhaustExpiryDate!: string;
-    fuelAdditionCost!: number;
-    fuelAdditionDate!: string;
+    KilometersSum!: number;
+    KteoExpiryDate!: string;
+    InsuranceExpiryDate!: string;
+    LastServiceDate!: string;
+    CarTiresReplacementDate!: string;
+    CarExhaustExpiryDate!: string;
+    FuelAdditionCost!: number;
+    FuelAdditionDate!: string;
 
-    CreatedAt!: string;
-    CreatedBy!: string;
     LastUpdatedAt!: string;
     LastUpdatedBy!: string;
+    
     Photo!: string;
+    RegistrationCertificate!: string;
 }
