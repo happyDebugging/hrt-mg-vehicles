@@ -22,10 +22,24 @@ export class VehicleDetailsComponent {
 
   registrationCertificate = '';
 
+  isEditEnabled = false;
+  isSaveButtonClicked = false;
+  isSaveSuccessfull = false;
+
   ngOnInit() {
     this.vehicleToPreview = JSON.parse(JSON.stringify(sessionStorage.getItem('vehicleToPreview')));
     this.vehicleName = this.vehicleToPreview.replaceAll('-',' ');
     this.vehicleType = JSON.parse(JSON.stringify(sessionStorage.getItem('vehicleType')));
+  }
+
+  EnableVehicleDetailsEdit() {
+    this.isEditEnabled = true;
+    sessionStorage.setItem('isEditEnabled', 'true');
+  }
+
+  DisableVehicleDetailsEdit() {
+    this.isEditEnabled = false;
+    sessionStorage.setItem('isEditEnabled', 'false');
   }
 
 }
