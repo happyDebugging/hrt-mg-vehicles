@@ -33,7 +33,7 @@
             required>
     </div>
 
-    <div class="form-group mb-3">
+    <div *ngIf="vehicleType=='vehicle'" class="form-group mb-3">
         <label for="kteoExpiryDate">Λήξη ΚΤΕΟ</label>
         <input type="text" class="form-control" id="kteoExpiryDate" name="kteoExpiryDate" [(ngModel)]="kteoExpiryDate"
             required>
@@ -51,13 +51,13 @@
             [(ngModel)]="lastServiceDate" required>
     </div>
 
-    <div class="form-group mb-3">
+    <div *ngIf="vehicleType=='vehicle'" class="form-group mb-3">
         <label for="carTiresReplacementDate">Αλλαγή Ελαστικών</label>
         <input type="text" class="form-control" id="carTiresReplacementDate" name="carTiresReplacementDate"
             [(ngModel)]="carTiresReplacementDate" required>
     </div>
 
-    <div class="form-group mb-3">
+    <div *ngIf="vehicleType=='vehicle'" class="form-group mb-3">
         <label for="carExhaustExpiryDate">Κάρτα Καυσαερίων</label>
         <input type="text" class="form-control" id="carExhaustExpiryDate" name="carExhaustExpiryDate"
             [(ngModel)]="carExhaustExpiryDate" required>
