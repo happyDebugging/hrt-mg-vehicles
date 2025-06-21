@@ -51,45 +51,45 @@
     <div class="mb-3">
         <label for="formFile" class="form-label">Άδεια Κυκλοφορίας</label>
         <input class="form-control" type="file" accept="application/pdf" id="registrationCertificate"
-            [(ngModel)]="registrationCertificate" [disabled]="!isEditEnabled" >
+            [(ngModel)]="vehicleDetails.RegistrationCertificate" (change)="selectFile($event)" [disabled]="!isEditEnabled" >
     </div>
 
     <br>
 
     <div class="form-group mb-3">
         <label for="kilometersSum">Τελικά Χιλιόμετρα</label>
-        <input type="text" class="form-control" id="kilometersSum" name="kilometersSum" [(ngModel)]="kilometersSum"
+        <input type="text" class="form-control" id="kilometersSum" name="kilometersSum" [(ngModel)]="vehicleDetails.KilometersSum"
             [disabled]="!isEditEnabled" required>
     </div>
 
     <div *ngIf="vehicleType=='vehicle'" class="form-group mb-3">
         <label for="kteoExpiryDate">Λήξη ΚΤΕΟ</label>
-        <input type="text" class="form-control" id="kteoExpiryDate" name="kteoExpiryDate" [(ngModel)]="kteoExpiryDate"
+        <input type="text" class="form-control" id="kteoExpiryDate" name="kteoExpiryDate" [(ngModel)]="vehicleDetails.KteoExpiryDate"
             [disabled]="!isEditEnabled" required>
     </div>
 
     <div class="form-group mb-3">
         <label for="insuranceExpiryDate">Λήξη Ασφάλειας</label>
         <input type="text" class="form-control" id="insuranceExpiryDate" name="insuranceExpiryDate"
-            [(ngModel)]="insuranceExpiryDate" [disabled]="!isEditEnabled" required>
+            [(ngModel)]="vehicleDetails.InsuranceExpiryDate" [disabled]="!isEditEnabled" required>
     </div>
 
     <div class="form-group mb-3">
         <label for="lastServiceDate">Τελευταίο Service</label>
         <input type="text" class="form-control" id="lastServiceDate" name="lastServiceDate"
-            [(ngModel)]="lastServiceDate" [disabled]="!isEditEnabled" required>
+            [(ngModel)]="vehicleDetails.LastServiceDate" [disabled]="!isEditEnabled" required>
     </div>
 
     <div *ngIf="vehicleType=='vehicle'" class="form-group mb-3">
         <label for="carTiresReplacementDate">Αλλαγή Ελαστικών</label>
         <input type="text" class="form-control" id="carTiresReplacementDate" name="carTiresReplacementDate"
-            [(ngModel)]="carTiresReplacementDate" [disabled]="!isEditEnabled" required>
+            [(ngModel)]="vehicleDetails.CarTiresReplacementDate" [disabled]="!isEditEnabled" required>
     </div>
 
     <div *ngIf="vehicleType=='vehicle'" class="form-group mb-3">
         <label for="carExhaustExpiryDate">Κάρτα Καυσαερίων</label>
         <input type="text" class="form-control" id="carExhaustExpiryDate" name="carExhaustExpiryDate"
-            [(ngModel)]="carExhaustExpiryDate" [disabled]="!isEditEnabled" required>
+            [(ngModel)]="vehicleDetails.CarExhaustExpiryDate" [disabled]="!isEditEnabled" required>
     </div>
 
     <div class="form-group mb-3">
@@ -99,12 +99,12 @@
                 <div class="form-group mb-3">
                     <label for="fuelAdditionCost">Ποσό σε Ευρώ</label>
                     <input type="text" class="form-control" id="fuelAdditionCost" name="fuelAdditionCost"
-                        [(ngModel)]="fuelAdditionCost" [disabled]="!isEditEnabled" required>
+                        [(ngModel)]="vehicleDetails.FuelAdditionCost" [disabled]="!isEditEnabled" required>
                 </div>
                 <div class="form-group mb-3">
                     <label for="fuelAdditionDate">Ημερομηνία</label>
                     <input type="text" class="form-control" id="fuelAdditionDate" name="fuelAdditionDate"
-                        [(ngModel)]="fuelAdditionDate" [disabled]="!isEditEnabled" required>
+                        [(ngModel)]="vehicleDetails.FuelAdditionDate" [disabled]="!isEditEnabled" required>
                 </div>
             </div>
         </div>
