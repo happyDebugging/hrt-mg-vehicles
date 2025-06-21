@@ -6,6 +6,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { VehicleDetailsComponent } from './vehicle-details/vehicle-details.component';
 import { VehicleLinesComponent } from './vehicle-lines/vehicle-lines.component';
+import { DbFunctionService } from './shared/services/db-functions.service';
+import { RouterLink, RouterOutlet } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -16,10 +19,13 @@ import { VehicleLinesComponent } from './vehicle-lines/vehicle-lines.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    RouterLink, 
+    RouterOutlet,
+    FormsModule,
+    HttpClientModule
   ],
   providers: [
-    provideClientHydration()
+    DbFunctionService
   ],
   bootstrap: [AppComponent]
 })
