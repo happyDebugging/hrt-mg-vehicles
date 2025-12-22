@@ -1,6 +1,9 @@
 [build]
   command = "npm run build"
-  publish = "dist/your-app-name"
+  publish = "dist/hrt-mg-vehicles/browser"
 
 [functions]
   directory = "netlify/functions"
+
+[[plugins]]
+  package = "@netlify/angular-runtime"
