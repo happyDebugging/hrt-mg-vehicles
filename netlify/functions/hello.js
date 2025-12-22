@@ -5,8 +5,6 @@ exports.handler = async (event) => {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*"
     },
-    body: JSON.stringify({
-      message: "Hello from Netlify Functions!"
-    })
+    body: JSON.stringify({ message: 'API working' })
   };
 };

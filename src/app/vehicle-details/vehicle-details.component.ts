@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { DbFunctionService } from '../shared/services/db-functions.service';
 import { VehicleDetails } from '../shared/models/vehicle-details.model';
+import { ApiService } from '../shared/services/api.service';
 
 @Component({
   selector: 'app-vehicle-details',
@@ -50,9 +51,11 @@ export class VehicleDetailsComponent {
     RegistrationCertificate: ''
   };
 
-  constructor(private dbFunctionService: DbFunctionService, private router: Router) { }
+  constructor(private dbFunctionService: DbFunctionService, private router: Router, private apiService: ApiService) { }
 
   ngOnInit() {
+    this.apiService.getUsers().subscribe(console.log); // test supabase connection
+
     this.vehicleToPreview = JSON.parse(JSON.stringify(sessionStorage.getItem('vehicleToPreview')));
     this.vehicleName = this.vehicleToPreview.replaceAll('-', ' ');
     this.vehicleType = JSON.parse(JSON.stringify(sessionStorage.getItem('vehicleType')));
