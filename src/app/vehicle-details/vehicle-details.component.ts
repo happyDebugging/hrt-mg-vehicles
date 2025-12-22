@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { DbFunctionService } from '../shared/services/db-functions.service';
+import { VehicleDetails } from '../shared/models/vehicle-details.model';
 
 @Component({
   selector: 'app-vehicle-details',
@@ -26,9 +29,32 @@ export class VehicleDetailsComponent {
   isSaveButtonClicked = false;
   isSaveSuccessfull = false;
 
+  vehicleDetails: VehicleDetails = {
+    Id: '',
+    VehicleName: '',
+    VehicleType: '',
+
+    KilometersSum: 0,
+    KteoExpiryDate: '',
+    InsuranceExpiryDate: '',
+    LastServiceDate: '',
+    CarTiresReplacementDate: '',
+    CarExhaustExpiryDate: '',
+    FuelAdditionCost: 0,
+    FuelAdditionDate: '',
+
+    LastUpdatedAt: '',
+    LastUpdatedBy: '',
+
+    Photo: '',
+    RegistrationCertificate: ''
+  };
+
+  constructor(private dbFunctionService: DbFunctionService, private router: Router) { }
+
   ngOnInit() {
     this.vehicleToPreview = JSON.parse(JSON.stringify(sessionStorage.getItem('vehicleToPreview')));
-    this.vehicleName = this.vehicleToPreview.replaceAll('-',' ');
+    this.vehicleName = this.vehicleToPreview.replaceAll('-', ' ');
     this.vehicleType = JSON.parse(JSON.stringify(sessionStorage.getItem('vehicleType')));
   }
 
@@ -42,4 +68,79 @@ export class VehicleDetailsComponent {
     sessionStorage.setItem('isEditEnabled', 'false');
   }
 
+  selectFile(event: any) {
+
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+
+    if (file) {
+      this.dbFunctionService.postRegistrationCertificateToDb(file)
+        .then(() => console.log('Upload complete!'))
+        .catch(err => console.log('Upload failed: ' + err.message));
+    }
+
+  }
+
+
+  GetVehicleDetails() {
+    this.vehicleDetails = {
+      Id: '',
+      VehicleName: '',
+      VehicleType: '',
+
+      KilometersSum: 0,
+      KteoExpiryDate: '',
+      InsuranceExpiryDate: '',
+      LastServiceDate: '',
+      CarTiresReplacementDate: '',
+      CarExhaustExpiryDate: '',
+      FuelAdditionCost: 0,
+      FuelAdditionDate: '',
+
+      LastUpdatedAt: '',
+      LastUpdatedBy: '',
+
+      Photo: '',
+      RegistrationCertificate: ''
+    };
+
+    this.dbFunctionService.getVehicleDetailsFromDb()
+      .then(
+        (res: any) => {
+          if ((res != null) || (res != undefined)) {
+            console.log(res)
+
+            for (const data of res) {
+
+              const resObj = new VehicleDetails();
+
+              resObj.Id = data.Id;
+              resObj.VehicleName = data.VehicleName;
+              resObj.VehicleType = data.VehicleType;
+
+              resObj.KilometersSum = data.KilometersSum;
+              resObj.KteoExpiryDate = data.KteoExpiryDate;
+              resObj.InsuranceExpiryDate = data.InsuranceExpiryDate;
+              resObj.LastServiceDate = data.LastServiceDate;
+              resObj.CarTiresReplacementDate = data.CarTiresReplacementDate;
+              resObj.CarExhaustExpiryDate = data.CarExhaustExpiryDate;
+              resObj.FuelAdditionCost = data.FuelAdditionCost;
+              resObj.FuelAdditionDate = data.FuelAdditionDate;
+
+              resObj.LastUpdatedAt = data.LastUpdatedAt;
+              resObj.LastUpdatedBy = data.LastUpdatedBy;
+
+              resObj.Photo = data.Photo;
+              resObj.RegistrationCertificate = data.RegistrationCertificate;
+
+              this.vehicleDetails = resObj;
+            }
+
+          }
+        },
+        err => {
+          console.log(err);
+        }
+      );
+  }
 }
