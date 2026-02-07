@@ -9,12 +9,14 @@ import { VehicleLinesComponent } from './vehicle-lines/vehicle-lines.component';
 import { DbFunctionService } from './shared/services/db-functions.service';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { AuthComponent } from './auth/auth.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     VehicleDetailsComponent,
-    VehicleLinesComponent
+    VehicleLinesComponent,
+    AuthComponent
   ],
   imports: [
     BrowserModule,
