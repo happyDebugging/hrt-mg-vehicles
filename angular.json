@@ -23,7 +23,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/hrt-mg-vehicles/browser",
+            "outputPath": "dist/hrt-mg-vehicles",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
