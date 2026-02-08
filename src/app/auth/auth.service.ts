@@ -36,7 +36,7 @@ export class AuthService {
   logout() {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem('supabase_session');
-      this.router.navigate(['/auth']);
+      this.router.navigate(['/login']);
     }
     return this.http.post(`${this.apiUrl}/logout`, {});
   }

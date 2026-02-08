@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { VehicleDetails } from '../shared/models/vehicle-details.model';
 
 @Component({
   selector: 'app-vehicle-details',
@@ -25,6 +26,8 @@ export class VehicleDetailsComponent {
   isEditEnabled = false;
   isSaveButtonClicked = false;
   isSaveSuccessfull = false;
+
+  vehicleDetails: VehicleDetails = new VehicleDetails();
 
   ngOnInit() {
     this.vehicleToPreview = JSON.parse(JSON.stringify(sessionStorage.getItem('vehicleToPreview')));
