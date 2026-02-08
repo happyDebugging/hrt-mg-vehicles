@@ -64,31 +64,36 @@
 
     <div *ngIf="vehicleType=='vehicle'" class="form-group mb-3">
         <label for="kteoExpiryDate">Λήξη ΚΤΕΟ</label>
-        <input type="text" class="form-control" id="kteoExpiryDate" name="kteoExpiryDate" [(ngModel)]="vehicleDetails.KteoExpiryDate"
+        <div *ngIf="!isEditEnabled && vehicleDetails.KteoExpiryDate" class="form-control">{{vehicleDetails.KteoExpiryDate | date:'dd/MM/yyyy'}}</div>
+        <input *ngIf="!isEditEnabled && !vehicleDetails.KteoExpiryDate || isEditEnabled" type="text" class="form-control" id="kteoExpiryDate" name="kteoExpiryDate" [(ngModel)]="vehicleDetails.KteoExpiryDate"
             [disabled]="!isEditEnabled" required>
     </div>
 
     <div class="form-group mb-3">
         <label for="insuranceExpiryDate">Λήξη Ασφάλειας</label>
-        <input type="text" class="form-control" id="insuranceExpiryDate" name="insuranceExpiryDate"
+        <div *ngIf="!isEditEnabled && vehicleDetails.InsuranceExpiryDate" class="form-control">{{vehicleDetails.InsuranceExpiryDate | date:'dd/MM/yyyy'}}</div>
+        <input *ngIf="!isEditEnabled && !vehicleDetails.InsuranceExpiryDate || isEditEnabled" type="text" class="form-control" id="insuranceExpiryDate" name="insuranceExpiryDate"
             [(ngModel)]="vehicleDetails.InsuranceExpiryDate" [disabled]="!isEditEnabled" required>
     </div>
 
     <div class="form-group mb-3">
         <label for="lastServiceDate">Τελευταίο Service</label>
-        <input type="text" class="form-control" id="lastServiceDate" name="lastServiceDate"
+        <div *ngIf="!isEditEnabled && vehicleDetails.LastServiceDate" class="form-control">{{vehicleDetails.LastServiceDate | date:'dd/MM/yyyy'}}</div>
+        <input *ngIf="!isEditEnabled && !vehicleDetails.LastServiceDate || isEditEnabled" type="text" class="form-control" id="lastServiceDate" name="lastServiceDate"
             [(ngModel)]="vehicleDetails.LastServiceDate" [disabled]="!isEditEnabled" required>
     </div>
 
     <div *ngIf="vehicleType=='vehicle'" class="form-group mb-3">
         <label for="carTiresReplacementDate">Αλλαγή Ελαστικών</label>
-        <input type="text" class="form-control" id="carTiresReplacementDate" name="carTiresReplacementDate"
+        <div *ngIf="!isEditEnabled && vehicleDetails.CarTiresReplacementDate" class="form-control">{{vehicleDetails.CarTiresReplacementDate | date:'dd/MM/yyyy'}}</div>
+        <input *ngIf="!isEditEnabled && !vehicleDetails.CarTiresReplacementDate || isEditEnabled" type="text" class="form-control" id="carTiresReplacementDate" name="carTiresReplacementDate"
             [(ngModel)]="vehicleDetails.CarTiresReplacementDate" [disabled]="!isEditEnabled" required>
     </div>
 
     <div *ngIf="vehicleType=='vehicle'" class="form-group mb-3">
         <label for="carExhaustExpiryDate">Κάρτα Καυσαερίων</label>
-        <input type="text" class="form-control" id="carExhaustExpiryDate" name="carExhaustExpiryDate"
+        <div *ngIf="!isEditEnabled && vehicleDetails.CarExhaustExpiryDate" class="form-control">{{vehicleDetails.CarExhaustExpiryDate | date:'dd/MM/yyyy'}}</div>
+        <input *ngIf="!isEditEnabled && !vehicleDetails.CarExhaustExpiryDate || isEditEnabled" type="text" class="form-control" id="carExhaustExpiryDate" name="carExhaustExpiryDate"
             [(ngModel)]="vehicleDetails.CarExhaustExpiryDate" [disabled]="!isEditEnabled" required>
     </div>
 
@@ -103,7 +108,8 @@
                 </div>
                 <div class="form-group mb-3">
                     <label for="fuelAdditionDate">Ημερομηνία</label>
-                    <input type="text" class="form-control" id="fuelAdditionDate" name="fuelAdditionDate"
+                    <div *ngIf="!isEditEnabled && vehicleDetails.FuelAdditionDate" class="form-control">{{vehicleDetails.FuelAdditionDate | date:'dd/MM/yyyy'}}</div>
+                    <input *ngIf="!isEditEnabled && !vehicleDetails.FuelAdditionDate || isEditEnabled" type="text" class="form-control" id="fuelAdditionDate" name="fuelAdditionDate"
                         [(ngModel)]="vehicleDetails.FuelAdditionDate" [disabled]="!isEditEnabled" required>
                 </div>
             </div>

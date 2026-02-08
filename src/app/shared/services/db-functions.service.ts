@@ -1,30 +1,33 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Users } from '../models/users.model';
 import { HistoryLines } from '../models/history-lines.model';
 import { createClient, Session, SupabaseClient, User } from '@supabase/supabase-js'
 import { VehicleDetails } from '../models/vehicle-details.model';
+import { AuthService } from '../../auth/auth.service';
 
 @Injectable()
 export class DbFunctionService {
 
-    // Initialize Supabase
-    //private supabase: SupabaseClient
+    private workerUrl = environment.apiUrl;
 
-    private workerUrl = 'https://your-worker.yourdomain.workers.dev';
+    constructor(private http: HttpClient, private authService: AuthService) {}
 
-    constructor(private http: HttpClient) {
-        //this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
-    }
+    async getVehicleDetailsFromDb(vehicleName?: string) {
+        const session = this.authService.getSession();
+        const bearerToken = session?.access_token || '';
+        const headers = new HttpHeaders({
+            'Authorization': `Bearer ${bearerToken}`
+        });
 
-    async getVehicleDetailsFromDb() {
-
-        // const data = await this.supabase.from('vehicleDetails').select('*').order('Id', { ascending: false }).limit(1); 
-        // return data["data"];
+        let url = `${this.workerUrl}/vehicle-details`;
+        if (vehicleName) {
+            url += `?vehicleName=${encodeURIComponent(vehicleName)}`;
+        }
 
         return this.http
-            .get<{ data: any[]; error: any }>(`${this.workerUrl}/vehicle-details`)
+            .get<{ data: any[]; error: any }>(url, { headers })
             .toPromise()
             .then(res => {
                 if (!res) throw new Error('No response from server');
