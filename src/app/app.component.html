@@ -44,7 +44,7 @@
       <!-- <img src="hrt-warehouse-logo.jpg" alt="Logo" width="130.3" height="29.2" class="d-inline-block align-text-top"> -->
     Διαχείριση Οχημάτων
     </a>
-    <button *ngIf="isUserLoggedIn" class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+    <button *ngIf="showToggler" class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
       data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -95,7 +95,7 @@
               </svg>
             </a>
           </li> -->
-          <!-- <li class="nav-item">
+          <li class="nav-item">
             <a class="nav-link active" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" routerLink="auth"
               (click)="Logout()">Έξοδος
               <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -106,7 +106,7 @@
                     d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
                 </svg></span>
             </a>
-          </li> -->
+          </li>
         </ul>
       </div>
       <div class="text-center fw-light">
