@@ -8,18 +8,14 @@ import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
 
-  { path: 'login', component: AuthComponent, pathMatch: 'full'}, //, canActivate: [LoggedInGuard]
+  { path: 'login', component: AuthComponent, pathMatch: 'full' }, //, canActivate: [LoggedInGuard]
   //{ path: 'reset-password/session/:session-id', pathMatch: 'full', component: ResetPasswordComponent},
-{
-    path: 'vehicle-lines',
-    component: VehicleLinesComponent,
-    canActivate: [AuthGuard],
-    //resolve: { user: UserResolver },
+  { path: 'vehicle-lines', component: VehicleLinesComponent, canActivate: [AuthGuard], //resolve: { user: UserResolver },
   },
-  {path: 'vehicle/:vehicle-id', component: VehicleDetailsComponent, canActivate: [AuthGuard]}, //, canActivate: [AuthGuard]
+  { path: 'vehicle/:vehicle-id', component: VehicleDetailsComponent, canActivate: [AuthGuard] }, //, canActivate: [AuthGuard]
 
-  { path: '', pathMatch: 'full', component: AuthComponent }, //, canActivate: [AuthGuard] // redirect to `app-component`  { path: '**', component: PageNotFoundComponent },  // Wildcard route for a 404 page
-  { path: '**', pathMatch: 'full', redirectTo: ''},  //, canActivate: [AuthGuard] // Wildcard route for a 404 page
+  { path: '', pathMatch: 'full', component: AuthComponent, canActivate: [AuthGuard] }, // redirect to `app-component`  { path: '**', component: PageNotFoundComponent },  // Wildcard route for a 404 page
+  { path: '**', pathMatch: 'full', redirectTo: '', canActivate: [AuthGuard] },  // Wildcard route for a 404 page
 
 ];
 
