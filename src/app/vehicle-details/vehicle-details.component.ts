@@ -23,7 +23,9 @@ export class VehicleDetailsComponent {
   fuelAdditionCost = 0;
   fuelAdditionDate = '';
 
-  registrationCertificate = '';
+  registrationCertificateFile: File | null = null;
+  isUploadingFiles = false;
+  fileUploadMessage = '';
 
   isEditEnabled = false;
   isSaveButtonClicked = false;
@@ -94,6 +96,39 @@ export class VehicleDetailsComponent {
   DisableVehicleDetailsEdit() {
     this.isEditEnabled = false;
     sessionStorage.setItem('isEditEnabled', 'false');
+  }
+
+  OnRegistrationCertificateSelected(event: any) {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      this.registrationCertificateFile = files[0];
+    }
+  }
+
+
+
+  async UploadFiles() {
+    this.isUploadingFiles = true;
+    this.fileUploadMessage = '';
+
+    try {
+      if (this.registrationCertificateFile) {
+        await this.dbFunctionService.uploadFileToDb(this.vehicleToPreview, this.registrationCertificateFile);
+        this.fileUploadMessage = 'Το αρχείο ανέβηκε με επιτυχία!';
+        this.registrationCertificateFile = null;
+        
+        // Reset file input
+        const regCertInput = document.getElementById('registrationCertificate') as HTMLInputElement;
+        if (regCertInput) regCertInput.value = '';
+      } else {
+        this.fileUploadMessage = 'Παρακαλώ επιλέξτε ένα αρχείο για μεταφόρτωση';
+      }
+    } catch (error) {
+      console.error('Upload error:', error);
+      this.fileUploadMessage = 'Σφάλμα κατά την μεταφόρτωση του αρχείου';
+    } finally {
+      this.isUploadingFiles = false;
+    }
   }
 
 }

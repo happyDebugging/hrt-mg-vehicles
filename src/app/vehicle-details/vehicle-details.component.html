@@ -17,7 +17,10 @@
 
     <div class="card mb-1" style="width: 100%; height: 19rem;">
         <img [src]="vehicleToPreview+'.jpg'" class="card-img-top img-fluid"
-            style="object-fit: contain; overflow: hidden;" id="vehiclePreview" alt="">
+            style="object-fit: contain; overflow: hidden;" id="vehiclePreview" [alt]="vehicleName" [title]="vehicleName">
+        <div class="card-body py-1">
+            <h5 class="card-title mb-0">{{vehicleName}}</h5>
+        </div>
     </div>
 
     <br>
@@ -34,6 +37,30 @@
             <a href="./directory/yourfile.pdf" download="registrationCertificate"></a>
             Λήψη Άδειας Κυκλοφορίας
         </button>
+    </div>
+
+    <div class="mb-3" *ngIf="isEditEnabled">
+        <label for="registrationCertificate" class="form-label">Ανέβασμα Άδειας Κυκλοφορίας (PDF, Word, Εικόνα)</label>
+        <input class="form-control" type="file" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" id="registrationCertificate"
+            (change)="OnRegistrationCertificateSelected($event)" [disabled]="isUploadingFiles">
+        <small class="text-muted">Αποδεκτά αρχεία: PDF, Word, JPG, PNG</small>
+    </div>
+
+    <div *ngIf="isEditEnabled && registrationCertificateFile" class="d-grid mb-3">
+        <button type="button" class="btn btn-success" (click)="UploadFiles()" [disabled]="isUploadingFiles">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-upload"
+                viewBox="0 0 16 16">
+                <path fill-rule="evenodd"
+                    d="M4.406 1.342A5.53 5.53 0 0 1 8 0c2.69 0 4.923 2 5.166 4.579C14.758 4.804 16 6.137 16 7.773 16 9.569 14.534 11 12.846 11H3.65A2.65 2.65 0 0 1 1 8.352c0-1.188.872-2.18 2.023-2.348.018-.266.076-.531.16-.788zm1.068.5H7v3.5H4.5v-3.5zm4 0v3.5H11v-3.5H8.5z" />
+                <path
+                    d="M8 3.5V9M6.5 5.5a1.5 1.5 0 1 0 3 0m-7.5 1v2a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-2" />
+            </svg>
+            Ανέβασμα Αρχείων
+        </button>
+    </div>
+
+    <div *ngIf="fileUploadMessage" class="alert" [ngClass]="{'alert-success': fileUploadMessage.includes('επιτυχία'), 'alert-danger': fileUploadMessage.includes('Σφάλμα'), 'alert-warning': !fileUploadMessage.includes('επιτυχία') && !fileUploadMessage.includes('Σφάλμα')}" role="alert">
+        {{fileUploadMessage}}
     </div>
 
     <div *ngIf="!isEditEnabled" class="d-grid mb-3">

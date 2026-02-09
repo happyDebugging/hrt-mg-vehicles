@@ -57,6 +57,31 @@ export class DbFunctionService {
             })
     }
 
+    async uploadFileToDb(vehicleName: string, file: File) {
+
+        const session = this.authService.getSession();
+        const bearerToken = session?.access_token || '';
+        const headers = new HttpHeaders({
+            'Authorization': `Bearer ${bearerToken}`
+        });
+
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('vehicleName', vehicleName);
+        formData.append('filename', file.name);
+
+        const url = `${this.workerUrl}/upload-file`;
+
+        return this.http
+            .post<{ data: any; publicUrl: string; error: any }>(url, formData, { headers })
+            .toPromise()
+            .then(res => {
+                if (!res) throw new Error('No response from server');
+                if (res.error) throw new Error(res.error.message || res.error)
+                return res.data
+            })
+    }
+
 
     // async getRegistrationCertificateFromDb(registrationCertificate: string) {
 
