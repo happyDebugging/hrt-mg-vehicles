@@ -9,7 +9,8 @@ import { DbFunctionService } from '../shared/services/db-functions.service';
 })
 export class VehicleDetailsComponent {
 
-  vehicleToPreview = '';
+  vehicleIdToPreview = 0;
+  vehicleToPreview  = '';
   vehicleName = '';
   vehicleType = '';
 
@@ -33,6 +34,7 @@ export class VehicleDetailsComponent {
   constructor(private dbFunctionService: DbFunctionService) { }
 
   ngOnInit() {
+    this.vehicleIdToPreview = JSON.parse(JSON.stringify(sessionStorage.getItem('vehicleIdToPreview')));
     this.vehicleToPreview = JSON.parse(JSON.stringify(sessionStorage.getItem('vehicleToPreview')));
     this.vehicleName = this.vehicleToPreview.replaceAll('-', ' ');
     this.vehicleType = JSON.parse(JSON.stringify(sessionStorage.getItem('vehicleType')));
@@ -43,7 +45,7 @@ export class VehicleDetailsComponent {
   GetVehicleDetails() {
     this.vehicleDetails = new VehicleDetails();
 
-    this.dbFunctionService.getVehicleDetailsFromDb(this.vehicleToPreview)
+    this.dbFunctionService.getVehicleDetailsFromDb(this.vehicleIdToPreview)
       .then(
         (res: any) => {
           if ((res != null) || (res != undefined)) {
@@ -68,6 +70,9 @@ export class VehicleDetailsComponent {
   }
 
   SaveVehicleDetails() {
+
+    this.vehicleDetails.VehicleId = this.vehicleIdToPreview;
+
     this.dbFunctionService.postVehicleDetailsToDb(this.vehicleDetails)
       .then(
         (res: any) => {

@@ -1,5 +1,6 @@
 export class VehicleDetails {
     Id!: any;
+    VehicleId!: number;
     VehicleName!: string;
     VehicleType!: string;  //vehicle, boat
 

@@ -14,7 +14,7 @@ export class DbFunctionService {
 
     constructor(private http: HttpClient, private authService: AuthService) {}
 
-    async getVehicleDetailsFromDb(vehicleName?: string) {
+    async getVehicleDetailsFromDb(vehicleId?: number) {
 
         const session = this.authService.getSession();
         const bearerToken = session?.access_token || '';
@@ -23,8 +23,8 @@ export class DbFunctionService {
         });
 
         let url = `${this.workerUrl}/vehicle-details`;
-        if (vehicleName) {
-            url += `?vehicleName=${encodeURIComponent(vehicleName)}`;
+        if (vehicleId) {
+            url += `?VehicleId=${encodeURIComponent(vehicleId.toString())}`;
         }
 
         return this.http

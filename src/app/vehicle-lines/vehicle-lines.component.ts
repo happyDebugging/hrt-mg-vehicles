@@ -11,7 +11,8 @@ export class VehicleLinesComponent {
 
   }
 
-  SetVehicleTypeAndModel(vehicleModel: string, vehicleType: string) {
+  SetVehicleTypeAndModel(vehicleId:number, vehicleModel: string, vehicleType: string) {
+    sessionStorage.setItem('vehicleIdToPreview', vehicleId.toString());
     sessionStorage.setItem('vehicleToPreview', vehicleModel);
     sessionStorage.setItem('vehicleType', vehicleType);
   }
