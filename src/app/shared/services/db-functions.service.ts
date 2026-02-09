@@ -15,6 +15,7 @@ export class DbFunctionService {
     constructor(private http: HttpClient, private authService: AuthService) {}
 
     async getVehicleDetailsFromDb(vehicleName?: string) {
+
         const session = this.authService.getSession();
         const bearerToken = session?.access_token || '';
         const headers = new HttpHeaders({
@@ -36,31 +37,25 @@ export class DbFunctionService {
             })
     }
 
-    // async postVehicleDetailsToDb(vehicleDetails: VehicleDetails) {
+    async postVehicleDetailsToDb(vehicleDetails: VehicleDetails) {
 
-    //     const data = await this.supabase.from('materialLines')
-    //         .insert({
-    //             VehicleName: vehicleDetails.VehicleName,
-    //             VehicleType: vehicleDetails.VehicleType,
+        const session = this.authService.getSession();
+        const bearerToken = session?.access_token || '';
+        const headers = new HttpHeaders({
+            'Authorization': `Bearer ${bearerToken}`
+        });
 
-    //             KilometersSum: vehicleDetails.KilometersSum,
-    //             KteoExpiryDate: vehicleDetails.KteoExpiryDate,
-    //             InsuranceExpiryDate: vehicleDetails.InsuranceExpiryDate,
-    //             LastServiceDate: vehicleDetails.LastServiceDate,
-    //             CarTiresReplacementDate: vehicleDetails.CarTiresReplacementDate,
-    //             CarExhaustExpiryDate: vehicleDetails.CarExhaustExpiryDate,
-    //             FuelAdditionCost: vehicleDetails.FuelAdditionCost,
-    //             FuelAdditionDate: vehicleDetails.FuelAdditionDate,
+        const url = `${this.workerUrl}/vehicle-details`;
 
-    //             LastUpdatedAt: vehicleDetails.LastUpdatedAt,
-    //             LastUpdatedBy: vehicleDetails.LastUpdatedBy,
-
-    //             Photo: vehicleDetails.Photo,
-    //             RegistrationCertificate: vehicleDetails.RegistrationCertificate,
-    //         }).select();
-
-    //     return data;
-    // }
+        return this.http
+            .post<{ data: any; error: any }>(url, vehicleDetails, { headers })
+            .toPromise()
+            .then(res => {
+                if (!res) throw new Error('No response from server');
+                if (res.error) throw new Error(res.error.message || res.error)
+                return res.data
+            })
+    }
 
 
     // async getRegistrationCertificateFromDb(registrationCertificate: string) {

@@ -34,13 +34,13 @@ export class VehicleDetailsComponent {
 
   ngOnInit() {
     this.vehicleToPreview = JSON.parse(JSON.stringify(sessionStorage.getItem('vehicleToPreview')));
-    this.vehicleName = this.vehicleToPreview.replaceAll('-',' ');
+    this.vehicleName = this.vehicleToPreview.replaceAll('-', ' ');
     this.vehicleType = JSON.parse(JSON.stringify(sessionStorage.getItem('vehicleType')));
 
     this.GetVehicleDetails();
   }
 
-    GetVehicleDetails() {
+  GetVehicleDetails() {
     this.vehicleDetails = new VehicleDetails();
 
     this.dbFunctionService.getVehicleDetailsFromDb(this.vehicleToPreview)
@@ -59,7 +59,20 @@ export class VehicleDetailsComponent {
             this.vehicleDetails.CarExhaustExpiryDate = res[0].CarExhaustExpiryDate;
             this.vehicleDetails.FuelAdditionCost = res[0].FuelAdditionCost;
             this.vehicleDetails.FuelAdditionDate = res[0].FuelAdditionDate;
+          }
+        },
+        err => {
+          console.log(err);
+        }
+      );
+  }
 
+  SaveVehicleDetails() {
+    this.dbFunctionService.postVehicleDetailsToDb(this.vehicleDetails)
+      .then(
+        (res: any) => {
+          if ((res != null) || (res != undefined)) {
+            console.log(res)
           }
         },
         err => {
