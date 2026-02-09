@@ -82,6 +82,25 @@ export class DbFunctionService {
             })
     }
 
+    async downloadFileFromDb(filePath: string) {
+
+        const session = this.authService.getSession();
+        const bearerToken = session?.access_token || '';
+        const headers = new HttpHeaders({
+            'Authorization': `Bearer ${bearerToken}`
+        });
+
+        const url = `${this.workerUrl}/upload-file?path=${encodeURIComponent(filePath)}`;
+
+        return this.http
+            .get(url, { headers, responseType: 'blob' })
+            .toPromise()
+            .then(res => {
+                if (!res) throw new Error('No response from server');
+                return res
+            })
+    }
+
 
     // async getRegistrationCertificateFromDb(registrationCertificate: string) {
 

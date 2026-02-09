@@ -131,4 +131,20 @@ export class VehicleDetailsComponent {
     }
   }
 
+  async DownloadRegistrationCertificate(filePath: string) {
+    try {
+      const blob = await this.dbFunctionService.downloadFileFromDb(filePath);
+      const filename = filePath.split('/').pop() || 'registration-certificate';
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Download error:', error);
+      this.fileUploadMessage = 'Σφάλμα κατά τη λήψη του αρχείου';
+    }
+  }
+
 }
