@@ -25,7 +25,7 @@
 
     <br>
 
-    <div class="mb-3" *ngIf="vehicleDetails.RegistrationCertificate">
+    <div class="mb-3">
         <button type="button" class="btn btn-light" (click)="DownloadRegistrationCertificate(vehicleDetails.RegistrationCertificate)">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download"
                 viewBox="0 0 16 16">
@@ -46,7 +46,7 @@
     </div>
 
     <div *ngIf="isEditEnabled && registrationCertificateFile" class="d-grid mb-3">
-        <button type="button" class="btn btn-success" (click)="UploadFiles()" [disabled]="isUploadingFiles">
+        <button type="button" class="btn btn-success" (click)="UploadRegistrationCertificate()" [disabled]="isUploadingFiles">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-upload"
                 viewBox="0 0 16 16">
                 <path fill-rule="evenodd"

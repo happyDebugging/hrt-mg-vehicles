@@ -57,7 +57,7 @@ export class DbFunctionService {
             })
     }
 
-    async uploadFileToDb(vehicleName: string, file: File) {
+    async uploadRegistrationCertificateToDb(vehicleId: number, vehicleName: string, file: File) {
 
         const session = this.authService.getSession();
         const bearerToken = session?.access_token || '';
@@ -67,6 +67,7 @@ export class DbFunctionService {
 
         const formData = new FormData();
         formData.append('file', file);
+        formData.append('vehicleId', vehicleId.toString());
         formData.append('vehicleName', vehicleName);
         formData.append('filename', file.name);
 

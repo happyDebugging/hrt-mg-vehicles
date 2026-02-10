@@ -10,7 +10,7 @@ import { DbFunctionService } from '../shared/services/db-functions.service';
 export class VehicleDetailsComponent {
 
   vehicleIdToPreview = 0;
-  vehicleToPreview  = '';
+  vehicleToPreview = '';
   vehicleName = '';
   vehicleType = '';
 
@@ -107,16 +107,16 @@ export class VehicleDetailsComponent {
 
 
 
-  async UploadFiles() {
+  async UploadRegistrationCertificate() {
     this.isUploadingFiles = true;
     this.fileUploadMessage = '';
 
     try {
       if (this.registrationCertificateFile) {
-        await this.dbFunctionService.uploadFileToDb(this.vehicleToPreview, this.registrationCertificateFile);
+        await this.dbFunctionService.uploadRegistrationCertificateToDb(this.vehicleIdToPreview, this.vehicleToPreview, this.registrationCertificateFile);
         this.fileUploadMessage = 'Το αρχείο ανέβηκε με επιτυχία!';
         this.registrationCertificateFile = null;
-        
+
         // Reset file input
         const regCertInput = document.getElementById('registrationCertificate') as HTMLInputElement;
         if (regCertInput) regCertInput.value = '';
