@@ -59,11 +59,15 @@
             <a class="nav-link active" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
               routerLink="home">Αρχική</a>
           </li>
-          <li class="nav-item dropdown">
+          <li class="nav-item">
+            <a class="nav-link active" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+              routerLink="user-profile">Προφίλ</a>
+          </li>
+          <!-- <li class="nav-item dropdown">
             <a class="nav-link active dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Τμήματα
             </a>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu"> -->
               <!-- <li *ngIf="loggedInUserPermissions == 'All' || loggedInUserPermissions == 'Τμήμα Ορεινής Διάσωσης'">
                 <a class="dropdown-item text-wrap" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
                   routerLink="mountain/material-lines" (click)="SetMountainCategory()">Ορεινής Διάσωσης
@@ -73,16 +77,16 @@
               <li *ngIf="loggedInUserPermissions == 'All'">
                 <hr class="dropdown-divider">
               </li> -->
-            </ul>
-          </li>
+            <!-- </ul>
+          </li> -->
           <!-- <li *ngIf="loggedInUserPermissions == 'All'" class="nav-item">
             <a class="nav-link active" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
               routerLink="history">Ιστορικό</a>
           </li> -->
-          <!-- <li *ngIf="loggedInUserPermissions == 'All'" class="nav-item">
+          <li *ngIf="loggedInUserPermissions == 'All'" class="nav-item">
             <a class="nav-link active" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
               routerLink="admin">Κέντρο Διαχείρισης</a>
-          </li> -->
+          </li>
           <hr>
           <!-- <li class="nav-item">
             <a class="nav-link active" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" routerLink=""

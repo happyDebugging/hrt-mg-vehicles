@@ -11,13 +11,17 @@ import { DbFunctionService } from './shared/services/db-functions.service';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { AuthComponent } from './auth/auth.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
+import { AdminComponent } from './admin/admin.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     VehicleDetailsComponent,
     VehicleLinesComponent,
-    AuthComponent
+    AuthComponent,
+    AdminComponent,
+    UserProfileComponent
   ],
   imports: [
     BrowserModule,
