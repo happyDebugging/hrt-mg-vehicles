@@ -83,6 +83,44 @@ export class DbFunctionService {
             })
     }
 
+    getUserProfile(): Promise<any> {
+        const session = this.authService.getSession();
+        const bearerToken = session?.access_token || '';
+        const headers = new HttpHeaders({
+            'Authorization': `Bearer ${bearerToken}`
+        });
+
+        const url = `${this.workerUrl}/user-profile`;
+
+        return this.http
+            .get<{ data: any; error: any }>(url, { headers })
+            .toPromise()
+            .then(res => {
+                if (!res) throw new Error('No response from server');
+                if (res.error) throw new Error(res.error.message || res.error);
+                return res.data;
+            });
+    }
+
+    getRegistrationCertificates(vehicleId: number): Promise<any[]> {
+        const session = this.authService.getSession();
+        const bearerToken = session?.access_token || '';
+        const headers = new HttpHeaders({
+            'Authorization': `Bearer ${bearerToken}`
+        });
+
+        const url = `${this.workerUrl}/registration-certificates?vehicleId=${encodeURIComponent(vehicleId.toString())}`;
+
+        return this.http
+            .get<{ data: any[]; error: any }>(url, { headers })
+            .toPromise()
+            .then(res => {
+                if (!res) throw new Error('No response from server');
+                if (res.error) throw new Error(res.error.message || res.error);
+                return res.data;
+            });
+    }
+
     async downloadFileFromDb(filePath: string) {
 
         const session = this.authService.getSession();
@@ -113,19 +151,55 @@ export class DbFunctionService {
 
         const formData = new FormData();
         formData.append('file', file);
-        formData.append('userId', userId);
         formData.append('filename', file.name);
 
-        const url = `${this.workerUrl}/upload-file`;
+        const url = `${this.workerUrl}/driver-license`;
 
-        // return this.http
-        //     .post<{ data: any; publicUrl: string; error: any }>(url, formData, { headers })
-        //     .toPromise()
-        //     .then(res => {
-        //         if (!res) throw new Error('No response from server');
-        //         if (res.error) throw new Error(res.error.message || res.error)
-        //         return res.data
-        //     })
+        return this.http
+            .post<{ data: any; storageName: string; error: any }>(url, formData, { headers })
+            .toPromise()
+            .then(res => {
+                if (!res) throw new Error('No response from server');
+                if (res.error) throw new Error(res.error.message || res.error);
+                return res;
+            });
+    }
+
+    listDriverLicenses(): Promise<any[]> {
+        const session = this.authService.getSession();
+        const bearerToken = session?.access_token || '';
+        const headers = new HttpHeaders({
+            'Authorization': `Bearer ${bearerToken}`
+        });
+
+        const url = `${this.workerUrl}/driver-license?action=list`;
+
+        return this.http
+            .get<{ data: any[]; error: any }>(url, { headers })
+            .toPromise()
+            .then(res => {
+                if (!res) throw new Error('No response from server');
+                if (res.error) throw new Error(res.error.message || res.error);
+                return res.data;
+            });
+    }
+
+    downloadDriverLicense(fileName: string): Promise<Blob> {
+        const session = this.authService.getSession();
+        const bearerToken = session?.access_token || '';
+        const headers = new HttpHeaders({
+            'Authorization': `Bearer ${bearerToken}`
+        });
+
+        const url = `${this.workerUrl}/driver-license?path=${encodeURIComponent(fileName)}`;
+
+        return this.http
+            .get(url, { headers, responseType: 'blob' })
+            .toPromise()
+            .then(res => {
+                if (!res) throw new Error('No response from server');
+                return res;
+            });
     }
 
 
