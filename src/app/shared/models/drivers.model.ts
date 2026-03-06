@@ -1,6 +1,6 @@
 export class Drivers {
     Id!: any;
-    DriverId!: any;
+    UserId!: any;
     FirstName!: string;
     LastName!: string;
     VehicleDriven!: string;
