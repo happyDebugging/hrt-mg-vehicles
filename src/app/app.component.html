@@ -83,7 +83,7 @@
             <a class="nav-link active" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
               routerLink="history">Ιστορικό</a>
           </li> -->
-          <li class="nav-item">
+          <li *ngIf="isAdmin" class="nav-item">
             <a class="nav-link active" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
               routerLink="admin">Κέντρο Διαχείρισης</a>
           </li>

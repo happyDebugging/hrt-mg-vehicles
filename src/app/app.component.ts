@@ -3,6 +3,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { AuthService } from './auth/auth.service';
+import { DbFunctionService } from './shared/services/db-functions.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -16,6 +17,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   isUserLoggedIn = false;
   showToggler = false;
+  isAdmin = false;
   private destroy$ = new Subject<void>();
   private tokenRefreshInterval: any;
   private inactivityTimeout: any;
@@ -28,7 +30,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private isBrowser: boolean;
 
-  constructor(private authService: AuthService, private router: Router, @Inject(PLATFORM_ID) platformId: Object) {
+  constructor(private authService: AuthService, private dbFunctionService: DbFunctionService, private router: Router, @Inject(PLATFORM_ID) platformId: Object) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
 
@@ -71,9 +73,20 @@ export class AppComponent implements OnInit, OnDestroy {
     ).subscribe(() => {
       if (this.authService.isLoggedIn()) {
         this.isUserLoggedIn = true;
+        this.loadUserPermissions();
         console.log('Token successfully refreshed');
       }
     });
+  }
+
+  private loadUserPermissions(): void {
+    this.dbFunctionService.getUserProfile()
+      .then((profile: any) => {
+        this.isAdmin = profile?.permissions === 'admin';
+      })
+      .catch(() => {
+        this.isAdmin = false;
+      });
   }
 
   /**
@@ -91,6 +104,7 @@ export class AppComponent implements OnInit, OnDestroy {
     // Token is still valid
     if (!this.authService.isTokenExpired(session.access_token)) {
       this.isUserLoggedIn = true;
+      this.loadUserPermissions();
       return;
     }
 
@@ -101,6 +115,7 @@ export class AppComponent implements OnInit, OnDestroy {
         console.log('Token refreshed on app initialization');
         this.isUserLoggedIn = true;
         this.showToggler = !this.router.url.includes('/auth');
+        this.loadUserPermissions();
       },
       (error) => {
         console.error('Failed to refresh token on app initialization:', error);
@@ -221,8 +236,15 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   private updateVisibility(url: string) {
     const loggedIn = this.authService.isLoggedIn();
+    // Detect transition to logged-in state and load permissions
+    if (loggedIn && !this.isUserLoggedIn) {
+      this.loadUserPermissions();
+    }
     this.isUserLoggedIn = loggedIn;
     this.showToggler = loggedIn && !url.includes('/auth');
+    if (!loggedIn) {
+      this.isAdmin = false;
+    }
   }
 
   /**
