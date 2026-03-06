@@ -194,6 +194,10 @@ export class DbFunctionService {
                 if (!res) throw new Error('No response from server');
                 if (res.error) throw new Error(res.error);
                 return res;
+            })
+            .catch(err => {
+                const serverMessage = err?.error?.error;
+                throw new Error(serverMessage || err?.message || 'Σφάλμα κατά τον ορισμό κωδικού');
             });
     }
 
