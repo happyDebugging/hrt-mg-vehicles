@@ -102,6 +102,25 @@ export class DbFunctionService {
             });
     }
 
+    getVehicles(): Promise<any[]> {
+        const session = this.authService.getSession();
+        const bearerToken = session?.access_token || '';
+        const headers = new HttpHeaders({
+            'Authorization': `Bearer ${bearerToken}`
+        });
+
+        const url = `${this.workerUrl}/vehicles`;
+
+        return this.http
+            .get<{ data: any[]; error: any }>(url, { headers })
+            .toPromise()
+            .then(res => {
+                if (!res) throw new Error('No response from server');
+                if (res.error) throw new Error(res.error.message || res.error);
+                return res.data;
+            });
+    }
+
     getRegistrationCertificates(vehicleId: number): Promise<any[]> {
         const session = this.authService.getSession();
         const bearerToken = session?.access_token || '';
@@ -141,7 +160,7 @@ export class DbFunctionService {
     }
 
 
-    async uploadDriverLicenseToDb(userId: string, file: File) {
+    async uploadDriverLicenseToDb(userId: string, file: File, licenseType: 'vehicle' | 'boat') {
 
         const session = this.authService.getSession();
         const bearerToken = session?.access_token || '';
@@ -152,6 +171,7 @@ export class DbFunctionService {
         const formData = new FormData();
         formData.append('file', file);
         formData.append('filename', file.name);
+        formData.append('type', licenseType);
 
         const url = `${this.workerUrl}/driver-license`;
 
@@ -165,14 +185,14 @@ export class DbFunctionService {
             });
     }
 
-    listDriverLicenses(): Promise<any[]> {
+    listDriverLicenses(licenseType: 'vehicle' | 'boat'): Promise<any[]> {
         const session = this.authService.getSession();
         const bearerToken = session?.access_token || '';
         const headers = new HttpHeaders({
             'Authorization': `Bearer ${bearerToken}`
         });
 
-        const url = `${this.workerUrl}/driver-license?action=list`;
+        const url = `${this.workerUrl}/driver-license?action=list&type=${licenseType}`;
 
         return this.http
             .get<{ data: any[]; error: any }>(url, { headers })
@@ -184,14 +204,14 @@ export class DbFunctionService {
             });
     }
 
-    downloadDriverLicense(fileName: string): Promise<Blob> {
+    downloadDriverLicense(fileName: string, licenseType: 'vehicle' | 'boat'): Promise<Blob> {
         const session = this.authService.getSession();
         const bearerToken = session?.access_token || '';
         const headers = new HttpHeaders({
             'Authorization': `Bearer ${bearerToken}`
         });
 
-        const url = `${this.workerUrl}/driver-license?path=${encodeURIComponent(fileName)}`;
+        const url = `${this.workerUrl}/driver-license?path=${encodeURIComponent(fileName)}&type=${licenseType}`;
 
         return this.http
             .get(url, { headers, responseType: 'blob' })
