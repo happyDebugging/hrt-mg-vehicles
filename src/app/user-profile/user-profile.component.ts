@@ -52,7 +52,7 @@ export class UserProfileComponent implements OnInit {
         if (grouped['vehicle']) {
           this.licenseCards.push({
             type: 'vehicle',
-            label: 'Άδεια Οδήγησης',
+            label: 'Δίπλωμα Οδήγησης',
             vehicleNames: grouped['vehicle'],
             hasLicense: false,
             licenseFileName: '',
