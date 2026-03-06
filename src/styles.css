@@ -1,1 +1,452 @@
-/* You can add global styles to this file, and also import other style files */
+/* =============================================
+   GLOBAL THEME — Inspired by modern Wix template
+   Dark nav · Warm accents · Clean cards · Bold type
+   ============================================= */
+
+:root {
+  /* Palette */
+  --clr-dark: #1a1a1a;
+  --clr-dark-soft: #2c2c2c;
+  --clr-accent: #9AA6B2;          /* warm gold */
+  --clr-accent-hover: #BCCCDC;
+  --clr-bg: #F8FAFC;              /* warm off-white */
+  --clr-white: #ffffff;
+  --clr-text: #333333;
+  --clr-text-muted: #888888;
+  --clr-border: #e8e8e4;
+  --clr-success: #4caf50;
+  --clr-danger: #e74c3c;
+
+  /* Spacing */
+  --radius: 2px;                  /* nearly square — modern/editorial */
+  --radius-lg: 6px;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,.06);
+  --shadow: 0 4px 20px rgba(0,0,0,.08);
+  --shadow-hover: 0 8px 30px rgba(0,0,0,.12);
+  --transition: .25s cubic-bezier(.4,0,.2,1);
+}
+
+/* ── Reset & Base ──────────────────────────── */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Calibri', 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--clr-bg);
+  color: var(--clr-text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Typography ────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  letter-spacing: .02em;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--clr-dark);
+  position: relative;
+  padding-bottom: .75rem;
+  margin-bottom: 1.5rem;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 48px;
+  height: 3px;
+  background: var(--clr-accent);
+}
+
+.section-title-center {
+  text-align: center;
+}
+
+.section-title-center::after {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* ── Page Wrapper ──────────────────────────── */
+.page-wrapper {
+  padding-top: 72px;              /* fixed navbar height */
+  min-height: 100vh;
+}
+
+/* ── Content Containers ────────────────────── */
+.content-container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem;
+}
+
+.content-container-narrow {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem;
+}
+
+@media (max-width: 575.98px) {
+  .content-container,
+  .content-container-narrow {
+    padding: 1.5rem 1rem;
+  }
+}
+
+/* ── Navbar ────────────────────────────────── */
+.navbar-theme {
+  background-color: var(--clr-dark);
+  padding: .9rem 0;
+  border: none;
+}
+
+.navbar-theme .navbar-brand {
+  color: var(--clr-white);
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+}
+
+.navbar-theme .navbar-brand:hover {
+  color: var(--clr-accent);
+}
+
+.navbar-theme .navbar-toggler {
+  border: 1px solid rgba(255,255,255,.25);
+  padding: .35rem .65rem;
+}
+
+.navbar-theme .navbar-toggler-icon {
+  filter: invert(1);
+}
+
+/* ─ Offcanvas ─ */
+.offcanvas-theme {
+  border-left: none;
+  background: var(--clr-dark);
+  color: var(--clr-white);
+}
+
+.offcanvas-theme .offcanvas-header {
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  padding: 1.25rem 1.5rem;
+}
+
+.offcanvas-theme .offcanvas-title {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  font-size: .9rem;
+  color: var(--clr-accent);
+}
+
+.offcanvas-theme .btn-close {
+  filter: invert(1) grayscale(1) brightness(2);
+}
+
+.offcanvas-theme .nav-link {
+  color: rgba(255,255,255,.75);
+  padding: .75rem 1.25rem;
+  font-size: .95rem;
+  font-weight: 500;
+  letter-spacing: .03em;
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  transition: color var(--transition), background var(--transition);
+}
+
+.offcanvas-theme .nav-link:hover {
+  color: var(--clr-white);
+  background: rgba(255,255,255,.06);
+}
+
+.offcanvas-theme .nav-link.text-danger-nav {
+  color: rgba(231, 76, 60, .8);
+}
+
+.offcanvas-theme .nav-link.text-danger-nav:hover {
+  color: #e74c3c;
+  background: rgba(231, 76, 60, .08);
+}
+
+.offcanvas-theme hr {
+  border-color: rgba(255,255,255,.1);
+  margin: .5rem 1.25rem;
+}
+
+.offcanvas-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid rgba(255,255,255,.1);
+  font-size: .75rem;
+  color: rgba(255,255,255,.35);
+}
+
+/* ── Cards ─────────────────────────────────── */
+.card {
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-lg);
+  background: var(--clr-white);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition), transform var(--transition);
+}
+
+.card-header {
+  background: var(--clr-white);
+  border-bottom: 1px solid var(--clr-border);
+  font-weight: 600;
+  letter-spacing: .02em;
+}
+
+/* ── Vehicle Card Grid ─────────────────────── */
+.vehicle-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.vehicle-card-link .card {
+  border: none;
+  border-radius: var(--radius);
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 2px 10px rgba(0,0,0,.08);
+}
+
+.vehicle-card-link:hover .card {
+  box-shadow: 0 8px 28px rgba(0,0,0,.13);
+}
+
+.vehicle-card-img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+  transition: transform .35s ease;
+}
+
+.vehicle-card-link:hover .vehicle-card-img {
+  transform: scale(1.03);
+}
+
+.vehicle-card-link .card-body {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 3rem 1rem .9rem;
+  background: linear-gradient(to top, rgba(0,0,0,.6), transparent);
+  pointer-events: none;
+}
+
+.vehicle-card-link .card-title {
+  color: #fff;
+  font-weight: 600;
+  font-size: .9rem;
+  letter-spacing: .03em;
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .vehicle-card-img { height: 240px; }
+}
+
+/* ── Login ──────────────────────────────────── */
+.login-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: var(--clr-bg);
+  padding: 1rem;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 440px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 16px 48px rgba(0,0,0,.25);
+  border: none;
+}
+
+.login-card .card-body {
+  padding: 2rem 1.75rem;
+  background: var(--clr-white);
+}
+
+.login-card .card-img-top {
+  height: 200px;
+  object-fit: cover;
+}
+
+.login-card .btn-login {
+  background: var(--clr-dark);
+  color: var(--clr-white);
+  border: none;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  padding: .75rem;
+  transition: background var(--transition);
+}
+
+.login-card .btn-login:hover {
+  background: var(--clr-dark-soft);
+  color: var(--clr-accent);
+}
+
+/* ── Buttons ───────────────────────────────── */
+.btn-theme {
+  background: var(--clr-dark);
+  color: var(--clr-white);
+  border: none;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  font-size: .85rem;
+  padding: .65rem 1.5rem;
+  border-radius: var(--radius);
+  transition: all var(--transition);
+}
+
+.btn-theme:hover {
+  background: var(--clr-dark-soft);
+  color: var(--clr-accent);
+}
+
+.btn-theme-outline {
+  background: transparent;
+  color: var(--clr-dark);
+  border: 2px solid var(--clr-dark);
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  font-size: .85rem;
+  padding: .55rem 1.4rem;
+  border-radius: var(--radius);
+  transition: all var(--transition);
+}
+
+.btn-theme-outline:hover {
+  background: var(--clr-dark);
+  color: var(--clr-white);
+}
+
+.btn-accent {
+  background: var(--clr-accent);
+  color: var(--clr-white);
+  border: none;
+  font-weight: 600;
+  letter-spacing: .06em;
+  padding: .65rem 1.5rem;
+  border-radius: var(--radius);
+  transition: all var(--transition);
+}
+
+.btn-accent:hover {
+  background: var(--clr-accent-hover);
+  color: var(--clr-white);
+}
+
+/* Override Bootstrap primary to match theme */
+.btn-primary {
+  background-color: var(--clr-dark);
+  border-color: var(--clr-dark);
+  font-weight: 600;
+  letter-spacing: .04em;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: var(--clr-dark-soft);
+  border-color: var(--clr-dark-soft);
+}
+
+/* ── Forms ──────────────────────────────────── */
+.form-control,
+.form-select {
+  border-radius: var(--radius);
+  border-color: var(--clr-border);
+  padding: .6rem .85rem;
+  font-size: .92rem;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--clr-accent);
+  box-shadow: 0 0 0 .2rem rgba(201, 169, 110, .2);
+}
+
+.form-label {
+  font-weight: 600;
+  font-size: .85rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--clr-text);
+  margin-bottom: .35rem;
+}
+
+/* ── Dividers ──────────────────────────────── */
+.divider {
+  border: 0;
+  height: 1px;
+  background: var(--clr-border);
+  margin: 2rem 0;
+}
+
+/* ── Alerts ─────────────────────────────────── */
+.alert {
+  border-radius: var(--radius-lg);
+  font-size: .9rem;
+}
+
+/* ── Badge accent ──────────────────────────── */
+.badge-accent {
+  background: var(--clr-accent);
+  color: var(--clr-white);
+  font-weight: 600;
+  letter-spacing: .04em;
+}
+
+/* ── Scrollbar (webkit) ────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}
+
+/* ── Utility ───────────────────────────────── */
+.text-accent {
+  color: var(--clr-accent) !important;
+}
+
+.bg-dark-theme {
+  background-color: var(--clr-dark) !important;
+}

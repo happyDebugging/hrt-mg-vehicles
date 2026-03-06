@@ -1,9 +1,1 @@
-.card {
-    width: 100%;
-}
-
-.card-img-top {
-    width: 100%;
-    height: 25vw;
-    object-fit: cover;
-}
+/* All card styles handled by global styles.css */

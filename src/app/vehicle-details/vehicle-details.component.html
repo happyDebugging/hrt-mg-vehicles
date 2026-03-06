@@ -1,177 +1,135 @@
-<hr>
-<div class="container-fluid">
+<div class="content-container">
+  <h2 class="section-title">{{ vehicleName }}</h2>
 
-    <div>
-        <div class="col-10">
-            <p>{{vehicleName}}</p>
-        </div>
-        <div class="col-2">
-        </div>
+  <!-- Vehicle Image Card -->
+  <div class="vehicle-hero mb-4">
+    <img [src]="vehicleToPreview+'.jpg'" class="vehicle-hero-img"
+      id="vehiclePreview" [alt]="vehicleName" [title]="vehicleName">
+  </div>
+
+  <!-- Actions Row -->
+  <div class="d-flex flex-wrap gap-2 mb-4">
+    <button *ngIf="hasRegistrationCertificate" type="button" class="btn btn-theme-outline" (click)="DownloadRegistrationCertificate(registrationCertificatePath)">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="me-1" viewBox="0 0 16 16">
+        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+        <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"/>
+      </svg>
+      Λήψη Άδειας Κυκλοφορίας
+    </button>
+    <button *ngIf="!isEditEnabled" type="button" class="btn btn-theme" (click)="EnableVehicleDetailsEdit()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="me-1" viewBox="0 0 16 16">
+        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+      </svg>
+      Επεξεργασία
+    </button>
+  </div>
+
+  <!-- Upload Section (Edit Mode) -->
+  <div *ngIf="isEditEnabled" class="card mb-4">
+    <div class="card-header d-flex align-items-center">
+      <strong>Ανέβασμα Άδειας Κυκλοφορίας</strong>
     </div>
-
-</div>
-
-<hr>
-
-<div class="container-fluid">
-
-    <div class="card mb-1" style="width: 100%; height: 19rem;">
-        <img [src]="vehicleToPreview+'.jpg'" class="card-img-top img-fluid"
-            style="object-fit: contain; overflow: hidden;" id="vehiclePreview" [alt]="vehicleName" [title]="vehicleName">
-        <div class="card-body py-1">
-            <h5 class="card-title mb-0">{{vehicleName}}</h5>
-        </div>
-    </div>
-
-    <br>
-
-    <div class="mb-3" *ngIf="hasRegistrationCertificate">
-        <button type="button" class="btn btn-light" (click)="DownloadRegistrationCertificate(registrationCertificatePath)">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download"
-                viewBox="0 0 16 16">
-                <path
-                    d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
-                <path
-                    d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z" />
-            </svg>
-            Λήψη Άδειας Κυκλοφορίας
+    <div class="card-body">
+      <input class="form-control mb-2" type="file" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" id="registrationCertificate"
+        (change)="OnRegistrationCertificateSelected($event)" [disabled]="isUploadingFiles">
+      <small class="text-muted">Αποδεκτά αρχεία: PDF, Word, JPG, PNG</small>
+      <div *ngIf="registrationCertificateFile" class="d-grid mt-3">
+        <button type="button" class="btn btn-accent" (click)="UploadRegistrationCertificate()" [disabled]="isUploadingFiles">
+          Ανέβασμα Αρχείων
         </button>
+      </div>
     </div>
+  </div>
 
-    <div class="mb-3" *ngIf="isEditEnabled">
-        <label for="registrationCertificate" class="form-label">Ανέβασμα Άδειας Κυκλοφορίας</label>
-        <input class="form-control" type="file" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" id="registrationCertificate"
-            (change)="OnRegistrationCertificateSelected($event)" [disabled]="isUploadingFiles">
-        <small class="text-muted">Αποδεκτά αρχεία: PDF, Word, JPG, PNG</small>
+  <div *ngIf="fileUploadMessage" class="alert mb-4" [ngClass]="{'alert-success': fileUploadMessage.includes('επιτυχία'), 'alert-danger': fileUploadMessage.includes('Σφάλμα'), 'alert-warning': !fileUploadMessage.includes('επιτυχία') && !fileUploadMessage.includes('Σφάλμα')}" role="alert">
+    {{ fileUploadMessage }}
+  </div>
+
+  <!-- Details Form -->
+  <div class="card mb-4">
+    <div class="card-header d-flex align-items-center">
+      <strong>Στοιχεία Οχήματος</strong>
     </div>
-
-    <div *ngIf="isEditEnabled && registrationCertificateFile" class="d-grid mb-3">
-        <button type="button" class="btn btn-success" (click)="UploadRegistrationCertificate()" [disabled]="isUploadingFiles">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-upload"
-                viewBox="0 0 16 16">
-                <path fill-rule="evenodd"
-                    d="M4.406 1.342A5.53 5.53 0 0 1 8 0c2.69 0 4.923 2 5.166 4.579C14.758 4.804 16 6.137 16 7.773 16 9.569 14.534 11 12.846 11H3.65A2.65 2.65 0 0 1 1 8.352c0-1.188.872-2.18 2.023-2.348.018-.266.076-.531.16-.788zm1.068.5H7v3.5H4.5v-3.5zm4 0v3.5H11v-3.5H8.5z" />
-                <path
-                    d="M8 3.5V9M6.5 5.5a1.5 1.5 0 1 0 3 0m-7.5 1v2a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-2" />
-            </svg>
-            Ανέβασμα Αρχείων
-        </button>
-    </div>
-
-    <div *ngIf="fileUploadMessage" class="alert" [ngClass]="{'alert-success': fileUploadMessage.includes('επιτυχία'), 'alert-danger': fileUploadMessage.includes('Σφάλμα'), 'alert-warning': !fileUploadMessage.includes('επιτυχία') && !fileUploadMessage.includes('Σφάλμα')}" role="alert">
-        {{fileUploadMessage}}
-    </div>
-
-    <div *ngIf="!isEditEnabled" class="d-grid mb-3">
-        <button type="submit" class="btn btn-secondary" (click)="EnableVehicleDetailsEdit()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                class="bi bi-pencil-square" viewBox="0 0 16 16">
-                <path
-                    d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                <path fill-rule="evenodd"
-                    d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
-            </svg>
-            Επεξεργασία</button>
-    </div>
-
-    <!-- <div class="mb-3">
-        <label for="formFile" class="form-label">Άδεια Κυκλοφορίας</label>
-        <input class="form-control" type="file" accept="application/pdf" id="registrationCertificate"
-            [(ngModel)]="vehicleDetails.RegistrationCertificate" (change)="selectFile($event)" [disabled]="!isEditEnabled" >
-    </div> -->
-
-    <br>
-
-    <div class="form-group mb-3">
-        <label for="kilometersSum">Τελικά Χιλιόμετρα</label>
-        <input type="text" class="form-control" id="kilometersSum" name="kilometersSum" [(ngModel)]="vehicleDetails.KilometersSum"
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-12 col-md-6">
+          <label for="kilometersSum" class="form-label">Τελικά Χιλιόμετρα</label>
+          <input type="text" class="form-control" id="kilometersSum" name="kilometersSum" [(ngModel)]="vehicleDetails.KilometersSum"
             [disabled]="!isEditEnabled" required>
-    </div>
+        </div>
 
-    <div *ngIf="vehicleType=='vehicle'" class="form-group mb-3">
-        <label for="kteoExpiryDate">Λήξη ΚΤΕΟ</label>
-        <div *ngIf="!isEditEnabled && vehicleDetails.KteoExpiryDate" class="form-control">{{vehicleDetails.KteoExpiryDate | date:'dd/MM/yyyy'}}</div>
-        <input *ngIf="!isEditEnabled && !vehicleDetails.KteoExpiryDate || isEditEnabled" type="date" class="form-control" id="kteoExpiryDate" name="kteoExpiryDate" [(ngModel)]="vehicleDetails.KteoExpiryDate"
-            [disabled]="!isEditEnabled" required>
-    </div>
+        <div *ngIf="vehicleType=='vehicle'" class="col-12 col-md-6">
+          <label for="kteoExpiryDate" class="form-label">Λήξη ΚΤΕΟ</label>
+          <div *ngIf="!isEditEnabled && vehicleDetails.KteoExpiryDate" class="form-control">{{ vehicleDetails.KteoExpiryDate | date:'dd/MM/yyyy' }}</div>
+          <input *ngIf="!isEditEnabled && !vehicleDetails.KteoExpiryDate || isEditEnabled" type="date" class="form-control" id="kteoExpiryDate" name="kteoExpiryDate"
+            [(ngModel)]="vehicleDetails.KteoExpiryDate" [disabled]="!isEditEnabled" required>
+        </div>
 
-    <div class="form-group mb-3">
-        <label for="insuranceExpiryDate">Λήξη Ασφάλειας</label>
-        <div *ngIf="!isEditEnabled && vehicleDetails.InsuranceExpiryDate" class="form-control">{{vehicleDetails.InsuranceExpiryDate | date:'dd/MM/yyyy'}}</div>
-        <input *ngIf="!isEditEnabled && !vehicleDetails.InsuranceExpiryDate || isEditEnabled" type="date" class="form-control" id="insuranceExpiryDate" name="insuranceExpiryDate"
+        <div class="col-12 col-md-6">
+          <label for="insuranceExpiryDate" class="form-label">Λήξη Ασφάλειας</label>
+          <div *ngIf="!isEditEnabled && vehicleDetails.InsuranceExpiryDate" class="form-control">{{ vehicleDetails.InsuranceExpiryDate | date:'dd/MM/yyyy' }}</div>
+          <input *ngIf="!isEditEnabled && !vehicleDetails.InsuranceExpiryDate || isEditEnabled" type="date" class="form-control" id="insuranceExpiryDate" name="insuranceExpiryDate"
             [(ngModel)]="vehicleDetails.InsuranceExpiryDate" [disabled]="!isEditEnabled" required>
-    </div>
+        </div>
 
-    <div class="form-group mb-3">
-        <label for="lastServiceDate">Τελευταίο Service</label>
-        <div *ngIf="!isEditEnabled && vehicleDetails.LastServiceDate" class="form-control">{{vehicleDetails.LastServiceDate | date:'dd/MM/yyyy'}}</div>
-        <input *ngIf="!isEditEnabled && !vehicleDetails.LastServiceDate || isEditEnabled" type="date" class="form-control" id="lastServiceDate" name="lastServiceDate"
+        <div class="col-12 col-md-6">
+          <label for="lastServiceDate" class="form-label">Τελευταίο Service</label>
+          <div *ngIf="!isEditEnabled && vehicleDetails.LastServiceDate" class="form-control">{{ vehicleDetails.LastServiceDate | date:'dd/MM/yyyy' }}</div>
+          <input *ngIf="!isEditEnabled && !vehicleDetails.LastServiceDate || isEditEnabled" type="date" class="form-control" id="lastServiceDate" name="lastServiceDate"
             [(ngModel)]="vehicleDetails.LastServiceDate" [disabled]="!isEditEnabled" required>
-    </div>
+        </div>
 
-    <div *ngIf="vehicleType=='vehicle'" class="form-group mb-3">
-        <label for="carTiresReplacementDate">Αλλαγή Ελαστικών</label>
-        <div *ngIf="!isEditEnabled && vehicleDetails.CarTiresReplacementDate" class="form-control">{{vehicleDetails.CarTiresReplacementDate | date:'dd/MM/yyyy'}}</div>
-        <input *ngIf="!isEditEnabled && !vehicleDetails.CarTiresReplacementDate || isEditEnabled" type="date" class="form-control" id="carTiresReplacementDate" name="carTiresReplacementDate"
+        <div *ngIf="vehicleType=='vehicle'" class="col-12 col-md-6">
+          <label for="carTiresReplacementDate" class="form-label">Αλλαγή Ελαστικών</label>
+          <div *ngIf="!isEditEnabled && vehicleDetails.CarTiresReplacementDate" class="form-control">{{ vehicleDetails.CarTiresReplacementDate | date:'dd/MM/yyyy' }}</div>
+          <input *ngIf="!isEditEnabled && !vehicleDetails.CarTiresReplacementDate || isEditEnabled" type="date" class="form-control" id="carTiresReplacementDate" name="carTiresReplacementDate"
             [(ngModel)]="vehicleDetails.CarTiresReplacementDate" [disabled]="!isEditEnabled" required>
-    </div>
+        </div>
 
-    <div *ngIf="vehicleType=='vehicle'" class="form-group mb-3">
-        <label for="carExhaustExpiryDate">Κάρτα Καυσαερίων</label>
-        <div *ngIf="!isEditEnabled && vehicleDetails.CarExhaustExpiryDate" class="form-control">{{vehicleDetails.CarExhaustExpiryDate | date:'dd/MM/yyyy'}}</div>
-        <input *ngIf="!isEditEnabled && !vehicleDetails.CarExhaustExpiryDate || isEditEnabled" type="date" class="form-control" id="carExhaustExpiryDate" name="carExhaustExpiryDate"
+        <div *ngIf="vehicleType=='vehicle'" class="col-12 col-md-6">
+          <label for="carExhaustExpiryDate" class="form-label">Κάρτα Καυσαερίων</label>
+          <div *ngIf="!isEditEnabled && vehicleDetails.CarExhaustExpiryDate" class="form-control">{{ vehicleDetails.CarExhaustExpiryDate | date:'dd/MM/yyyy' }}</div>
+          <input *ngIf="!isEditEnabled && !vehicleDetails.CarExhaustExpiryDate || isEditEnabled" type="date" class="form-control" id="carExhaustExpiryDate" name="carExhaustExpiryDate"
             [(ngModel)]="vehicleDetails.CarExhaustExpiryDate" [disabled]="!isEditEnabled" required>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <div class="form-group mb-3">
-        <label for="fuelAddition">Προσθήκη Καυσίμου</label>
-        <div class="card" style="width: 100%;">
-            <div class="card-body">
-                <div class="form-group mb-3">
-                    <label for="fuelAdditionCost">Ποσό σε Ευρώ</label>
-                    <input type="text" class="form-control" id="fuelAdditionCost" name="fuelAdditionCost"
-                        [(ngModel)]="vehicleDetails.FuelAdditionCost" [disabled]="!isEditEnabled" required>
-                </div>
-                <div class="form-group mb-3">
-                    <label for="fuelAdditionDate">Ημερομηνία</label>
-                    <div *ngIf="!isEditEnabled && vehicleDetails.FuelAdditionDate" class="form-control">{{vehicleDetails.FuelAdditionDate | date:'dd/MM/yyyy'}}</div>
-                    <input *ngIf="!isEditEnabled && !vehicleDetails.FuelAdditionDate || isEditEnabled" type="date" class="form-control" id="fuelAdditionDate" name="fuelAdditionDate"
-                        [(ngModel)]="vehicleDetails.FuelAdditionDate" [disabled]="!isEditEnabled" required>
-                </div>
-            </div>
-        </div>
+  <!-- Fuel Section -->
+  <div class="card mb-4">
+    <div class="card-header d-flex align-items-center">
+      <strong>Προσθήκη Καυσίμου</strong>
     </div>
-
-    <hr *ngIf="isEditEnabled">
-
-        <div *ngIf="isEditEnabled && !isSaveSuccessfull" class="d-grid mb-3">
-            <button type="button" class="btn btn-primary"
-                [disabled]="isSaveButtonClicked" (click)="SaveVehicleDetails()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-floppy"
-                    viewBox="0 0 16 16">
-                    <path d="M11 2H9v3h2z" />
-                    <path
-                        d="M1.5 0h11.586a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 14.5v-13A1.5 1.5 0 0 1 1.5 0M1 1.5v13a.5.5 0 0 0 .5.5H2v-4.5A1.5 1.5 0 0 1 3.5 9h9a1.5 1.5 0 0 1 1.5 1.5V15h.5a.5.5 0 0 0 .5-.5V2.914a.5.5 0 0 0-.146-.353l-1.415-1.415A.5.5 0 0 0 13.086 1H13v4.5A1.5 1.5 0 0 1 11.5 7h-7A1.5 1.5 0 0 1 3 5.5V1H1.5a.5.5 0 0 0-.5.5m3 4a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V1H4zM3 15h10v-4.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5z" />
-                </svg>
-                Αποθήκευση</button>
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-12 col-md-6">
+          <label for="fuelAdditionCost" class="form-label">Ποσό σε Ευρώ</label>
+          <input type="text" class="form-control" id="fuelAdditionCost" name="fuelAdditionCost"
+            [(ngModel)]="vehicleDetails.FuelAdditionCost" [disabled]="!isEditEnabled" required>
         </div>
-
-        <div *ngIf="isEditEnabled && isSaveSuccessfull" class="d-grid mb-3">
-            <button type="button" class="btn btn-info">Επιτυχής αποθήκευση!</button>
+        <div class="col-12 col-md-6">
+          <label for="fuelAdditionDate" class="form-label">Ημερομηνία</label>
+          <div *ngIf="!isEditEnabled && vehicleDetails.FuelAdditionDate" class="form-control">{{ vehicleDetails.FuelAdditionDate | date:'dd/MM/yyyy' }}</div>
+          <input *ngIf="!isEditEnabled && !vehicleDetails.FuelAdditionDate || isEditEnabled" type="date" class="form-control" id="fuelAdditionDate" name="fuelAdditionDate"
+            [(ngModel)]="vehicleDetails.FuelAdditionDate" [disabled]="!isEditEnabled" required>
         </div>
+      </div>
+    </div>
+  </div>
 
-        <div *ngIf="isEditEnabled" class="d-grid mb-3">
-            <button type="submit" class="btn btn-secondary" (click)="DisableVehicleDetailsEdit()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                    class="bi bi-box-arrow-left" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd"
-                        d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0z" />
-                    <path fill-rule="evenodd"
-                        d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z" />
-                </svg>
-                Έξοδος Επεξεργασίας</button>
-        </div>
-
-    <br> 
-
+  <!-- Save / Cancel Buttons (Edit Mode) -->
+  <div *ngIf="isEditEnabled" class="d-flex flex-wrap gap-2 mb-4">
+    <button *ngIf="!isSaveSuccessfull" type="button" class="btn btn-accent flex-grow-1"
+      [disabled]="isSaveButtonClicked" (click)="SaveVehicleDetails()">
+      Αποθήκευση
+    </button>
+    <button *ngIf="isSaveSuccessfull" type="button" class="btn btn-accent flex-grow-1" disabled>
+      Επιτυχής αποθήκευση!
+    </button>
+    <button type="button" class="btn btn-theme-outline flex-grow-1" (click)="DisableVehicleDetailsEdit()">
+      Έξοδος Επεξεργασίας
+    </button>
+  </div>
 </div>

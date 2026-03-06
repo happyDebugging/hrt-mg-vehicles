@@ -1,138 +1,63 @@
-<!-- Update Password Modal
-<ng-template #updatePassword let-modal>
-  <div class="modal-header">
-    <h1 class="modal-title fs-5" id="updatePassword">Νέος κωδικός πρόσβασης</h1>
-  </div>
-  <div class="modal-body">
-    <form>
-      <div class="mb-3">
-        <label for="newUserPassword" class="col-form-label">Κωδικός:</label>
-        <input type="password" class="form-control" id="newUserPassword" name="newUserPassword"
-          [(ngModel)]="newUserPassword">
-      </div>
-      <div class="mb-3">
-        <label for="newUserPasswordConfirmation" class="col-form-label">Επαλήθευση κωδικού:</label>
-        <input type="password" class="form-control" id="newUserPasswordConfirmation" name="newUserPasswordConfirmation"
-          [(ngModel)]="newUserPasswordConfirmation">
-      </div>
-      <div class="mb-3">
-        <label
-          *ngIf="(newUserPassword != newUserPasswordConfirmation) && (newUserPassword.length>5 && newUserPasswordConfirmation.length>5)"
-          class="text-danger">Ο κωδικοί πρόσβασης δεν ταιριάζουν.</label>
-      </div>
-      <div class="mb-3">
-        <label
-          *ngIf="!isPassword6Characters && (newUserPassword == newUserPasswordConfirmation) && (!(newUserPassword.length>5) || !(newUserPasswordConfirmation.length>5))"
-          class="text-danger">O κωδικός πρέπει να περιέχει τουλάχιστον 6 χαρακτήρες.</label>
-      </div>
-    </form>
-    <div *ngIf="isChangePasswordSuccessfull" #changePasswordSuccessfullAlert id="changePasswordSuccessfullAlert"
-      class="alert alert-success text-center" role="alert">
-      Επιτυχής ενημέρωση κωδικού πρόσβασης!
-    </div>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="DismillModal()">Άκυρο</button>
-    <button type="button" class="btn btn-primary" (click)="UpdateUserPassword()">Αποθήκευση</button>
-  </div>
-</ng-template> -->
-
-
-<nav class="navbar bg-body-tertiary fixed-top">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">
-      <!-- <img src="hrt-warehouse-logo.jpg" alt="Logo" width="130.3" height="29.2" class="d-inline-block align-text-top"> -->
-    Διαχείριση Οχημάτων
-    </a>
+<nav class="navbar navbar-theme fixed-top">
+  <div class="container-fluid px-3 px-md-4">
+    <a class="navbar-brand" routerLink="home">
+      <img src="hellenic-rescue-team-logo.png" alt="Rescue Vehicle Icon" width="30" height="30" class="d-inline-block align-text-top me-2">
+      Διαχείριση Οχημάτων
+    </a> 
     <button *ngIf="showToggler" class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
       data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+    <div class="offcanvas offcanvas-end offcanvas-theme" tabindex="-1" id="offcanvasNavbar"
+      aria-labelledby="offcanvasNavbarLabel">
       <div class="offcanvas-header">
         <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Μενού</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
-      <div class="offcanvas-body">
-        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+      <div class="offcanvas-body d-flex flex-column">
+        <ul class="navbar-nav flex-grow-1">
           <li class="nav-item">
-            <a class="nav-link active" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
-              routerLink="home">Αρχική</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
-              routerLink="user-profile">Προφίλ</a>
-          </li>
-          <!-- <li class="nav-item dropdown">
-            <a class="nav-link active dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Τμήματα
+            <a class="nav-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" routerLink="home">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16"><path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4z"/></svg>
+              Αρχική
             </a>
-            <ul class="dropdown-menu"> -->
-              <!-- <li *ngIf="loggedInUserPermissions == 'All' || loggedInUserPermissions == 'Τμήμα Ορεινής Διάσωσης'">
-                <a class="dropdown-item text-wrap" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
-                  routerLink="mountain/material-lines" (click)="SetMountainCategory()">Ορεινής Διάσωσης
-                </a>
-              </li>
-
-              <li *ngIf="loggedInUserPermissions == 'All'">
-                <hr class="dropdown-divider">
-              </li> -->
-            <!-- </ul>
-          </li> -->
-          <!-- <li *ngIf="loggedInUserPermissions == 'All'" class="nav-item">
-            <a class="nav-link active" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
-              routerLink="history">Ιστορικό</a>
-          </li> -->
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" routerLink="user-profile">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16"><path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/><path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/></svg>
+              Προφίλ
+            </a>
+          </li>
           <li *ngIf="isAdmin" class="nav-item">
-            <a class="nav-link active" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
-              routerLink="admin">Κέντρο Διαχείρισης</a>
+            <a class="nav-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" routerLink="admin">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16"><path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 0 1-2.105-.872zM8 10.93a2.929 2.929 0 1 1 0-5.86 2.929 2.929 0 0 1 0 5.858z"/></svg>
+              Κέντρο Διαχείρισης
+            </a>
           </li>
           <hr>
           <li class="nav-item">
-            <a class="nav-link active" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
-              routerLink="reset-password">Αλλαγή κωδικού πρόσβασης
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-key"
-                viewBox="0 0 16 16">
-                <path
-                  d="M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8m4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5" />
-                <path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
-              </svg>
+            <a class="nav-link" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" routerLink="reset-password">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16"><path d="M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8m4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5"/><path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/></svg>
+              Αλλαγή κωδικού
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" routerLink="auth"
-              (click)="Logout()">Έξοδος
-              <span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                  class="bi bi-box-arrow-right" viewBox="0 0 16 16">
-                  <path fill-rule="evenodd"
-                    d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z" />
-                  <path fill-rule="evenodd"
-                    d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
-                </svg></span>
+            <a class="nav-link text-danger-nav" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+              routerLink="auth" (click)="Logout()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"/><path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/></svg>
+              Αποσύνδεση
             </a>
           </li>
         </ul>
-      </div>
-      <div class="text-center fw-light">
-        <small>Powered by
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-github"
-            viewBox="0 0 16 16">
-            <path
-              d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8" />
-          </svg>
-          <!-- <a href="https://github.com/happyDebugging/hrt-mg-vehicles"> -->
-            happyDebugging
-          <!-- </a> -->
-        </small>
+        <div class="offcanvas-footer text-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" class="me-1" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"/></svg>
+          happyDebugging
+        </div>
       </div>
     </div>
   </div>
 </nav>
 
-<br>
-<hr>
-
-
-<!-- <div class="container-fluid"> -->
-<router-outlet></router-outlet>
-<!-- </div> -->
+<div class="page-wrapper">
+  <router-outlet></router-outlet>
+</div>
