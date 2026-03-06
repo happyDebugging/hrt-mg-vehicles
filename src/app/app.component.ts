@@ -1,4 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { AuthService } from './auth/auth.service';
@@ -25,7 +26,11 @@ export class AppComponent implements OnInit, OnDestroy {
   // Check for inactivity every 30 seconds
   private readonly INACTIVITY_CHECK_INTERVAL = 30 * 1000;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  private isBrowser: boolean;
+
+  constructor(private authService: AuthService, private router: Router, @Inject(PLATFORM_ID) platformId: Object) {
+    this.isBrowser = isPlatformBrowser(platformId);
+  }
 
   ngOnInit(): void {
     const url = this.router.url || '/';
@@ -143,6 +148,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * Setup listener for when user returns to the window/tab after being away
    */
   private setupWindowFocusListener(): void {
+    if (!this.isBrowser) return;
     window.addEventListener('focus', () => {
       console.log('User returned to window/tab');
       // When user returns to the tab, check if token needs refresh
@@ -171,6 +177,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * Setup activity detection to handle user inactivity
    */
   private setupActivityDetection(): void {
+    if (!this.isBrowser) return;
     const resetInactivityTimer = () => {
       // Clear existing timeout
       if (this.inactivityTimeout) {
