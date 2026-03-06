@@ -14,6 +14,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
 import { AdminComponent } from './admin/admin.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ManageUsersService } from './shared/services/manage-users.service';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ManageUsersService } from './shared/services/manage-users.service';
     VehicleLinesComponent,
     AuthComponent,
     AdminComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,

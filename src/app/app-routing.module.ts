@@ -6,12 +6,15 @@ import { AuthComponent } from './auth/auth.component';
 import { AuthGuard } from './auth/auth.guard';
 import { AdminComponent } from './admin/admin.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 //import { UserResolver } from './auth/auth.resolver';
 
 const routes: Routes = [
 
   { path: 'login', component: AuthComponent, pathMatch: 'full' }, //, canActivate: [LoggedInGuard]
-  //{ path: 'reset-password/session/:session-id', pathMatch: 'full', component: ResetPasswordComponent},
+  { path: 'reset-password', component: ResetPasswordComponent },
+  { path: 'reset-password/session/:session-id', pathMatch: 'full', component: ResetPasswordComponent},
+
   { path: 'vehicle-lines', component: VehicleLinesComponent, canActivate: [AuthGuard], //resolve: { user: UserResolver },
   },
   { path: 'vehicle/:vehicle-id', component: VehicleDetailsComponent, canActivate: [AuthGuard] }, //, canActivate: [AuthGuard]

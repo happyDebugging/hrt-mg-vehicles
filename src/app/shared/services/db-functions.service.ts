@@ -159,6 +159,30 @@ export class DbFunctionService {
             })
     }
 
+    changePassword(newPassword: string, currentPassword?: string, token?: string): Promise<any> {
+        const bearerToken = token || this.authService.getSession()?.access_token || '';
+        const headers = new HttpHeaders({
+            'Authorization': `Bearer ${bearerToken}`,
+            'Content-Type': 'application/json'
+        });
+
+        const body: any = { newPassword };
+        if (currentPassword) {
+            body.currentPassword = currentPassword;
+        }
+
+        const url = `${this.workerUrl}/change-password`;
+
+        return this.http
+            .post<{ message?: string; error?: string }>(url, body, { headers })
+            .toPromise()
+            .then(res => {
+                if (!res) throw new Error('No response from server');
+                if (res.error) throw new Error(res.error);
+                return res;
+            });
+    }
+
 
     async uploadDriverLicenseToDb(userId: string, file: File, licenseType: 'vehicle' | 'boat') {
 
