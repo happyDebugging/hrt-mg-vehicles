@@ -26,6 +26,8 @@ export class VehicleDetailsComponent {
   registrationCertificateFile: File | null = null;
   isUploadingFiles = false;
   fileUploadMessage = '';
+  registrationCertificatePath = '';
+  hasRegistrationCertificate = false;
 
   isEditEnabled = false;
   isSaveButtonClicked = false;
@@ -42,6 +44,21 @@ export class VehicleDetailsComponent {
     this.vehicleType = JSON.parse(JSON.stringify(sessionStorage.getItem('vehicleType')));
 
     this.GetVehicleDetails();
+    this.GetRegistrationCertificate();
+  }
+
+  GetRegistrationCertificate() {
+    this.dbFunctionService.getRegistrationCertificates(this.vehicleIdToPreview)
+      .then((certificates: any[]) => {
+        if (certificates && certificates.length > 0) {
+          const cert = certificates[0];
+          this.registrationCertificatePath = `${this.vehicleToPreview}/${cert.CertificateImageName}`;
+          this.hasRegistrationCertificate = true;
+        }
+      })
+      .catch((err: any) => {
+        console.error('Failed to fetch registration certificate:', err);
+      });
   }
 
   GetVehicleDetails() {
@@ -132,9 +149,14 @@ export class VehicleDetailsComponent {
   }
 
   async DownloadRegistrationCertificate(filePath: string) {
+    if (!this.hasRegistrationCertificate || !this.registrationCertificatePath) {
+      this.fileUploadMessage = 'Δεν υπάρχει Άδεια Κυκλοφορίας για λήψη';
+      return;
+    }
+
     try {
-      const blob = await this.dbFunctionService.downloadFileFromDb(filePath);
-      const filename = filePath.split('/').pop() || 'registration-certificate';
+      const blob = await this.dbFunctionService.downloadFileFromDb(this.registrationCertificatePath);
+      const filename = this.registrationCertificatePath.split('/').pop() || 'registration-certificate';
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
