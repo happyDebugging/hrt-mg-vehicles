@@ -1,0 +1,9 @@
+[build]
+  command = "ng build"
+  publish = "dist/hrt-mg-vehicles/browser"
+  framework = "#none"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
