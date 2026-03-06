@@ -103,6 +103,32 @@ export class DbFunctionService {
     }
 
 
+    async uploadDriverLicenseToDb(userId: string, file: File) {
+
+        const session = this.authService.getSession();
+        const bearerToken = session?.access_token || '';
+        const headers = new HttpHeaders({
+            'Authorization': `Bearer ${bearerToken}`
+        });
+
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('userId', userId);
+        formData.append('filename', file.name);
+
+        const url = `${this.workerUrl}/upload-file`;
+
+        // return this.http
+        //     .post<{ data: any; publicUrl: string; error: any }>(url, formData, { headers })
+        //     .toPromise()
+        //     .then(res => {
+        //         if (!res) throw new Error('No response from server');
+        //         if (res.error) throw new Error(res.error.message || res.error)
+        //         return res.data
+        //     })
+    }
+
+
     // async getRegistrationCertificateFromDb(registrationCertificate: string) {
 
     //     const data = await this.supabase.storage.from('hrt-mg-vehicles-storage').getPublicUrl(registrationCertificate);
@@ -139,20 +165,20 @@ export class DbFunctionService {
     // // }
 
 
-    // // async addNewUserToDb(userΙd: string, newUserFirstName: string, newUserLastName: string, newUserEmail: string, newUserPermissions: string) {
+    async addNewUserToDb(userΙd: string, newUserFirstName: string, newUserLastName: string, newUserEmail: string, newUserPermissions: string) {
 
-    // //     const data = await this.supabase.from('users')
-    // //         .insert({
-    // //             UserId: userΙd,
-    // //             FirstName: newUserFirstName,
-    // //             LastName: newUserLastName,
-    // //             Email: newUserEmail,
-    // //             Permissions: newUserPermissions,
-    // //             HasChangedPassword: false
-    // //         }).select();
+        // const data = await this.supabase.from('users')
+        //     .insert({
+        //         UserId: userΙd,
+        //         FirstName: newUserFirstName,
+        //         LastName: newUserLastName,
+        //         Email: newUserEmail,
+        //         Permissions: newUserPermissions,
+        //         HasChangedPassword: false
+        //     }).select();
 
-    // //     return data;
-    // // }
+        // return data;
+    }
 
     // // async updateUserToDb(userΙd: string, userFirstName: string, userLastName: string, userEmail: string, userPermissions: string) {
 
@@ -169,13 +195,13 @@ export class DbFunctionService {
     // //     return data;
     // // }
 
-    // // async deleteUserFromDb(userΙd: string) {
+    async deleteUserFromDb(userΙd: string) {
 
-    // //     const { data, error } = await this.supabase.from('users')
-    // //         .delete().eq('UserId', userΙd);
+        // const { data, error } = await this.supabase.from('users')
+        //     .delete().eq('UserId', userΙd);
 
-    // //     return { data, error };
-    // // }
+        // return { data, error };
+    }
 
     // // async getUserDetailsFromDb(userEmail: string) {
     // //     let options: any = {
