@@ -56,7 +56,8 @@
         <div class="col-12 col-md-6">
           <label for="kilometersSum" class="form-label">Τελικα Χιλιομετρα</label>
           <input type="text" class="form-control" id="kilometersSum" name="kilometersSum" [(ngModel)]="vehicleDetails.KilometersSum"
-            [disabled]="!isEditEnabled" required>
+            [disabled]="!isEditEnabled" [ngClass]="{'is-invalid': invalidFields.has('kilometersSum')}" required>
+          <div *ngIf="invalidFields.has('kilometersSum')" class="invalid-feedback">Εισάγετε έγκυρο αριθμό χιλιομέτρων.</div>
         </div>
 
         <div *ngIf="vehicleType=='vehicle'" class="col-12 col-md-6">
@@ -107,7 +108,8 @@
         <div class="col-12 col-md-6">
           <label for="fuelAdditionCost" class="form-label">Ποσο σε Ευρω</label>
           <input type="text" class="form-control" id="fuelAdditionCost" name="fuelAdditionCost"
-            [(ngModel)]="vehicleDetails.FuelAdditionCost" [disabled]="!isEditEnabled" required>
+            [(ngModel)]="vehicleDetails.FuelAdditionCost" [disabled]="!isEditEnabled" [ngClass]="{'is-invalid': invalidFields.has('fuelAdditionCost')}" required>
+          <div *ngIf="invalidFields.has('fuelAdditionCost')" class="invalid-feedback">Εισάγετε έγκυρο ποσό.</div>
         </div>
         <div class="col-12 col-md-6">
           <label for="fuelAdditionDate" class="form-label">Ημερομηνια</label>
@@ -117,6 +119,11 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Save Message -->
+  <div *ngIf="saveMessage" class="alert mb-4" [ngClass]="{'alert-success': saveMessageType === 'success', 'alert-danger': saveMessageType === 'danger'}" role="alert">
+    {{ saveMessage }}
   </div>
 
   <!-- Save / Cancel Buttons (Edit Mode) -->

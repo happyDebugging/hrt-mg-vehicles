@@ -33,6 +33,10 @@ export class VehicleDetailsComponent {
   isSaveButtonClicked = false;
   isSaveSuccessfull = false;
 
+  saveMessage = '';
+  saveMessageType: 'success' | 'danger' | '' = '';
+  invalidFields: Set<string> = new Set();
+
   vehicleDetails: VehicleDetails = new VehicleDetails();
 
   constructor(private dbFunctionService: DbFunctionService) { }
@@ -89,29 +93,63 @@ export class VehicleDetailsComponent {
   }
 
   SaveVehicleDetails() {
+    this.saveMessage = '';
+    this.saveMessageType = '';
+    this.invalidFields.clear();
 
+    // Validate required fields
+    if (!this.vehicleDetails.KilometersSum && this.vehicleDetails.KilometersSum !== 0) {
+      this.invalidFields.add('kilometersSum');
+    }
+    if (this.vehicleDetails.KilometersSum && isNaN(Number(this.vehicleDetails.KilometersSum))) {
+      this.invalidFields.add('kilometersSum');
+    }
+    if (this.vehicleDetails.FuelAdditionCost && isNaN(Number(this.vehicleDetails.FuelAdditionCost))) {
+      this.invalidFields.add('fuelAdditionCost');
+    }
+
+    if (this.invalidFields.size > 0) {
+      this.saveMessage = 'Παρακαλώ διορθώστε τα πεδία που επισημαίνονται με κόκκινο.';
+      this.saveMessageType = 'danger';
+      return;
+    }
+
+    this.isSaveButtonClicked = true;
     this.vehicleDetails.VehicleId = this.vehicleIdToPreview;
 
     this.dbFunctionService.postVehicleDetailsToDb(this.vehicleDetails)
       .then(
         (res: any) => {
-          if ((res != null) || (res != undefined)) {
-            console.log(res)
-          }
+          this.isSaveSuccessfull = true;
+          this.saveMessage = 'Τα στοιχεία αποθηκεύτηκαν με επιτυχία!';
+          this.saveMessageType = 'success';
         },
         err => {
           console.log(err);
+          this.isSaveButtonClicked = false;
+          this.saveMessage = 'Σφάλμα κατά την αποθήκευση. Παρακαλώ δοκιμάστε ξανά.';
+          this.saveMessageType = 'danger';
         }
       );
   }
 
   EnableVehicleDetailsEdit() {
     this.isEditEnabled = true;
+    this.saveMessage = '';
+    this.saveMessageType = '';
+    this.invalidFields.clear();
+    this.isSaveButtonClicked = false;
+    this.isSaveSuccessfull = false;
     sessionStorage.setItem('isEditEnabled', 'true');
   }
 
   DisableVehicleDetailsEdit() {
     this.isEditEnabled = false;
+    this.saveMessage = '';
+    this.saveMessageType = '';
+    this.invalidFields.clear();
+    this.isSaveButtonClicked = false;
+    this.isSaveSuccessfull = false;
     sessionStorage.setItem('isEditEnabled', 'false');
   }
 
