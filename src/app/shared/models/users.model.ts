@@ -5,5 +5,6 @@ export class Users {
     LastName!: string;
     Email!: string;
     Permissions!: string;
+    VehicleDriven!: string;
     HasChangedPassword!: boolean;
 }
