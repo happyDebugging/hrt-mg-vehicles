@@ -39,7 +39,7 @@
     </div>
 
     <div class="mb-3" *ngIf="isEditEnabled">
-        <label for="registrationCertificate" class="form-label">Ανέβασμα Άδειας Κυκλοφορίας (PDF, Word, Εικόνα)</label>
+        <label for="registrationCertificate" class="form-label">Ανέβασμα Άδειας Κυκλοφορίας</label>
         <input class="form-control" type="file" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" id="registrationCertificate"
             (change)="OnRegistrationCertificateSelected($event)" [disabled]="isUploadingFiles">
         <small class="text-muted">Αποδεκτά αρχεία: PDF, Word, JPG, PNG</small>
