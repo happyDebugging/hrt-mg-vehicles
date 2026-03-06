@@ -183,6 +183,20 @@ export class DbFunctionService {
             });
     }
 
+    setInitialPassword(email: string, newPassword: string): Promise<any> {
+        const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+        const url = `${this.workerUrl}/set-initial-password`;
+
+        return this.http
+            .post<{ message?: string; error?: string }>(url, { email, newPassword }, { headers })
+            .toPromise()
+            .then(res => {
+                if (!res) throw new Error('No response from server');
+                if (res.error) throw new Error(res.error);
+                return res;
+            });
+    }
+
 
     async uploadDriverLicenseToDb(userId: string, file: File, licenseType: 'vehicle' | 'boat') {
 

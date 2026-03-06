@@ -18,7 +18,7 @@ export class ResetPasswordComponent implements OnInit {
 
   // State
   isInviteFlow = false;
-  inviteToken = '';
+  inviteEmail = '';
   isSubmitting = false;
   message = '';
   messageType: 'success' | 'danger' | '' = '';
@@ -37,29 +37,15 @@ export class ResetPasswordComponent implements OnInit {
     // Check for session-id route parameter (from invite link redirect)
     const sessionId = this.route.snapshot.paramMap.get('session-id');
 
-    // Check if arriving from a Supabase invite/recovery redirect (hash fragment)
-    const hash = window.location.hash;
-    if (hash) {
-      const params = new URLSearchParams(hash.substring(1)); // remove leading #
-      const accessToken = params.get('access_token');
-      const type = params.get('type');
-
-      if (accessToken && (type === 'invite' || type === 'recovery' || type === 'magiclink')) {
-        this.isInviteFlow = true;
-        this.inviteToken = accessToken;
-
-        // Clean the hash from the URL without reloading
-        history.replaceState(null, '', window.location.pathname);
-        return;
-      }
-    }
-
-    // If we have a session-id but no hash token, the invite link was already consumed or invalid
     if (sessionId) {
       this.isInviteFlow = true;
-      // The access_token should have been in the hash — if missing, show error
-      if (!this.inviteToken) {
-        this.message = 'Ο σύνδεσμος έχει λήξει ή έχει ήδη χρησιμοποιηθεί. Παρακαλώ επικοινωνήστε με τον διαχειριστή.';
+
+      // Get email from query params (added to the invite redirect URL)
+      const email = this.route.snapshot.queryParamMap.get('email');
+      if (email) {
+        this.inviteEmail = email;
+      } else {
+        this.message = 'Ο σύνδεσμος δεν είναι έγκυρος. Παρακαλώ επικοινωνήστε με τον διαχειριστή.';
         this.messageType = 'danger';
       }
       return;
@@ -84,6 +70,7 @@ export class ResetPasswordComponent implements OnInit {
     if (!this.newPassword || !this.confirmPassword) return false;
     if (!this.passwordsMatch) return false;
     if (!this.passwordLongEnough) return false;
+    if (this.isInviteFlow && !this.inviteEmail) return false;
     if (!this.isInviteFlow && !this.currentPassword) return false;
     return true;
   }
@@ -97,8 +84,8 @@ export class ResetPasswordComponent implements OnInit {
 
     try {
       if (this.isInviteFlow) {
-        // Invite flow: use the invite token, no current password
-        await this.dbFunctionService.changePassword(this.newPassword, undefined, this.inviteToken);
+        // Invite flow: use the no-auth endpoint with email
+        await this.dbFunctionService.setInitialPassword(this.inviteEmail, this.newPassword);
         this.message = 'Ο κωδικός ορίστηκε επιτυχώς! Ανακατεύθυνση στη σύνδεση...';
         this.messageType = 'success';
         setTimeout(() => this.router.navigate(['/login']), 2000);
