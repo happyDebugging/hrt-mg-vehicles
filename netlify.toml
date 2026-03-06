@@ -1,7 +1,0 @@
-[build]
-  publish = "dist/hrt-mg-vehicles/browser"
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
