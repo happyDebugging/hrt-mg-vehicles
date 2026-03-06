@@ -1,72 +1,76 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { Users } from '../models/users.model';
-import { HistoryLines } from '../models/history-lines.model';
-import { createClient, Session, SupabaseClient, User } from '@supabase/supabase-js'
+import { AuthService } from '../../auth/auth.service';
 
 @Injectable()
 export class ManageUsersService {
 
-    // Initialize Supabase
-    //private supabase: SupabaseClient
+    private workerUrl = environment.apiUrl;
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, private authService: AuthService) {}
 
-        // this.supabase = createClient(environment.supabaseUrl, environment.supabaseServiceRoleKey
-        //     , {
-        //         auth: {
-        //             autoRefreshToken: false,
-        //             persistSession: false
-        //         }
-        //     }
-        // );
+    private getHeaders(): HttpHeaders {
+        const session = this.authService.getSession();
+        const bearerToken = session?.access_token || '';
+        return new HttpHeaders({
+            'Authorization': `Bearer ${bearerToken}`
+        });
     }
 
+    async getUsers(): Promise<any[]> {
+        const url = `${this.workerUrl}/admin/users`;
 
-    async createUser(newUserEmail: string) {
-        // const { data, error } = await this.supabase.auth.admin.createUser({
-        //     email: newUserEmail,
-        //     password: (Math.floor(Math.random() * (99999999 - 10000000 + 1)) + 10000000).toString(),
-        //     //user_metadata: { name: 'Yoda' }
-        // });
-
-        // return { data, error };
+        return this.http
+            .get<{ data: any[]; error: any }>(url, { headers: this.getHeaders() })
+            .toPromise()
+            .then(res => {
+                if (!res) throw new Error('No response from server');
+                if (res.error) throw new Error(res.error.message || res.error);
+                return res.data;
+            });
     }
 
-    async updateUser(userΙd: string, userEmail: string) {
+    async createUser(email: string, firstName: string, lastName: string, permissions: string, vehicleDriven: string): Promise<any> {
+        const url = `${this.workerUrl}/admin/users`;
+        const body = { email, firstName, lastName, permissions, vehicleDriven };
 
-        // const { data: user, error } = await this.supabase.auth.admin.updateUserById(
-        //     userΙd,
-        //     { email: userEmail }
-        // )
-
-        // return { data: user, error };
+        return this.http
+            .post<{ data: any; error: any }>(url, body, { headers: this.getHeaders() })
+            .toPromise()
+            .then(res => {
+                if (!res) throw new Error('No response from server');
+                if (res.error) throw new Error(res.error.message || res.error);
+                return res.data;
+            });
     }
 
-    async deleteUser(userΙd: string) {
+    async updateUser(userId: string, email: string, firstName: string, lastName: string, permissions: string, vehicleDriven: string): Promise<any> {
+        const url = `${this.workerUrl}/admin/users`;
+        const body = { userId, email, firstName, lastName, permissions, vehicleDriven };
 
-        // const { data, error } = await this.supabase.auth.admin.deleteUser(
-        //     userΙd
-        // );
-
-        // return { data, error };
+        return this.http
+            .put<{ data: any; error: any }>(url, body, { headers: this.getHeaders() })
+            .toPromise()
+            .then(res => {
+                if (!res) throw new Error('No response from server');
+                if (res.error) throw new Error(res.error.message || res.error);
+                return res.data;
+            });
     }
 
-    async getUsers() {
+    async deleteUser(userId: string): Promise<any> {
+        const url = `${this.workerUrl}/admin/users?userId=${encodeURIComponent(userId)}`;
 
-        // const data = await this.supabase.from('users').select('*');
-
-        // return data["data"];
+        return this.http
+            .delete<{ success: boolean; error: any }>(url, { headers: this.getHeaders() })
+            .toPromise()
+            .then(res => {
+                if (!res) throw new Error('No response from server');
+                if ((res as any).error) throw new Error((res as any).error);
+                return res;
+            });
     }
-
-    async inviteUser(userEmail: string) {
-
-        // const data = await this.supabase.auth.admin.inviteUserByEmail(userEmail);
-
-        // return data["data"];
-    }
-
 }
 
 
