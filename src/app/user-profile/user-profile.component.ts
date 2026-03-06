@@ -1,6 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { DbFunctionService } from '../shared/services/db-functions.service';
 
+interface LicenseCard {
+  type: 'vehicle' | 'boat';
+  label: string;
+  vehicleNames: string[];       // e.g. ['Toyota HILUX', 'Mitsubishi L200']
+  hasLicense: boolean;
+  licenseFileName: string;
+  selectedFile: File | null;
+  isUploading: boolean;
+  message: string;
+}
+
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -8,36 +19,15 @@ import { DbFunctionService } from '../shared/services/db-functions.service';
 })
 export class UserProfileComponent implements OnInit {
 
-  driverLicenseFile: File | null = null;
-  isUploadingFiles = false;
-  driverLicenseUploadMessage = '';
   userId = '';
-  responsibleForVehicles = '';
   userName = '';
-  userEmail = '';
-  userPermissions = '';
   isLoadingProfile = true;
-  hasDriverLicense = false;
-  driverLicenseFileName = '';
+  licenseCards: LicenseCard[] = [];
 
   constructor(private dbFunctionService: DbFunctionService) { }
 
   ngOnInit() {
     this.loadUserProfile();
-    this.loadDriverLicense();
-  }
-
-  private loadDriverLicense() {
-    this.dbFunctionService.listDriverLicenses()
-      .then((files: any[]) => {
-        if (files && files.length > 0) {
-          this.driverLicenseFileName = files[0].name;
-          this.hasDriverLicense = true;
-        }
-      })
-      .catch((error: any) => {
-        console.error('Failed to check driver license:', error);
-      });
   }
 
   private loadUserProfile() {
@@ -46,7 +36,45 @@ export class UserProfileComponent implements OnInit {
       .then((profile: any) => {
         this.userId = profile.userId;
         this.userName = `${profile.firstName} ${profile.lastName}`;
-        this.responsibleForVehicles = profile.vehicleDriven;
+        const vehicles: string[] = profile.vehicleDriven ? profile.vehicleDriven.split('|') : [];
+        const vehicleTypes: Record<string, string> = profile.vehicleTypes || {};
+
+        // Group user's vehicles by type
+        const grouped: Record<string, string[]> = {};
+        for (const v of vehicles) {
+          const type = vehicleTypes[v] || 'vehicle'; // fallback to 'vehicle'
+          if (!grouped[type]) grouped[type] = [];
+          grouped[type].push(v.replace(/-/g, ' '));
+        }
+
+        // Build one card per type
+        this.licenseCards = [];
+        if (grouped['vehicle']) {
+          this.licenseCards.push({
+            type: 'vehicle',
+            label: 'Άδεια Οδήγησης',
+            vehicleNames: grouped['vehicle'],
+            hasLicense: false,
+            licenseFileName: '',
+            selectedFile: null,
+            isUploading: false,
+            message: '',
+          });
+        }
+        if (grouped['boat']) {
+          this.licenseCards.push({
+            type: 'boat',
+            label: 'Δίπλωμα Σκάφους',
+            vehicleNames: grouped['boat'],
+            hasLicense: false,
+            licenseFileName: '',
+            selectedFile: null,
+            isUploading: false,
+            message: '',
+          });
+        }
+
+        this.loadAllLicenses();
       })
       .catch((error: any) => {
         console.error('Failed to load user profile:', error);
@@ -56,49 +84,62 @@ export class UserProfileComponent implements OnInit {
       });
   }
 
+  private loadAllLicenses() {
+    for (const card of this.licenseCards) {
+      this.dbFunctionService.listDriverLicenses(card.type)
+        .then((files: any[]) => {
+          if (!files || files.length === 0) return;
+          // Take the most recent file (already sorted desc by created_at)
+          card.hasLicense = true;
+          card.licenseFileName = files[0].name;
+        })
+        .catch((error: any) => console.error(`Failed to list ${card.type} licenses:`, error));
+    }
+  }
 
-  OnDriverLicenseSelected(event: any) {
+  onFileSelected(event: any, card: LicenseCard) {
     const files = event.target.files;
     if (files && files.length > 0) {
-      this.driverLicenseFile = files[0];
+      card.selectedFile = files[0];
     }
   }
 
-  async UploadDriverLicense() {
-    this.isUploadingFiles = true;
-    this.driverLicenseUploadMessage = '';
+  async uploadLicense(card: LicenseCard) {
+    if (!card.selectedFile) {
+      card.message = 'Παρακαλώ επιλέξτε ένα αρχείο';
+      return;
+    }
+
+    card.isUploading = true;
+    card.message = '';
 
     try {
-      if (this.driverLicenseFile) {
-        const result = await this.dbFunctionService.uploadDriverLicenseToDb(this.userId, this.driverLicenseFile);
-        this.driverLicenseUploadMessage = 'Το αρχείο ανέβηκε με επιτυχία!';
-        this.driverLicenseFile = null;
-        this.driverLicenseFileName = result?.storageName || '';
-        this.hasDriverLicense = !!this.driverLicenseFileName;
+      const result = await this.dbFunctionService.uploadDriverLicenseToDb(this.userId, card.selectedFile, card.type);
+      card.message = 'Το αρχείο ανέβηκε με επιτυχία!';
+      card.selectedFile = null;
+      card.licenseFileName = result?.storageName || '';
+      card.hasLicense = !!card.licenseFileName;
 
-        // Reset file input
-        const driverLicenseInput = document.getElementById('driverLicense') as HTMLInputElement;
-        if (driverLicenseInput) driverLicenseInput.value = '';
-      } else {
-        this.driverLicenseUploadMessage = 'Παρακαλώ επιλέξτε ένα αρχείο για μεταφόρτωση';
-      }
+      // Reset file input
+      const input = document.getElementById('file_' + card.type) as HTMLInputElement;
+      if (input) input.value = '';
     } catch (error) {
       console.error('Upload error:', error);
-      this.driverLicenseUploadMessage = 'Σφάλμα κατά την μεταφόρτωση του αρχείου';
+      card.message = 'Σφάλμα κατά την μεταφόρτωση του αρχείου';
     } finally {
-      this.isUploadingFiles = false;
+      card.isUploading = false;
     }
   }
 
-  async DownloadDriverLicense() {
-    if (!this.hasDriverLicense || !this.driverLicenseFileName) {
-      this.driverLicenseUploadMessage = 'Δεν υπάρχει δίπλωμα για λήψη';
+  async downloadLicense(card: LicenseCard) {
+    if (!card.hasLicense || !card.licenseFileName) {
+      card.message = 'Δεν υπάρχει δίπλωμα για λήψη';
       return;
     }
 
     try {
-      const blob = await this.dbFunctionService.downloadDriverLicense(this.driverLicenseFileName);
-      const filename = this.driverLicenseFileName.split('/').pop() || 'driver-license';
+      const blob = await this.dbFunctionService.downloadDriverLicense(card.licenseFileName, card.type);
+      const filename = card.licenseFileName.split('/').pop() || 'license';
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
@@ -107,7 +148,7 @@ export class UserProfileComponent implements OnInit {
       window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error('Download error:', error);
-      this.driverLicenseUploadMessage = 'Σφάλμα κατά τη λήψη του αρχείου';
+      card.message = 'Σφάλμα κατά τη λήψη του αρχείου';
     }
   }
 
