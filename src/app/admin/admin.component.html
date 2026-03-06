@@ -1,1 +1,121 @@
-<p>admin works!</p>
+<hr>
+<div class="container-fluid">
+    <p>Κέντρο Διαχείρισης</p>
+</div>
+
+<hr>
+
+<div class="container-fluid">
+
+    <div class="accordion" id="toDoList">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="panel1StayOpen-headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#panel1StayOpen-collapseOne" aria-expanded="true"
+                    aria-controls="panel1StayOpen-collapseOne">
+                    Διαχείριση Λογαριασμών
+                </button>
+            </h2>
+            <div id="panel1StayOpen-collapseOne" class="accordion-collapse collapse show"
+                aria-labelledby="panel1StayOpen-headingOne">
+                <div class="accordion-body">
+
+                    <label for="userManagementAction">Ενέργεια</label>
+                    <!-- (change)="SetMaterialAsBorrowed(materialStoringPlace)" -->
+                    <select class="form-select mb-3" name="userManagementAction" [(ngModel)]="userManagementAction"
+                        (change)="ClearFieldValues()" required>
+                        <option value="create_user">Δημιουργία νέου χρήστη</option>
+                        <option value="update_user">Επεξεργασία χρήστη</option>
+                        <option value="delete_user">Διαγραφή λογαριασμού</option>
+                    </select>
+
+                    <div *ngIf="userManagementAction == 'update_user' || userManagementAction == 'delete_user'"
+                        class="mb-3">
+                        <label for="user">Λογαριασμός χρήστη</label>
+                        <select class="form-select mb-3" name="user" [(ngModel)]="userToManage" 
+                            (change)="ManageSelectedUserDetails()" required>
+                            <option *ngFor="let user of users; index as i;" [value]="user.UserId">
+                                {{ user.FirstName }} {{ user.LastName }}</option>
+                        </select>
+                    </div>
+
+                    <div *ngIf="userManagementAction == 'create_user' || userManagementAction == 'update_user'"
+                        class="mb-3">
+                        <label for="newUserFirstName" class="form-label">Όνομα</label>
+                        <input type="text" class="form-control" id="newUserFirstName" [(ngModel)]="newUserFirstName">
+                    </div>
+
+                    <div *ngIf="userManagementAction == 'create_user' || userManagementAction == 'update_user'"
+                        class="mb-3">
+                        <label for="newUserLastName" class="form-label">Επίθετο</label>
+                        <input type="text" class="form-control" id="newUserLastName" [(ngModel)]="newUserLastName">
+                    </div>
+
+                    <div *ngIf="userManagementAction == 'create_user' || userManagementAction == 'update_user'"
+                        class="mb-3">
+                        <label for="newUserEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="newUserEmail" [(ngModel)]="newUserEmail">
+                    </div>
+
+                    <div *ngIf="userManagementAction == 'create_user' || userManagementAction == 'update_user'"
+                        class="mb-3">
+                        <label for="newUserPermissions">Δικαιώματα</label>
+                        <select class="form-select" name="newUserPermissions" [(ngModel)]="newUserPermissions"
+                            required>
+                            <option value="Τμήμα Ορεινής Διάσωσης">Τμήμα Ορεινής Διάσωσης</option>
+                            <option value="Τμήμα Πρώτων Βοηθειών">Τμήμα Πρώτων Βοηθειών</option>
+                            <option value="Τμήμα Επικοινωνιών - Έρευνας & Τεχνολογίας">Τμήμα Επικοινωνιών - Έρευνας &
+                                Τεχνολογίας</option>
+                            <option value="Τμήμα Αντιμετώπισης Καταστροφών">Τμήμα Αντιμετώπισης Καταστροφών</option>
+                            <option value="Τμήμα Κοινωνικής Μέριμνας & Ανθρωπιστικών Αποστολών">Τμήμα Κοινωνικής
+                                Μέριμνας & Ανθρωπιστικών Αποστολών</option>
+                            <option value="Τμήμα Υγρού Στοιχείου">Τμήμα Υγρού Στοιχείου</option>
+                            <option value="All">Πλήρη δικαιώματα</option>
+                        </select>
+                        <div *ngIf="userManagementAction == 'update_user'" class="text-wrap fw-light text-primary mb-3" style="font-size: small;">
+                            <small>Η ενημέρωση των δικαιωμάτων πραγματοποιείται στην επόμενη σύνδεση του χρήστη στην εφαρμογή.</small>
+                        </div>
+                    </div>
+
+
+                    <div *ngIf="userManagementAction == 'create_user'" class="d-grid">
+                        <hr>
+                        <div *ngIf="!isUserCreationSuccessfull" class="d-grid">
+                            <button type="submit" class="btn btn-primary" (click)="CreateUser()">
+                                Δημιουργία λογαριασμού</button>
+                        </div>
+                        <div *ngIf="isUserCreationSuccessfull" class="d-grid">
+                            <button type="button" class="btn btn-info">Επιτυχής δημιουργία!</button>
+                        </div>
+                    </div>
+
+                    <div *ngIf="userManagementAction == 'update_user'" class="d-grid">
+                        <hr>
+                        <div *ngIf="!isUserUpdateSuccessfull" class="d-grid">
+                            <button type="submit" class="btn btn-primary" (click)="UpdateUser()">
+                                Ενημέρωση λογαριασμού</button>
+                        </div>
+                        <div *ngIf="isUserUpdateSuccessfull" class="d-grid">
+                            <button type="button" class="btn btn-info">Επιτυχής ενημέρωση!</button>
+                        </div>
+                    </div>
+
+                    <div *ngIf="userManagementAction == 'delete_user'" class="d-grid">
+                        <hr>
+                        <div *ngIf="!isUserDeletionSuccessfull" class="d-grid">
+                            <button type="submit" class="btn btn-danger" (click)="DeleteUser()">
+                                Διαγραφή λογαριασμού</button>
+                        </div>
+                        <div *ngIf="isUserDeletionSuccessfull" class="d-grid">
+                            <button type="button" class="btn btn-info">Επιτυχής διαγραφή!</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+</div>
