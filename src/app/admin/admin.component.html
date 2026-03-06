@@ -62,21 +62,28 @@
                         <label for="newUserPermissions">Δικαιώματα</label>
                         <select class="form-select" name="newUserPermissions" [(ngModel)]="newUserPermissions"
                             required>
-                            <option value="Τμήμα Ορεινής Διάσωσης">Τμήμα Ορεινής Διάσωσης</option>
-                            <option value="Τμήμα Πρώτων Βοηθειών">Τμήμα Πρώτων Βοηθειών</option>
-                            <option value="Τμήμα Επικοινωνιών - Έρευνας & Τεχνολογίας">Τμήμα Επικοινωνιών - Έρευνας &
-                                Τεχνολογίας</option>
-                            <option value="Τμήμα Αντιμετώπισης Καταστροφών">Τμήμα Αντιμετώπισης Καταστροφών</option>
-                            <option value="Τμήμα Κοινωνικής Μέριμνας & Ανθρωπιστικών Αποστολών">Τμήμα Κοινωνικής
-                                Μέριμνας & Ανθρωπιστικών Αποστολών</option>
-                            <option value="Τμήμα Υγρού Στοιχείου">Τμήμα Υγρού Στοιχείου</option>
-                            <option value="All">Πλήρη δικαιώματα</option>
+                            <option value="user">Οδηγός</option>
+                            <option value="admin">Διαχειριστής</option>
                         </select>
                         <div *ngIf="userManagementAction == 'update_user'" class="text-wrap fw-light text-primary mb-3" style="font-size: small;">
                             <small>Η ενημέρωση των δικαιωμάτων πραγματοποιείται στην επόμενη σύνδεση του χρήστη στην εφαρμογή.</small>
                         </div>
                     </div>
 
+
+                    <div *ngIf="userManagementAction == 'create_user' || userManagementAction == 'update_user'"
+                        class="mb-3">
+                        <label class="form-label">Οχήματα</label>
+                        <div *ngFor="let vehicle of vehicleOptions" class="form-check">
+                            <input class="form-check-input" type="checkbox" [value]="vehicle.value"
+                                [id]="'vehicle_' + vehicle.value"
+                                [checked]="newUserVehicleDriven.includes(vehicle.value)"
+                                (change)="toggleVehicle(vehicle.value)">
+                            <label class="form-check-label" [for]="'vehicle_' + vehicle.value">
+                                {{ vehicle.label }}
+                            </label>
+                        </div>
+                    </div>
 
                     <div *ngIf="userManagementAction == 'create_user'" class="d-grid">
                         <hr>

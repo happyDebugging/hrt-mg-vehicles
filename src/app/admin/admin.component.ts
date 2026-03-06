@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Users } from '../shared/models/users.model';
-import { createClient, SupabaseClient, User } from '@supabase/supabase-js';
-import { environment } from '../../environments/environment';
-import { DbFunctionService } from '../shared/services/db-functions.service';
 import { ManageUsersService } from '../shared/services/manage-users.service';
 
 @Component({
@@ -33,25 +30,19 @@ export class AdminComponent {
   newUserLastName = '';
   newUserEmail = '';
   newUserPermissions = '';
+  newUserVehicleDriven: string[] = [];
+
+  vehicleOptions = [
+    { value: 'Toyota-HILUX', label: 'Toyota HILUX' },
+    { value: 'Mitsubishi-L200', label: 'Mitsubishi L200' },
+    { value: 'AIGAION-Rescue-16', label: 'AIGAION Rescue 16' },
+  ];
 
   isUserCreationSuccessfull = false;
   isUserUpdateSuccessfull = false;
   isUserDeletionSuccessfull = false;
 
-  // Initialize Supabase
-  //private supabase: SupabaseClient
-  
-  constructor(private router: Router, private dbFunctionService: DbFunctionService, private manageUsersService: ManageUsersService) { 
-    //this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
-    // this.supabase = createClient(environment.supabaseUrl, environment.supabaseServiceRoleKey
-    //   , {  
-    //   auth: {    
-    //     autoRefreshToken: false,    
-    //     persistSession: false  
-    //   }}
-    // );
-    
-  }
+  constructor(private router: Router, private manageUsersService: ManageUsersService) {}
 
   ngOnInit() {
 
@@ -67,13 +58,12 @@ export class AdminComponent {
   }
 
   GetUsers() {
-    
+
     this.manageUsersService.getUsers()
       .then(
         (res: any) => {
           if ((res != null) || (res != undefined)) {
-            //console.log(res)
-            const responseData = new Array<Users>(...res);
+            const responseData = new Array<any>(...res);
 
             this.users = [];
 
@@ -81,12 +71,14 @@ export class AdminComponent {
 
               const resObj = new Users();
 
-              resObj.Id = data.Id;
-              resObj.UserId = data.UserId;
-              resObj.FirstName = data.FirstName;
-              resObj.LastName = data.LastName;
-              resObj.Email = data.Email;
-              resObj.Permissions = data.Permissions;
+              // Map camelCase DB columns to PascalCase model
+              resObj.Id = data.id;
+              resObj.UserId = data.userId;
+              resObj.FirstName = data.firstName;
+              resObj.LastName = data.lastName;
+              resObj.Email = data.email;
+              resObj.Permissions = data.permissions;
+              resObj.VehicleDriven = data.vehicleDriven || '';
 
               if (resObj.FirstName != 'Σκίουρος') this.users.push(resObj);
             }
@@ -102,146 +94,77 @@ export class AdminComponent {
   ManageSelectedUserDetails() {
     let selectedUser = this.users.find((user: Users) => user.UserId === this.userToManage)
 
-    this.newUserFirstName = selectedUser!.FirstName; //user.FirstName;
-    this.newUserLastName = selectedUser!.LastName; //user.LastName;
-    this.newUserEmail = selectedUser!.Email; //user.Email;
-    this.newUserPermissions = selectedUser!.Permissions; //user.Permissions;
+    this.newUserFirstName = selectedUser!.FirstName;
+    this.newUserLastName = selectedUser!.LastName;
+    this.newUserEmail = selectedUser!.Email;
+    this.newUserPermissions = selectedUser!.Permissions;
+    this.newUserVehicleDriven = selectedUser!.VehicleDriven ? selectedUser!.VehicleDriven.split('|') : [];
   }
 
-  async CreateUser() {
-    
-    this.manageUsersService.createUser(this.newUserEmail)
-      .then((userCredential) => {
-        // Signed up 
-        // const user = userCredential.data.user;
-        // console.log(user)
+  CreateUser() {
 
-        // this.AddNewUserToDb(user);
+    this.manageUsersService.createUser(
+      this.newUserEmail,
+      this.newUserFirstName,
+      this.newUserLastName,
+      this.newUserPermissions,
+      this.newUserVehicleDriven.join('|')
+    )
+      .then(() => {
+        this.isUserCreationSuccessfull = true;
 
-        this.InviteUser();
-        
+        setTimeout(() => {
+          this.isUserCreationSuccessfull = false;
+        }, 2000);
+
+        this.GetUsers();
+        this.ClearFieldValues();
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
+        console.log('Create user error:', error);
       });
-
-  }
-
-  async InviteUser() {
-    
-    this.manageUsersService.inviteUser(this.newUserEmail)
-      .then((userCredential) => {
-        // Signed up 
-        // const userEmail = userCredential.user?.email;
-        //console.log(userEmail)
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-      });
-
-  }
-
-  AddNewUserToDb(user: User | null) {
-    this.dbFunctionService.addNewUserToDb(user!.id, this.newUserFirstName, this.newUserLastName, this.newUserEmail, this.newUserPermissions)
-      .then(
-        (res: any) => {
-          if ((res != null) || (res != undefined)) {
-            console.log(res);
-
-            this.isUserCreationSuccessfull = true;
-
-            setTimeout(() => {
-              this.isUserCreationSuccessfull = false;
-            }, 2000);
-
-            this.GetUsers();
-
-          }
-        },
-        err => {
-          console.log(err);
-        }
-      );
   }
 
   UpdateUser() {
 
-    this.manageUsersService.updateUser(this.userToManage, this.newUserEmail)
-    .then((userCredential) => {
-      // Signed up 
-      // const user = userCredential.data.user;
-      // console.log(user)
+    this.manageUsersService.updateUser(
+      this.userToManage,
+      this.newUserEmail,
+      this.newUserFirstName,
+      this.newUserLastName,
+      this.newUserPermissions,
+      this.newUserVehicleDriven.join('|')
+    )
+      .then(() => {
+        this.isUserUpdateSuccessfull = true;
 
-      // this.UpdateUserToDb(user);
-      
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-    });
-  }
+        setTimeout(() => {
+          this.isUserUpdateSuccessfull = false;
+        }, 2000);
 
-  UpdateUserToDb(user: User | null) {
-    // this.dbFunctionService.updateUserToDb(user!.id, this.newUserFirstName, this.newUserLastName, this.newUserEmail, this.newUserPermissions)
-    //   .then(
-    //     (res: any) => {
-    //       if ((res != null) || (res != undefined)) {
-    //         console.log(res);
-            
-    //         this.isUserUpdateSuccessfull = true;
-
-    //         setTimeout(() => {
-    //           this.isUserUpdateSuccessfull = false;
-    //         }, 2000);
-
-    //         this.GetUsers();
-    //       }
-    //     },
-    //     err => {
-    //       console.log(err);
-    //     }
-    //   );
+        this.GetUsers();
+      })
+      .catch((error) => {
+        console.log('Update user error:', error);
+      });
   }
 
   DeleteUser() {
+
     this.manageUsersService.deleteUser(this.userToManage)
-    .then((userCredential) => {
-      // Signed up 
-      // const user = userCredential.data.user;
-      // console.log(user)
+      .then(() => {
+        this.isUserDeletionSuccessfull = true;
 
-      // this.DeleteUserFromDb(user);
-      
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-    });
-  }
+        setTimeout(() => {
+          this.isUserDeletionSuccessfull = false;
+        }, 2000);
 
-  DeleteUserFromDb(user: User | null) {
-    //console.log(this.userToManage)
-    this.dbFunctionService.deleteUserFromDb(this.userToManage)
-      .then(
-        (res: any) => {
-          if ((res != null) || (res != undefined)) {
-            console.log(res);
-
-            this.isUserDeletionSuccessfull = true;
-
-            setTimeout(() => {
-              this.isUserDeletionSuccessfull = false;
-            }, 2000);
-
-            this.GetUsers();
-          }
-        },
-        err => {
-          console.log(err);
-        }
-      );
+        this.GetUsers();
+        this.ClearFieldValues();
+      })
+      .catch((error) => {
+        console.log('Delete user error:', error);
+      });
   }
 
   ClearFieldValues() {
@@ -250,7 +173,16 @@ export class AdminComponent {
     this.newUserLastName = '';
     this.newUserEmail = '';
     this.newUserPermissions = '';
+    this.newUserVehicleDriven = [];
   }
 
+  toggleVehicle(value: string) {
+    const idx = this.newUserVehicleDriven.indexOf(value);
+    if (idx === -1) {
+      this.newUserVehicleDriven.push(value);
+    } else {
+      this.newUserVehicleDriven.splice(idx, 1);
+    }
+  }
 
 }
