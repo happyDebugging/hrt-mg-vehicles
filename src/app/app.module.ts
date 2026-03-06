@@ -13,6 +13,7 @@ import { AuthComponent } from './auth/auth.component';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { AdminComponent } from './admin/admin.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { ManageUsersService } from './shared/services/manage-users.service';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
   ],
   providers: [
     DbFunctionService,
+    ManageUsersService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
