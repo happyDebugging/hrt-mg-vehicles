@@ -34,7 +34,7 @@
 html { scroll-behavior: smooth; }
 
 body {
-  font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'Calibri', 'Lucida Sans';
   background-color: var(--clr-bg);
   color: var(--clr-text);
   line-height: 1.6;

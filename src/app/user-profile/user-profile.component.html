@@ -1,16 +1,16 @@
 <div class="content-container">
-  <h2 class="section-title">Προφίλ</h2>
+  <h2 class="section-title">Προφιλ</h2>
 
   <!-- User Name -->
   <div class="card mb-4">
     <div class="card-body">
-      <label for="userName" class="form-label">Όνομα</label>
+      <label for="userName" class="form-label">Ονομα</label>
       <input type="text" class="form-control" id="userName" [(ngModel)]="userName" readonly>
     </div>
   </div>
 
   <!-- License Cards Heading -->
-  <h6 class="mb-3" style="text-transform:uppercase; font-weight:700; letter-spacing:.06em; font-size:.8rem;">Άδειες Οδήγησης</h6>
+  <h6 class="mb-3" style="text-transform:uppercase; font-weight:700; letter-spacing:.06em; font-size:.8rem;">Αδειες Οδηγησης</h6>
 
   <!-- License Cards -->
   <div *ngFor="let card of licenseCards" class="card mb-3">
@@ -44,7 +44,7 @@
             <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
             <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"/>
           </svg>
-          Λήψη Διπλώματος
+          Ληψη Διπλωματος
         </button>
         <span class="text-success">
           <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 16 16">
@@ -66,7 +66,7 @@
 
       <!-- Upload Input -->
       <div class="mb-2">
-        <label [for]="'file_' + card.type" class="form-label">Ανέβασμα Διπλώματος</label>
+        <label [for]="'file_' + card.type" class="form-label">Ανεβασμα Διπλωματος</label>
         <input class="form-control form-control-sm" type="file" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
           [id]="'file_' + card.type" (change)="onFileSelected($event, card)" [disabled]="card.isUploading">
         <small class="text-muted">PDF, Word, JPG, PNG</small>

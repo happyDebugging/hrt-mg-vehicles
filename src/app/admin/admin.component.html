@@ -1,5 +1,5 @@
 <div class="content-container">
-  <h2 class="section-title">Κέντρο Διαχείρισης</h2>
+  <h2 class="section-title">Κεντρο Διαχειρισης</h2>
 
   <div class="card">
     <div class="card-header d-flex align-items-center">
@@ -7,7 +7,7 @@
     </div>
     <div class="card-body">
       <div class="mb-3">
-        <label for="userManagementAction" class="form-label">Ενέργεια</label>
+        <label for="userManagementAction" class="form-label">Ενεργεια</label>
         <select class="form-select" name="userManagementAction" [(ngModel)]="userManagementAction"
           (change)="ClearFieldValues()" required>
           <option value="create_user">Δημιουργία νέου χρήστη</option>
@@ -17,7 +17,7 @@
       </div>
 
       <div *ngIf="userManagementAction == 'update_user' || userManagementAction == 'delete_user'" class="mb-3">
-        <label for="user" class="form-label">Λογαριασμός χρήστη</label>
+        <label for="user" class="form-label">Λογαριασμος χρηστη</label>
         <select class="form-select" name="user" [(ngModel)]="userToManage"
           (change)="ManageSelectedUserDetails()" required>
           <option *ngFor="let user of users; index as i;" [value]="user.UserId">
@@ -29,11 +29,11 @@
       <div *ngIf="userManagementAction == 'create_user' || userManagementAction == 'update_user'">
         <div class="row g-3 mb-3">
           <div class="col-12 col-md-6">
-            <label for="newUserFirstName" class="form-label">Όνομα</label>
+            <label for="newUserFirstName" class="form-label">Ονομα</label>
             <input type="text" class="form-control" id="newUserFirstName" [(ngModel)]="newUserFirstName">
           </div>
           <div class="col-12 col-md-6">
-            <label for="newUserLastName" class="form-label">Επίθετο</label>
+            <label for="newUserLastName" class="form-label">Επιθετο</label>
             <input type="text" class="form-control" id="newUserLastName" [(ngModel)]="newUserLastName">
           </div>
         </div>
@@ -44,7 +44,7 @@
         </div>
 
         <div class="mb-3">
-          <label for="newUserPermissions" class="form-label">Δικαιώματα</label>
+          <label for="newUserPermissions" class="form-label">Δικαιωματα</label>
           <select class="form-select" name="newUserPermissions" [(ngModel)]="newUserPermissions" required>
             <option value="user">Οδηγός</option>
             <option value="admin">Διαχειριστής</option>
@@ -55,7 +55,7 @@
         </div>
 
         <div class="mb-3">
-          <label class="form-label">Οχήματα</label>
+          <label class="form-label">Οχηματα</label>
           <div class="row g-2">
             <div *ngFor="let vehicle of vehicleOptions" class="col-12 col-sm-6 col-md-4">
               <div class="form-check">
