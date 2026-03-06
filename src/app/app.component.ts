@@ -75,26 +75,34 @@ export class AppComponent implements OnInit, OnDestroy {
    * Check if token is expired on app initialization and refresh if needed
    */
   private checkAndRefreshToken(): void {
-    if (this.authService.isLoggedIn()) {
-      const session = this.authService.getSession();
-      if (session?.access_token && this.authService.isTokenExpired(session.access_token)) {
-        console.log('Token expired on app initialization, attempting refresh');
-        this.authService.refreshToken().subscribe(
-          () => {
-            console.log('Token refreshed on app initialization');
-            this.isUserLoggedIn = true;
-            this.showToggler = !this.router.url.includes('/auth');
-          },
-          (error) => {
-            console.error('Failed to refresh token on app initialization:', error);
-            this.isUserLoggedIn = false;
-            this.showToggler = false;
-          }
-        );
-      } else {
-        this.isUserLoggedIn = true;
-      }
+    const session = this.authService.getSession();
+
+    // No session at all - not logged in
+    if (!session?.access_token) {
+      this.isUserLoggedIn = false;
+      return;
     }
+
+    // Token is still valid
+    if (!this.authService.isTokenExpired(session.access_token)) {
+      this.isUserLoggedIn = true;
+      return;
+    }
+
+    // Token expired - attempt to refresh
+    console.log('Token expired on app initialization, attempting refresh');
+    this.authService.refreshToken().subscribe(
+      () => {
+        console.log('Token refreshed on app initialization');
+        this.isUserLoggedIn = true;
+        this.showToggler = !this.router.url.includes('/auth');
+      },
+      (error) => {
+        console.error('Failed to refresh token on app initialization:', error);
+        this.isUserLoggedIn = false;
+        this.showToggler = false;
+      }
+    );
   }
 
   /**

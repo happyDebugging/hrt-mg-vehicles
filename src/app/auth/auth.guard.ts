@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { CanActivate, Router, UrlTree } from '@angular/router';
 import { AuthService } from './auth.service';
 import { Observable, of } from 'rxjs';
 import { switchMap, catchError } from 'rxjs/operators';
@@ -10,14 +10,14 @@ import { switchMap, catchError } from 'rxjs/operators';
 export class AuthGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) {}
 
-  canActivate(): Observable<boolean> {
+  canActivate(): Observable<boolean | UrlTree> {
+    const loginUrlTree = this.router.createUrlTree(['/login']);
     const session = this.authService.getSession();
 
     // No session at all - redirect to login
     if (!session?.access_token) {
       console.log('No session found, redirecting to login');
-      this.router.navigate(['/login']);
-      return of(false);
+      return of(loginUrlTree);
     }
 
     // Check if token is expired or about to expire
@@ -32,9 +32,8 @@ export class AuthGuard implements CanActivate {
         }),
         catchError((error) => {
           console.error('Failed to refresh token in guard:', error);
-          // Refresh failed - redirect to login (AuthService should handle this, but we ensure it here)
-          this.router.navigate(['/login']);
-          return of(false);
+          // Refresh failed - redirect to login
+          return of(loginUrlTree);
         })
       );
     }
