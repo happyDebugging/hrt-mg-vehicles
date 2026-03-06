@@ -34,7 +34,7 @@
 html { scroll-behavior: smooth; }
 
 body {
-  font-family: 'Calibri', 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'Calibri', 'Microsoft Sans Serif', 'Inter', system-ui, -apple-system, sans-serif;
   background-color: var(--clr-bg);
   color: var(--clr-text);
   line-height: 1.6;
