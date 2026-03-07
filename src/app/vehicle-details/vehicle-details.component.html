@@ -46,6 +46,12 @@
     {{ fileUploadMessage }}
   </div>
 
+  <!-- Last Updated Info -->
+  <div *ngIf="vehicleDetails.LastUpdatedAt" class="alert alert-info mb-4" role="alert">
+    Τελευταία ενημέρωση: {{ vehicleDetails.LastUpdatedAt | date:'dd/MM/yyyy HH:mm' }}
+    <span *ngIf="vehicleDetails.LastUpdatedByName"> από {{ vehicleDetails.LastUpdatedByName }}</span>
+  </div>
+
   <!-- Details Form -->
   <div class="card mb-4">
     <div class="card-header d-flex align-items-center">

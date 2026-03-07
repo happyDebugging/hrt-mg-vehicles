@@ -84,6 +84,9 @@ export class VehicleDetailsComponent {
             this.vehicleDetails.CarExhaustExpiryDate = res[0].CarExhaustExpiryDate;
             this.vehicleDetails.FuelAdditionCost = res[0].FuelAdditionCost;
             this.vehicleDetails.FuelAdditionDate = res[0].FuelAdditionDate;
+            this.vehicleDetails.LastUpdatedAt = res[0].LastUpdatedAt;
+            this.vehicleDetails.LastUpdatedBy = res[0].LastUpdatedBy;
+            this.vehicleDetails.LastUpdatedByName = res[0].LastUpdatedByName;
           }
         },
         err => {

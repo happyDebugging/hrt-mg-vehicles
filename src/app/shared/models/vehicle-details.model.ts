@@ -15,6 +15,7 @@ export class VehicleDetails {
 
     LastUpdatedAt!: string;
     LastUpdatedBy!: string;
+    LastUpdatedByName!: string;
     
     Photo!: string;
     RegistrationCertificate!: string;
