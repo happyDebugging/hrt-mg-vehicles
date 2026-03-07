@@ -96,6 +96,7 @@ export class VehicleDetailsComponent {
             this.vehicleDetails.LastUpdatedAt = data[0].LastUpdatedAt;
             this.vehicleDetails.LastUpdatedBy = data[0].LastUpdatedBy;
             this.vehicleDetails.LastUpdatedByName = data[0].LastUpdatedByName;
+            this.vehicleDetails.Notes = data[0].Notes;
 
             // Vehicle fields
             if (data[0].vehicles) {

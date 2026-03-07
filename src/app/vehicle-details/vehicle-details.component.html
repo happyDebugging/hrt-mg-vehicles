@@ -161,6 +161,16 @@
     </div>
   </div>
 
+  <!-- Notes Section -->
+  <div class="card mb-4">
+    <div class="card-header d-flex align-items-center">
+      <strong>Σημειώσεις</strong>
+    </div>
+    <div class="card-body">
+      <textarea class="form-control" rows="5" [(ngModel)]="vehicleDetails.Notes" [disabled]="!isEditEnabled"></textarea>
+    </div>
+  </div>
+
   <!-- Save Message -->
   <div *ngIf="saveMessage" class="alert mb-4"
     [ngClass]="{'alert-success': saveMessageType === 'success', 'alert-danger': saveMessageType === 'danger'}"
