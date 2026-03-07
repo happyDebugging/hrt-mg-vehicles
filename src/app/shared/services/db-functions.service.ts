@@ -250,14 +250,17 @@ export class DbFunctionService {
             });
     }
 
-    listDriverLicenses(licenseType: 'vehicle' | 'boat'): Promise<any[]> {
+    listDriverLicenses(licenseType: 'vehicle' | 'boat', userId?: string): Promise<any[]> {
         const session = this.authService.getSession();
         const bearerToken = session?.access_token || '';
         const headers = new HttpHeaders({
             'Authorization': `Bearer ${bearerToken}`
         });
 
-        const url = `${this.workerUrl}/driver-license?action=list&type=${licenseType}`;
+        let url = `${this.workerUrl}/driver-license?action=list&type=${licenseType}`;
+        if (userId) {
+            url += `&userId=${encodeURIComponent(userId)}`;
+        }
 
         return this.http
             .get<{ data: any[]; error: any }>(url, { headers })

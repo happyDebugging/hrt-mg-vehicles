@@ -11,6 +11,9 @@ import { DbFunctionService } from '../shared/services/db-functions.service';
 })
 export class AdminComponent {
 
+    userVehicleLicenses: any[] = [];
+    userBoatLicenses: any[] = [];
+
   loggedInUserId = '';
   isUserLoggedIn = false;
 
@@ -119,6 +122,29 @@ export class AdminComponent {
     this.newUserEmail = selectedUser!.Email;
     this.newUserPermissions = selectedUser!.Permissions;
     this.newUserVehicleDriven = selectedUser!.VehicleDriven ? selectedUser!.VehicleDriven.split('|') : [];
+
+    // Fetch licenses for this user
+    if (this.userToManage) {
+      this.dbFunctionService.listDriverLicenses('vehicle', this.userToManage).then((all) => {
+        this.userVehicleLicenses = all || [];
+      });
+      this.dbFunctionService.listDriverLicenses('boat', this.userToManage).then((all) => {
+        this.userBoatLicenses = all || [];
+      });
+    } else {
+      this.userVehicleLicenses = [];
+      this.userBoatLicenses = [];
+    }
+  }
+  downloadLicense(fileName: string, type: 'vehicle' | 'boat') {
+    this.dbFunctionService.downloadDriverLicense(fileName, type).then(blob => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    });
   }
 
   CreateUser() {

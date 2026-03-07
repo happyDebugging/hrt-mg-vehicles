@@ -76,6 +76,32 @@
             </div>
           </div>
         </div>
+
+        <!-- License preview for update (bottom) -->
+        <div *ngIf="userManagementAction == 'update_user' && (userVehicleLicenses.length > 0 || userBoatLicenses.length > 0)" class="mb-3 mt-4">
+          <label class="form-label">Διαθεσιμες Αδειες Οδηγησης και Σκαφων</label>
+          <div class="d-flex flex-wrap gap-3">
+            <div *ngIf="userVehicleLicenses.length > 0">
+              <button *ngIf="userVehicleLicenses[0]?.fileName || userVehicleLicenses[0]?.name" type="button" class="btn btn-theme-outline btn-sm" (click)="downloadLicense(userVehicleLicenses[0].fileName || userVehicleLicenses[0].name, 'vehicle')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="me-1" viewBox="0 0 16 16">
+                  <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+                  <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"/>
+                </svg>
+                Διπλωμα Οδηγησης
+              </button>
+            </div>
+            <div *ngIf="userBoatLicenses.length > 0">
+              <button *ngIf="userBoatLicenses[0]?.fileName || userBoatLicenses[0]?.name" type="button" class="btn btn-theme-outline btn-sm" (click)="downloadLicense(userBoatLicenses[0].fileName || userBoatLicenses[0].name, 'boat')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="me-1" viewBox="0 0 16 16">
+                  <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+                  <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"/>
+                </svg>
+                Διπλωμα Σκαφους
+              </button>
+            </div>
+          </div>
+        </div>
+
       </div>
 
       <!-- Action Buttons -->
