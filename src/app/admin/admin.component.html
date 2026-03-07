@@ -2,10 +2,16 @@
   <h2 class="section-title">Κεντρο Διαχειρισης</h2>
 
   <div class="card">
-    <div class="card-header d-flex align-items-center">
+    <div class="card-header d-flex justify-content-between align-items-center" style="cursor: pointer"
+      (click)="isUsersCollapsed = !isUsersCollapsed">
       <strong>Διαχείριση Λογαριασμών</strong>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"
+        [style.transform]="isUsersCollapsed ? 'rotate(0)' : 'rotate(180deg)'"
+        style="transition: transform .25s ease">
+        <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/>
+      </svg>
     </div>
-    <div class="card-body">
+    <div *ngIf="!isUsersCollapsed" class="card-body">
       <div class="mb-3">
         <label for="userManagementAction" class="form-label">Ενεργεια</label>
         <select class="form-select" name="userManagementAction" [(ngModel)]="userManagementAction"
@@ -101,4 +107,130 @@
       </div>
     </div>
   </div>
+
+  <!-- Vehicle Management Collapse -->
+  <div class="card mt-4">
+    <div class="card-header d-flex justify-content-between align-items-center" style="cursor: pointer"
+      (click)="isVehiclesCollapsed = !isVehiclesCollapsed">
+      <strong>Διαχείριση Οχημάτων</strong>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"
+        [style.transform]="isVehiclesCollapsed ? 'rotate(0)' : 'rotate(180deg)'"
+        style="transition: transform .25s ease">
+        <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/>
+      </svg>
+    </div>
+    <div *ngIf="!isVehiclesCollapsed" class="card-body">
+
+        <div class="mb-3">
+          <label for="vehicleAction" class="form-label">Ενεργεια</label>
+          <select class="form-select" name="vehicleAction" [(ngModel)]="vehicleAction"
+            (change)="ClearVehicleFields(); vehicleMessage=''; vehicleMessageType=''">
+            <option value="add_vehicle">Προσθήκη οχήματος</option>
+            <option value="update_vehicle">Επεξεργασία οχήματος</option>
+            <option value="delete_vehicle">Διαγραφή οχήματος</option>
+          </select>
+        </div>
+
+        <!-- Add Vehicle -->
+        <div *ngIf="vehicleAction === 'add_vehicle'">
+          <div class="row g-3 mb-3">
+            <div class="col-12 col-md-6">
+              <label for="newVehicleName" class="form-label">Ονομα οχηματος</label>
+              <input type="text" class="form-control" id="newVehicleName" [(ngModel)]="newVehicleName"
+                placeholder="π.χ. Toyota-HILUX">
+            </div>
+            <div class="col-12 col-md-6">
+              <label for="newVehicleType" class="form-label">Τυπος</label>
+              <select class="form-select" name="newVehicleType" [(ngModel)]="newVehicleType">
+                <option value="vehicle">Όχημα</option>
+                <option value="boat">Σκάφος</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="vehiclePhoto" class="form-label">Φωτογραφια οχηματος</label>
+            <input class="form-control" type="file" accept="image/png,image/jpeg,image/webp" id="vehiclePhoto"
+              (change)="OnVehiclePhotoSelected($event)">
+            <small class="text-muted">Αποδεκτά αρχεία: PNG, JPEG, WebP</small>
+          </div>
+        </div>
+
+        <!-- Delete Vehicle -->
+        <div *ngIf="vehicleAction === 'delete_vehicle'" class="mb-3">
+          <label for="vehicleToDelete" class="form-label">Επιλογη οχηματος</label>
+          <select class="form-select" name="vehicleToDelete" [(ngModel)]="vehicleToDelete">
+            <option [ngValue]="0" disabled>-- Επιλέξτε --</option>
+            <option *ngFor="let v of vehicles" [ngValue]="v.id">{{ v.name }} ({{ v.type }})</option>
+          </select>
+        </div>
+
+        <!-- Update Vehicle -->
+        <div *ngIf="vehicleAction === 'update_vehicle'">
+          <div class="mb-3">
+            <label for="vehicleToUpdate" class="form-label">Επιλογη οχηματος</label>
+            <select class="form-select" name="vehicleToUpdate" [(ngModel)]="vehicleToUpdate"
+              (change)="ManageSelectedVehicleDetails()">
+              <option [ngValue]="0" disabled>-- Επιλέξτε --</option>
+              <option *ngFor="let v of vehicles" [ngValue]="v.id">{{ v.name }} ({{ v.type }})</option>
+            </select>
+          </div>
+
+          <div *ngIf="vehicleToUpdate" class="row g-3 mb-3">
+            <div class="col-12 col-md-6">
+              <label for="updateVehicleName" class="form-label">Ονομα οχηματος</label>
+              <input type="text" class="form-control" id="updateVehicleName" [(ngModel)]="updateVehicleName">
+            </div>
+            <div class="col-12 col-md-6">
+              <label for="updateVehicleType" class="form-label">Τυπος</label>
+              <select class="form-select" name="updateVehicleType" [(ngModel)]="updateVehicleType">
+                <option value="vehicle">Όχημα</option>
+                <option value="boat">Σκάφος</option>
+              </select>
+            </div>
+            <div class="col-12">
+              <label for="updateVehiclePhoto" class="form-label">Αντικατασταση φωτογραφιας</label>
+              <input class="form-control" type="file" accept="image/png,image/jpeg,image/webp" id="updateVehiclePhoto"
+                (change)="OnUpdateVehiclePhotoSelected($event)">
+              <small class="text-muted">Αφήστε κενό για να διατηρήσετε την υπάρχουσα φωτογραφία</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Message -->
+        <div *ngIf="vehicleMessage" class="alert mb-3"
+          [ngClass]="{'alert-success': vehicleMessageType === 'success', 'alert-danger': vehicleMessageType === 'danger'}" role="alert">
+          {{ vehicleMessage }}
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="d-grid">
+          <div *ngIf="vehicleAction === 'add_vehicle'">
+            <div *ngIf="!isVehicleActionSuccessfull" class="d-grid">
+              <button type="button" class="btn btn-accent" (click)="AddVehicle()">Προσθήκη οχήματος</button>
+            </div>
+            <div *ngIf="isVehicleActionSuccessfull" class="d-grid">
+              <button type="button" class="btn btn-accent" disabled>Επιτυχής προσθήκη!</button>
+            </div>
+          </div>
+          <div *ngIf="vehicleAction === 'update_vehicle'">
+            <div *ngIf="!isVehicleActionSuccessfull" class="d-grid">
+              <button type="button" class="btn btn-accent" (click)="UpdateVehicle()">Ενημέρωση οχήματος</button>
+            </div>
+            <div *ngIf="isVehicleActionSuccessfull" class="d-grid">
+              <button type="button" class="btn btn-accent" disabled>Επιτυχής ενημέρωση!</button>
+            </div>
+          </div>
+          <div *ngIf="vehicleAction === 'delete_vehicle'">
+            <div *ngIf="!isVehicleActionSuccessfull" class="d-grid">
+              <button type="button" class="btn btn-danger" (click)="DeleteVehicle()">Διαγραφή οχήματος</button>
+            </div>
+            <div *ngIf="isVehicleActionSuccessfull" class="d-grid">
+              <button type="button" class="btn btn-accent" disabled>Επιτυχής διαγραφή!</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
 </div>

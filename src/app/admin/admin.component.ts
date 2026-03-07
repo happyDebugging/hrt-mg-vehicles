@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Users } from '../shared/models/users.model';
 import { ManageUsersService } from '../shared/services/manage-users.service';
+import { DbFunctionService } from '../shared/services/db-functions.service';
 
 @Component({
   selector: 'app-admin',
@@ -42,7 +43,25 @@ export class AdminComponent {
   isUserUpdateSuccessfull = false;
   isUserDeletionSuccessfull = false;
 
-  constructor(private router: Router, private manageUsersService: ManageUsersService) {}
+  isUsersCollapsed = true;
+
+  // Vehicle management
+  isVehiclesCollapsed = true;
+  vehicleAction = 'add_vehicle';
+  vehicles: { id: number; name: string; type: string }[] = [];
+  newVehicleName = '';
+  newVehicleType = 'vehicle';
+  vehiclePhotoFile: File | null = null;
+  vehicleToDelete = 0;
+  vehicleToUpdate = 0;
+  updateVehicleName = '';
+  updateVehicleType = 'vehicle';
+  updateVehiclePhotoFile: File | null = null;
+  vehicleMessage = '';
+  vehicleMessageType: 'success' | 'danger' | '' = '';
+  isVehicleActionSuccessfull = false;
+
+  constructor(private router: Router, private manageUsersService: ManageUsersService, private dbFunctionService: DbFunctionService) {}
 
   ngOnInit() {
 
@@ -55,6 +74,7 @@ export class AdminComponent {
     console.log(this.loggedInUserId)
 
     this.GetUsers();
+    this.GetVehicles();
   }
 
   GetUsers() {
@@ -183,6 +203,134 @@ export class AdminComponent {
     } else {
       this.newUserVehicleDriven.splice(idx, 1);
     }
+  }
+
+  // ── Vehicle Management ──
+
+  GetVehicles() {
+    this.dbFunctionService.getVehicles()
+      .then((res: any[]) => {
+        this.vehicles = res || [];
+      })
+      .catch((err: any) => console.error('Failed to fetch vehicles:', err));
+  }
+
+  OnVehiclePhotoSelected(event: any) {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      this.vehiclePhotoFile = files[0];
+    }
+  }
+
+  OnUpdateVehiclePhotoSelected(event: any) {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      this.updateVehiclePhotoFile = files[0];
+    }
+  }
+
+  ManageSelectedVehicleDetails() {
+    const selected = this.vehicles.find(v => v.id === this.vehicleToUpdate);
+    if (selected) {
+      this.updateVehicleName = selected.name;
+      this.updateVehicleType = selected.type;
+    }
+  }
+
+  async AddVehicle() {
+    this.vehicleMessage = '';
+    this.vehicleMessageType = '';
+
+    if (!this.newVehicleName.trim()) {
+      this.vehicleMessage = 'Παρακαλώ εισάγετε το όνομα του οχήματος.';
+      this.vehicleMessageType = 'danger';
+      return;
+    }
+
+    try {
+      await this.dbFunctionService.addVehicle(this.newVehicleName.trim(), this.newVehicleType);
+
+      if (this.vehiclePhotoFile) {
+        await this.dbFunctionService.uploadVehiclePhoto(this.newVehicleName.trim(), this.vehiclePhotoFile);
+      }
+
+      this.isVehicleActionSuccessfull = true;
+      this.vehicleMessage = 'Το όχημα προστέθηκε με επιτυχία!';
+      this.vehicleMessageType = 'success';
+      this.GetVehicles();
+      this.ClearVehicleFields();
+
+      setTimeout(() => { this.isVehicleActionSuccessfull = false; }, 2000);
+    } catch (error: any) {
+      this.vehicleMessage = 'Σφάλμα κατά την προσθήκη. ' + (error.message || '');
+      this.vehicleMessageType = 'danger';
+    }
+  }
+
+  async DeleteVehicle() {
+    this.vehicleMessage = '';
+    this.vehicleMessageType = '';
+
+    if (!this.vehicleToDelete) {
+      this.vehicleMessage = 'Παρακαλώ επιλέξτε ένα όχημα.';
+      this.vehicleMessageType = 'danger';
+      return;
+    }
+
+    try {
+      await this.dbFunctionService.deleteVehicle(this.vehicleToDelete);
+      this.isVehicleActionSuccessfull = true;
+      this.vehicleMessage = 'Το όχημα διαγράφηκε με επιτυχία!';
+      this.vehicleMessageType = 'success';
+      this.GetVehicles();
+      this.vehicleToDelete = 0;
+
+      setTimeout(() => { this.isVehicleActionSuccessfull = false; }, 2000);
+    } catch (error: any) {
+      this.vehicleMessage = 'Σφάλμα κατά τη διαγραφή. ' + (error.message || '');
+      this.vehicleMessageType = 'danger';
+    }
+  }
+
+  async UpdateVehicle() {
+    this.vehicleMessage = '';
+    this.vehicleMessageType = '';
+
+    if (!this.vehicleToUpdate) {
+      this.vehicleMessage = 'Παρακαλώ επιλέξτε ένα όχημα.';
+      this.vehicleMessageType = 'danger';
+      return;
+    }
+
+    try {
+      await this.dbFunctionService.updateVehicle(this.vehicleToUpdate, this.updateVehicleName.trim(), this.updateVehicleType);
+
+      if (this.updateVehiclePhotoFile) {
+        await this.dbFunctionService.replaceVehiclePhoto(this.updateVehicleName.trim(), this.updateVehiclePhotoFile);
+      }
+
+      this.isVehicleActionSuccessfull = true;
+      this.vehicleMessage = 'Το όχημα ενημερώθηκε με επιτυχία!';
+      this.vehicleMessageType = 'success';
+      this.GetVehicles();
+      this.ClearVehicleFields();
+
+      setTimeout(() => { this.isVehicleActionSuccessfull = false; }, 2000);
+    } catch (error: any) {
+      this.vehicleMessage = 'Σφάλμα κατά την ενημέρωση. ' + (error.message || '');
+      this.vehicleMessageType = 'danger';
+    }
+  }
+
+  ClearVehicleFields() {
+    this.newVehicleName = '';
+    this.newVehicleType = 'vehicle';
+    this.vehiclePhotoFile = null;
+    this.vehicleToDelete = 0;
+    this.vehicleToUpdate = 0;
+    this.updateVehicleName = '';
+    this.updateVehicleType = 'vehicle';
+    this.updateVehiclePhotoFile = null;
   }
 
 }
