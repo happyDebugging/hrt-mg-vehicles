@@ -237,7 +237,13 @@ h1, h2, h3, h4, h5, h6 {
   height: 220px;
   object-fit: cover;
   display: block;
-  transition: transform .35s ease;
+  transition: transform .35s ease, opacity .4s ease;
+  opacity: 0;
+  background: #e9ecef;
+}
+
+.vehicle-card-img.loaded {
+  opacity: 1;
 }
 
 .vehicle-card-link:hover .vehicle-card-img {
