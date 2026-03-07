@@ -5,6 +5,7 @@ import { Users } from '../models/users.model';
 import { HistoryLines } from '../models/history-lines.model';
 import { createClient, Session, SupabaseClient, User } from '@supabase/supabase-js'
 import { VehicleDetails } from '../models/vehicle-details.model';
+import { Vehicle } from '../models/vehicle.model';
 import { AuthService } from '../../auth/auth.service';
 
 @Injectable()
@@ -125,7 +126,7 @@ export class DbFunctionService {
             });
     }
 
-    getVehicles(): Promise<any[]> {
+    getVehicles(): Promise<Vehicle[]> {
         const session = this.authService.getSession();
         const bearerToken = session?.access_token || '';
         const headers = new HttpHeaders({
@@ -135,7 +136,7 @@ export class DbFunctionService {
         const url = `${this.workerUrl}/vehicles`;
 
         return this.http
-            .get<{ data: any[]; error: any }>(url, { headers })
+            .get<{ data: Vehicle[]; error: any }>(url, { headers })
             .toPromise()
             .then(res => {
                 if (!res) throw new Error('No response from server');
@@ -427,7 +428,7 @@ export class DbFunctionService {
     // //     return data;
     // // }
 
-    addVehicle(name: string, type: string): Promise<any> {
+    addVehicle(name: string, type: string, vehiclePlateNumber?: string, vesselRegistrationNumber?: string): Promise<any> {
         const session = this.authService.getSession();
         const bearerToken = session?.access_token || '';
         const headers = new HttpHeaders({
@@ -436,9 +437,12 @@ export class DbFunctionService {
         });
 
         const url = `${this.workerUrl}/vehicles`;
+        const body: any = { name, type };
+        if (vehiclePlateNumber) body.vehiclePlateNumber = vehiclePlateNumber;
+        if (vesselRegistrationNumber) body.vesselRegistrationNumber = vesselRegistrationNumber;
 
         return this.http
-            .post<{ data: any; error: any }>(url, { name, type }, { headers })
+            .post<{ data: any; error: any }>(url, body, { headers })
             .toPromise()
             .then(res => {
                 if (!res) throw new Error('No response from server');
@@ -489,7 +493,7 @@ export class DbFunctionService {
             });
     }
 
-    updateVehicle(id: number, name: string, type: string): Promise<any> {
+    updateVehicle(vehicleData: { id: number; name: string; type: string; vehiclePlateNumber?: string; vesselRegistrationNumber?: string }): Promise<any> {
         const session = this.authService.getSession();
         const bearerToken = session?.access_token || '';
         const headers = new HttpHeaders({
@@ -500,7 +504,7 @@ export class DbFunctionService {
         const url = `${this.workerUrl}/vehicles`;
 
         return this.http
-            .patch<{ data: any; error: any }>(url, { id, name, type }, { headers })
+            .patch<{ data: any; error: any }>(url, vehicleData, { headers })
             .toPromise()
             .then(res => {
                 if (!res) throw new Error('No response from server');
