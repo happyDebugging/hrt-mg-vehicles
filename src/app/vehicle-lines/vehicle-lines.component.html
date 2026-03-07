@@ -3,14 +3,24 @@
 
   <div class="row g-3 g-md-4">
     <div *ngFor="let v of vehicleList" class="col-12 col-sm-6 col-lg-4">
-      <a class="vehicle-card-link" [routerLink]="['/vehicle', v.id]" (click)="SetVehicleTypeAndModel(v.id, v.name, v.type)">
+      <a *ngIf="v.authorized" class="vehicle-card-link" [routerLink]="['/vehicle', v.id]" (click)="SetVehicleTypeAndModel(v.id, v.name, v.type)">
         <div class="card h-100">
-          <img [src]="v.name + '.jpg'" class="card-img-top vehicle-card-img" [alt]="v.displayName">
+          <img [src]="v.photoUrl || v.name + '.jpg'" class="card-img-top vehicle-card-img" [alt]="v.displayName"
+            loading="lazy" (load)="$any($event.target).classList.add('loaded')">
           <div class="card-body text-center py-3">
             <h6 class="card-title mb-0">{{ v.displayName }}</h6>
           </div>
         </div>
       </a>
+      <div *ngIf="!v.authorized" class="vehicle-card-link vehicle-card-disabled">
+        <div class="card h-100">
+        <img [src]="v.photoUrl || v.name + '.jpg'" class="card-img-top vehicle-card-img" [alt]="v.displayName"
+          loading="lazy" (load)="$any($event.target).classList.add('loaded')">
+        <div class="card-body text-center py-3">
+          <h6 class="card-title mb-0">{{ v.displayName }}</h6>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

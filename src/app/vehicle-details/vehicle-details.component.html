@@ -2,9 +2,10 @@
   <h2 class="section-title">{{ vehicleName }}</h2>
 
   <!-- Vehicle Image Card -->
-  <div class="vehicle-hero mb-4">
-    <img [src]="vehicleToPreview+'.jpg'" class="vehicle-hero-img"
-      id="vehiclePreview" [alt]="vehicleName" [title]="vehicleName">
+  <div class="vehicle-hero mb-4" *ngIf="vehiclePhotoUrl">
+    <img [src]="vehiclePhotoUrl" class="vehicle-hero-img"
+      id="vehiclePreview" [alt]="vehicleName" [title]="vehicleName"
+      (load)="$any($event.target).classList.add('loaded')">
   </div>
 
   <!-- Actions Row -->

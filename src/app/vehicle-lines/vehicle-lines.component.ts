@@ -6,6 +6,8 @@ interface VehicleLine {
   name: string;
   type: string;
   displayName: string;
+  photoUrl: string | null;
+  authorized: boolean;
 }
 
 @Component({
@@ -35,17 +37,17 @@ export class VehicleLinesComponent implements OnInit {
       const isAdmin = profile.permissions === 'admin';
       const userVehicles: string[] = profile.vehicleDriven ? profile.vehicleDriven.split('|') : [];
 
-      let filtered = allVehicles;
-      if (!isAdmin) {
-        filtered = allVehicles.filter((v: any) => userVehicles.includes(v.name));
-      }
-
-      this.vehicleList = filtered.map((v: any) => ({
+      this.vehicleList = allVehicles.map((v: any) => ({
         id: v.id,
         name: v.name,
         type: v.type,
         displayName: v.name.replace(/-/g, ' '),
+        photoUrl: v.photoUrl || null,
+        authorized: isAdmin || userVehicles.includes(v.name),
       }));
+
+      // Authorized vehicles first, then unauthorized
+      this.vehicleList.sort((a, b) => (a.authorized === b.authorized ? 0 : a.authorized ? -1 : 1));
     } catch (error) {
       console.error('Failed to load vehicles:', error);
     } finally {

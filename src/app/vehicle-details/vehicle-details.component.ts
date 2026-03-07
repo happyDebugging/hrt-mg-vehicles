@@ -13,6 +13,7 @@ export class VehicleDetailsComponent {
   vehicleToPreview = '';
   vehicleName = '';
   vehicleType = '';
+  vehiclePhotoUrl = '';
 
   kilometersSum = 0;
   kteoExpiryDate = '';
@@ -68,25 +69,31 @@ export class VehicleDetailsComponent {
   GetVehicleDetails() {
     this.vehicleDetails = new VehicleDetails();
 
-    this.dbFunctionService.getVehicleDetailsFromDb(this.vehicleIdToPreview)
+    this.dbFunctionService.getVehicleDetailsRaw(this.vehicleIdToPreview)
       .then(
         (res: any) => {
-          if ((res != null) || (res != undefined)) {
-            console.log(res)
+          // Set photo URL regardless of whether details exist
+          if (res.vehiclePhotoUrl) {
+            this.vehiclePhotoUrl = res.vehiclePhotoUrl;
+          }
 
-            this.vehicleDetails.VehicleName = res[0].VehicleName;
-            this.vehicleDetails.VehicleType = res[0].VehicleType;
-            this.vehicleDetails.KilometersSum = res[0].KilometersSum;
-            this.vehicleDetails.KteoExpiryDate = res[0].KteoExpiryDate;
-            this.vehicleDetails.InsuranceExpiryDate = res[0].InsuranceExpiryDate;
-            this.vehicleDetails.LastServiceDate = res[0].LastServiceDate;
-            this.vehicleDetails.CarTiresReplacementDate = res[0].CarTiresReplacementDate;
-            this.vehicleDetails.CarExhaustExpiryDate = res[0].CarExhaustExpiryDate;
-            this.vehicleDetails.FuelAdditionCost = res[0].FuelAdditionCost;
-            this.vehicleDetails.FuelAdditionDate = res[0].FuelAdditionDate;
-            this.vehicleDetails.LastUpdatedAt = res[0].LastUpdatedAt;
-            this.vehicleDetails.LastUpdatedBy = res[0].LastUpdatedBy;
-            this.vehicleDetails.LastUpdatedByName = res[0].LastUpdatedByName;
+          const data = res.data;
+          if (data && data.length > 0) {
+            console.log(data)
+
+            this.vehicleDetails.VehicleName = data[0].VehicleName;
+            this.vehicleDetails.VehicleType = data[0].VehicleType;
+            this.vehicleDetails.KilometersSum = data[0].KilometersSum;
+            this.vehicleDetails.KteoExpiryDate = data[0].KteoExpiryDate;
+            this.vehicleDetails.InsuranceExpiryDate = data[0].InsuranceExpiryDate;
+            this.vehicleDetails.LastServiceDate = data[0].LastServiceDate;
+            this.vehicleDetails.CarTiresReplacementDate = data[0].CarTiresReplacementDate;
+            this.vehicleDetails.CarExhaustExpiryDate = data[0].CarExhaustExpiryDate;
+            this.vehicleDetails.FuelAdditionCost = data[0].FuelAdditionCost;
+            this.vehicleDetails.FuelAdditionDate = data[0].FuelAdditionDate;
+            this.vehicleDetails.LastUpdatedAt = data[0].LastUpdatedAt;
+            this.vehicleDetails.LastUpdatedBy = data[0].LastUpdatedBy;
+            this.vehicleDetails.LastUpdatedByName = data[0].LastUpdatedByName;
           }
         },
         err => {

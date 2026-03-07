@@ -1,7 +1,7 @@
 .vehicle-hero {
   border-radius: 5px;
   overflow: hidden;
-  background: #ffffff;
+  background: #e9ecef;
   border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
@@ -10,4 +10,10 @@
   max-height: 340px;
   object-fit: cover;
   display: block;
+  opacity: 0;
+  transition: opacity .4s ease;
+}
+
+.vehicle-hero-img.loaded {
+  opacity: 1;
 }
