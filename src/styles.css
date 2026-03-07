@@ -413,8 +413,33 @@ h1, h2, h3, h4, h5, h6 {
 /* ── Alerts ─────────────────────────────────── */
 .alert {
   border-radius: var(--radius-lg);
-  font-size: .9rem;
+  font-size: .9rem;  border: 1px solid var(--clr-border);
 }
+
+.alert-success {
+  background: rgba(76, 175, 80, .08);
+  border-color: var(--clr-success);
+  color: var(--clr-text);
+}
+
+.alert-danger {
+  background: rgba(231, 76, 60, .08);
+  border-color: var(--clr-danger);
+  color: var(--clr-text);
+}
+
+.alert-info {
+  background: var(--clr-white);
+  border-left: 3px solid var(--clr-accent);
+  border-color: var(--clr-border);
+  border-left-color: var(--clr-accent);
+  color: var(--clr-text);
+}
+
+.alert-warning {
+  background: rgba(201, 169, 110, .08);
+  border-color: var(--clr-accent);
+  color: var(--clr-text);}
 
 /* ── Badge accent ──────────────────────────── */
 .badge-accent {
