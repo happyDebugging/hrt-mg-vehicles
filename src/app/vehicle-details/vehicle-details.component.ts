@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { VehicleDetails } from '../shared/models/vehicle-details.model';
+import { Vehicle } from '../shared/models/vehicle.model';
 import { DbFunctionService } from '../shared/services/db-functions.service';
 
 @Component({
@@ -39,6 +40,7 @@ export class VehicleDetailsComponent {
   invalidFields: Set<string> = new Set();
 
   vehicleDetails: VehicleDetails = new VehicleDetails();
+  vehicle: Vehicle | null = null;
 
   constructor(private dbFunctionService: DbFunctionService) { }
 
@@ -68,19 +70,19 @@ export class VehicleDetailsComponent {
 
   GetVehicleDetails() {
     this.vehicleDetails = new VehicleDetails();
+    this.vehicle = null;
 
     this.dbFunctionService.getVehicleDetailsRaw(this.vehicleIdToPreview)
       .then(
         (res: any) => {
-          // Set photo URL regardless of whether details exist
           if (res.vehiclePhotoUrl) {
             this.vehiclePhotoUrl = res.vehiclePhotoUrl;
           }
 
           const data = res.data;
           if (data && data.length > 0) {
-            console.log(data)
-
+            console.log('Vehicle details data:', data);
+            // VehicleDetails fields
             this.vehicleDetails.VehicleName = data[0].VehicleName;
             this.vehicleDetails.VehicleType = data[0].VehicleType;
             this.vehicleDetails.KilometersSum = data[0].KilometersSum;
@@ -94,6 +96,18 @@ export class VehicleDetailsComponent {
             this.vehicleDetails.LastUpdatedAt = data[0].LastUpdatedAt;
             this.vehicleDetails.LastUpdatedBy = data[0].LastUpdatedBy;
             this.vehicleDetails.LastUpdatedByName = data[0].LastUpdatedByName;
+
+            // Vehicle fields
+            if (data[0].vehicles) {
+              this.vehicle = {
+                id: data[0].vehicles.id,
+                name: data[0].vehicles.name,
+                type: data[0].vehicles.type,
+                vehiclePlateNumber: data[0].vehicles.vehiclePlateNumber,
+                vesselRegistrationNumber: data[0].vehicles.vesselRegistrationNumber,
+                vehicleImageName: data[0].vehicles.vehicleImageName
+              };
+            }
           }
         },
         err => {
