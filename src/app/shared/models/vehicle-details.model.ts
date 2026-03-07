@@ -4,8 +4,6 @@ export class VehicleDetails {
     VehicleName!: string;
     VehicleType!: string;  //vehicle, boat
 
-    vehiclePlateNumber!: string;
-    vesselRegistrationNumber!: string;
 
     KilometersSum!: number;
     KteoExpiryDate!: string;
