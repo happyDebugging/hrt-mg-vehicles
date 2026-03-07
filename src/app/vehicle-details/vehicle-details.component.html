@@ -184,7 +184,7 @@
             [ngClass]="{'is-invalid': invalidFields.has('fuelAdditionCost')}" required>
           <div *ngIf="invalidFields.has('fuelAdditionCost')" class="invalid-feedback">Εισάγετε έγκυρο ποσό.</div>
         </div>
-        <div class="col-12 col-md-6">
+        <div *ngIf="vehicleType=='vehicle'" class="col-12 col-md-6">
           <label for="fuelAdditionLiters" class="form-label">Λιτρα (lt)</label>
           <input type="text" class="form-control" id="fuelAdditionLiters" name="fuelAdditionLiters"
             [(ngModel)]="vehicleDetails.FuelAdditionLiters" [disabled]="!isEditEnabled"
