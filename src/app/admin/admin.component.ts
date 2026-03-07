@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Users } from '../shared/models/users.model';
 import { ManageUsersService } from '../shared/services/manage-users.service';
 import { DbFunctionService } from '../shared/services/db-functions.service';
+import { Vehicle } from '../shared/models/vehicle.model';
 
 @Component({
   selector: 'app-admin',
@@ -10,6 +11,10 @@ import { DbFunctionService } from '../shared/services/db-functions.service';
   styleUrl: './admin.component.css'
 })
 export class AdminComponent {
+  newVehiclePlateNumber = '';
+  newVesselRegistrationNumber = '';
+  updateVehiclePlateNumber = '';
+  updateVesselRegistrationNumber = '';
 
     userVehicleLicenses: any[] = [];
     userBoatLicenses: any[] = [];
@@ -51,7 +56,7 @@ export class AdminComponent {
   // Vehicle management
   isVehiclesCollapsed = true;
   vehicleAction = 'add_vehicle';
-  vehicles: { id: number; name: string; type: string }[] = [];
+  vehicles: Vehicle[] = [];
   newVehicleName = '';
   newVehicleType = 'vehicle';
   vehiclePhotoFile: File | null = null;
@@ -236,7 +241,13 @@ export class AdminComponent {
   GetVehicles() {
     this.dbFunctionService.getVehicles()
       .then((res: any[]) => {
-        this.vehicles = res || [];
+        this.vehicles = (res || []).map(v => ({
+          id: v.id,
+          name: v.name,
+          type: v.type,
+          vehiclePlateNumber: v.vehiclePlateNumber || '',
+          vesselRegistrationNumber: v.vesselRegistrationNumber || ''
+        }));
       })
       .catch((err: any) => console.error('Failed to fetch vehicles:', err));
   }
@@ -260,6 +271,8 @@ export class AdminComponent {
     if (selected) {
       this.updateVehicleName = selected.name;
       this.updateVehicleType = selected.type;
+      this.updateVehiclePlateNumber = selected.vehiclePlateNumber || '';
+      this.updateVesselRegistrationNumber = selected.vesselRegistrationNumber || '';
     }
   }
 
@@ -274,7 +287,12 @@ export class AdminComponent {
     }
 
     try {
-      await this.dbFunctionService.addVehicle(this.newVehicleName.trim(), this.newVehicleType);
+      await this.dbFunctionService.addVehicle(
+        this.newVehicleName.trim(),
+        this.newVehicleType,
+        this.newVehicleType === 'vehicle' ? this.newVehiclePlateNumber : '',
+        this.newVehicleType === 'boat' ? this.newVesselRegistrationNumber : ''
+      );
 
       if (this.vehiclePhotoFile) {
         await this.dbFunctionService.uploadVehiclePhoto(this.newVehicleName.trim(), this.vehiclePhotoFile);
@@ -329,7 +347,14 @@ export class AdminComponent {
     }
 
     try {
-      await this.dbFunctionService.updateVehicle(this.vehicleToUpdate, this.updateVehicleName.trim(), this.updateVehicleType);
+      const vehicleData: any = {
+        id: this.vehicleToUpdate,
+        name: this.updateVehicleName.trim(),
+        type: this.updateVehicleType,
+        vehiclePlateNumber: this.updateVehicleType === 'vehicle' ? this.updateVehiclePlateNumber : '',
+        vesselRegistrationNumber: this.updateVehicleType === 'boat' ? this.updateVesselRegistrationNumber : ''
+      };
+      await this.dbFunctionService.updateVehicle(vehicleData);
 
       if (this.updateVehiclePhotoFile) {
         await this.dbFunctionService.replaceVehiclePhoto(this.updateVehicleName.trim(), this.updateVehiclePhotoFile);
@@ -351,11 +376,15 @@ export class AdminComponent {
   ClearVehicleFields() {
     this.newVehicleName = '';
     this.newVehicleType = 'vehicle';
+    this.newVehiclePlateNumber = '';
+    this.newVesselRegistrationNumber = '';
     this.vehiclePhotoFile = null;
     this.vehicleToDelete = 0;
     this.vehicleToUpdate = 0;
     this.updateVehicleName = '';
     this.updateVehicleType = 'vehicle';
+    this.updateVehiclePlateNumber = '';
+    this.updateVesselRegistrationNumber = '';
     this.updateVehiclePhotoFile = null;
   }
 

@@ -172,6 +172,14 @@
                 <option value="boat">Σκάφος</option>
               </select>
             </div>
+            <div class="col-12 col-md-6" *ngIf="newVehicleType === 'vehicle'">
+              <label for="newVehiclePlateNumber" class="form-label">Αριθμός Πινακίδας</label>
+              <input type="text" class="form-control" id="newVehiclePlateNumber" [(ngModel)]="newVehiclePlateNumber" placeholder="π.χ. YYY-1234">
+            </div>
+            <div class="col-12 col-md-6" *ngIf="newVehicleType === 'boat'">
+              <label for="newVesselRegistrationNumber" class="form-label">Αριθμός Νηολογίου</label>
+              <input type="text" class="form-control" id="newVesselRegistrationNumber" [(ngModel)]="newVesselRegistrationNumber" placeholder="π.χ. ΝΗΟ-5678">
+            </div>
           </div>
 
           <div class="mb-3">
@@ -213,6 +221,14 @@
                 <option value="vehicle">Όχημα</option>
                 <option value="boat">Σκάφος</option>
               </select>
+            </div>
+            <div class="col-12 col-md-6" *ngIf="updateVehicleType === 'vehicle'">
+              <label for="updateVehiclePlateNumber" class="form-label">Αριθμός Πινακίδας</label>
+              <input type="text" class="form-control" id="updateVehiclePlateNumber" [(ngModel)]="updateVehiclePlateNumber" placeholder="π.χ. YYY-1234">
+            </div>
+            <div class="col-12 col-md-6" *ngIf="updateVehicleType === 'boat'">
+              <label for="updateVesselRegistrationNumber" class="form-label">Αριθμός Νηολογίου</label>
+              <input type="text" class="form-control" id="updateVesselRegistrationNumber" [(ngModel)]="updateVesselRegistrationNumber" placeholder="π.χ. ΝΗΟ-5678">
             </div>
             <div class="col-12">
               <label for="updateVehiclePhoto" class="form-label">Αντικατασταση φωτογραφιας</label>
