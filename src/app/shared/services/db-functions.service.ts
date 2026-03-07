@@ -37,6 +37,29 @@ export class DbFunctionService {
             })
     }
 
+    async getVehicleDetailsRaw(vehicleId?: number) {
+
+        const session = this.authService.getSession();
+        const bearerToken = session?.access_token || '';
+        const headers = new HttpHeaders({
+            'Authorization': `Bearer ${bearerToken}`
+        });
+
+        let url = `${this.workerUrl}/vehicle-details`;
+        if (vehicleId) {
+            url += `?VehicleId=${encodeURIComponent(vehicleId.toString())}`;
+        }
+
+        return this.http
+            .get<{ data: any[]; error: any; vehiclePhotoUrl: string | null }>(url, { headers })
+            .toPromise()
+            .then(res => {
+                if (!res) throw new Error('No response from server');
+                if (res.error) throw new Error(res.error.message || res.error)
+                return res
+            })
+    }
+
     async postVehicleDetailsToDb(vehicleDetails: VehicleDetails) {
 
         const session = this.authService.getSession();
@@ -400,6 +423,111 @@ export class DbFunctionService {
 
     // //     return data;
     // // }
+
+    addVehicle(name: string, type: string): Promise<any> {
+        const session = this.authService.getSession();
+        const bearerToken = session?.access_token || '';
+        const headers = new HttpHeaders({
+            'Authorization': `Bearer ${bearerToken}`,
+            'Content-Type': 'application/json'
+        });
+
+        const url = `${this.workerUrl}/vehicles`;
+
+        return this.http
+            .post<{ data: any; error: any }>(url, { name, type }, { headers })
+            .toPromise()
+            .then(res => {
+                if (!res) throw new Error('No response from server');
+                if (res.error) throw new Error(res.error.message || res.error);
+                return res.data;
+            });
+    }
+
+    deleteVehicle(vehicleId: number): Promise<any> {
+        const session = this.authService.getSession();
+        const bearerToken = session?.access_token || '';
+        const headers = new HttpHeaders({
+            'Authorization': `Bearer ${bearerToken}`
+        });
+
+        const url = `${this.workerUrl}/vehicles?id=${encodeURIComponent(vehicleId.toString())}`;
+
+        return this.http
+            .delete<{ message?: string; error?: any }>(url, { headers })
+            .toPromise()
+            .then(res => {
+                if (!res) throw new Error('No response from server');
+                if (res.error) throw new Error(res.error.message || res.error);
+                return res;
+            });
+    }
+
+    uploadVehiclePhoto(vehicleName: string, file: File): Promise<any> {
+        const session = this.authService.getSession();
+        const bearerToken = session?.access_token || '';
+        const headers = new HttpHeaders({
+            'Authorization': `Bearer ${bearerToken}`
+        });
+
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('vehicleName', vehicleName);
+
+        const url = `${this.workerUrl}/vehicles`;
+
+        return this.http
+            .post<{ data: any; publicUrl: string; error: any }>(url, formData, { headers })
+            .toPromise()
+            .then(res => {
+                if (!res) throw new Error('No response from server');
+                if (res.error) throw new Error(res.error.message || res.error);
+                return res;
+            });
+    }
+
+    updateVehicle(id: number, name: string, type: string): Promise<any> {
+        const session = this.authService.getSession();
+        const bearerToken = session?.access_token || '';
+        const headers = new HttpHeaders({
+            'Authorization': `Bearer ${bearerToken}`,
+            'Content-Type': 'application/json'
+        });
+
+        const url = `${this.workerUrl}/vehicles`;
+
+        return this.http
+            .patch<{ data: any; error: any }>(url, { id, name, type }, { headers })
+            .toPromise()
+            .then(res => {
+                if (!res) throw new Error('No response from server');
+                if (res.error) throw new Error(res.error.message || res.error);
+                return res.data;
+            });
+    }
+
+    replaceVehiclePhoto(vehicleName: string, file: File): Promise<any> {
+        const session = this.authService.getSession();
+        const bearerToken = session?.access_token || '';
+        const headers = new HttpHeaders({
+            'Authorization': `Bearer ${bearerToken}`
+        });
+
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('vehicleName', vehicleName);
+
+        const url = `${this.workerUrl}/vehicles`;
+
+        return this.http
+            .patch<{ data: any; publicUrl: string; error: any }>(url, formData, { headers })
+            .toPromise()
+            .then(res => {
+                if (!res) throw new Error('No response from server');
+                if (res.error) throw new Error(res.error.message || res.error);
+                return res;
+            });
+    }
 
 }
 
