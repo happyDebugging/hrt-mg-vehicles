@@ -133,7 +133,7 @@
     </div>
     <div class="card-body">
       <div class="row g-3">
-        
+
         <div class="col-12 col-md-6">
           <label for="TotalKm" class="form-label">Συνολικα Χιλιομετρα</label>
           <input type="text" class="form-control" [value]="vehicleDetails.TotalKm" disabled>
@@ -141,8 +141,10 @@
 
         <div class="col-12 col-md-6">
           <label for="StartingKmOfShift" class="form-label">Αρχικα Χιλιομετρα Βαρδιας</label>
-          <input type="text" class="form-control" [value]="vehicleDetails.StartingKmOfShift != null ? vehicleDetails.StartingKmOfShift : ''" disabled>
-          <small class="text-muted">* Το πεδίο αυτό αναφέρεται στα "Τελικά Χιλιόμετρα Βάρδιας" της προηγούμενης καταχώρησης.</small>
+          <input type="text" class="form-control"
+            [value]="vehicleDetails.StartingKmOfShift != null ? vehicleDetails.StartingKmOfShift : ''" disabled>
+          <small class="text-muted">* Το πεδίο αυτό αναφέρεται στα "Τελικά Χιλιόμετρα Βάρδιας" της προηγούμενης
+            καταχώρησης.</small>
         </div>
 
         <div class="col-12 col-md-6">
@@ -154,9 +156,18 @@
           </div>
         </div>
 
+        <div class="col-12 col-md-6">
+          <label for="LastDrivenAt" class="form-label">Ημερ/νια χρησης οχηματος</label>
+          <div *ngIf="!isEditEnabled && vehicleDetails.LastDrivenAt" class="form-control">{{
+            vehicleDetails.LastDrivenAt | date:'dd/MM/yyyy' }}</div>
+          <input *ngIf="!isEditEnabled && !vehicleDetails.LastDrivenAt || isEditEnabled" type="date"
+            class="form-control" id="LastDrivenAt" name="LastDrivenAt" [(ngModel)]="vehicleDetails.LastDrivenAt"
+            [disabled]="!isEditEnabled" required>
+        </div>
+
       </div>
     </div>
-    
+
   </div>
 
   <!-- Fuel Section -->

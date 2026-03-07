@@ -105,6 +105,7 @@ export class VehicleDetailsComponent {
             }
             this.vehicleDetails.StartingKmOfShift = data[0].FinalKmOfShift; data[0].StartingKmOfShift;
             this.vehicleDetails.FinalKmOfShift = 0;//data[0].FinalKmOfShift;
+            this.vehicleDetails.LastDrivenAt = data[0].LastDrivenAt;
             this.vehicleDetails.KteoExpiryDate = data[0].KteoExpiryDate;
             this.vehicleDetails.InsuranceExpiryDate = data[0].InsuranceExpiryDate;
             this.vehicleDetails.LastServiceDate = data[0].LastServiceDate;

@@ -10,6 +10,8 @@ export class VehicleDetails {
 
     InitialKilometers!: number;
     KilometersSum!: number;
+
+    LastDrivenAt!: string;
     
     KteoExpiryDate!: string;
     InsuranceExpiryDate!: string;
