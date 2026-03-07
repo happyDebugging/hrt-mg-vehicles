@@ -4,7 +4,13 @@ export class VehicleDetails {
     VehicleName!: string;
     VehicleType!: string;  //vehicle, boat
 
+    TotalKm!: number;
+    StartingKmOfShift!: number;
+    FinalKmOfShift!: number;
+
+    InitialKilometers!: number;
     KilometersSum!: number;
+    
     KteoExpiryDate!: string;
     InsuranceExpiryDate!: string;
     LastServiceDate!: string;

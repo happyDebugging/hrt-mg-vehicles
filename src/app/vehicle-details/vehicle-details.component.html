@@ -65,7 +65,7 @@
   <!-- Details Form -->
   <div class="card mb-4">
     <div class="card-header d-flex align-items-center">
-      <strong>Στοιχεία Οχήματος</strong>
+      <strong>Πληροφορίες Οχήματος</strong>
     </div>
     <div class="card-body">
       <div class="row g-3">
@@ -76,15 +76,6 @@
         <div class="col-12 col-md-6" *ngIf="vehicleType === 'boat' && vehicle">
           <label class="form-label">Αριθμος Νηολογιου</label>
           <input type="text" class="form-control" [value]="vehicle.vesselRegistrationNumber" disabled>
-        </div>
-
-        <div class="col-12 col-md-6">
-          <label for="kilometersSum" class="form-label">Τελικα Χιλιομετρα</label>
-          <input type="text" class="form-control" id="kilometersSum" name="kilometersSum"
-            [(ngModel)]="vehicleDetails.KilometersSum" [disabled]="!isEditEnabled"
-            [ngClass]="{'is-invalid': invalidFields.has('kilometersSum')}" required>
-          <div *ngIf="invalidFields.has('kilometersSum')" class="invalid-feedback">Εισάγετε έγκυρο αριθμό χιλιομέτρων.
-          </div>
         </div>
 
         <div *ngIf="vehicleType=='vehicle'" class="col-12 col-md-6">
@@ -133,6 +124,39 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Kilometers Form -->
+  <div class="card mb-4">
+    <div class="card-header d-flex align-items-center">
+      <strong>Χιλιομετρικά Στοιχεία</strong>
+    </div>
+    <div class="card-body">
+      <div class="row g-3">
+        
+        <div class="col-12 col-md-6">
+          <label for="TotalKm" class="form-label">Συνολικα Χιλιομετρα</label>
+          <input type="text" class="form-control" [value]="vehicleDetails.TotalKm" disabled>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label for="StartingKmOfShift" class="form-label">Αρχικα Χιλιομετρα Βαρδιας</label>
+          <input type="text" class="form-control" [value]="vehicleDetails.StartingKmOfShift != null ? vehicleDetails.StartingKmOfShift : ''" disabled>
+          <small class="text-muted">* Το πεδίο αυτό αναφέρεται στα "Τελικά Χιλιόμετρα Βάρδιας" της προηγούμενης καταχώρησης.</small>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label for="FinalKmOfShift" class="form-label">Τελικα Χιλιομετρα Βαρδιας</label>
+          <input type="text" class="form-control" id="FinalKmOfShift" name="FinalKmOfShift"
+            [(ngModel)]="vehicleDetails.FinalKmOfShift" [disabled]="!isEditEnabled"
+            [ngClass]="{'is-invalid': invalidFields.has('FinalKmOfShift')}" required>
+          <div *ngIf="invalidFields.has('FinalKmOfShift')" class="invalid-feedback">Εισάγετε έγκυρο αριθμό χιλιομέτρων.
+          </div>
+        </div>
+
+      </div>
+    </div>
+    
   </div>
 
   <!-- Fuel Section -->

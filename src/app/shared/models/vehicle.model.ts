@@ -5,4 +5,5 @@ export interface Vehicle {
   vehiclePlateNumber?: string;
   vesselRegistrationNumber?: string;
   vehicleImageName?: string;
+  initialKilometers?: number;
 }

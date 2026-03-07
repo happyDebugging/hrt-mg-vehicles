@@ -428,7 +428,7 @@ export class DbFunctionService {
     // //     return data;
     // // }
 
-    addVehicle(name: string, type: string, vehiclePlateNumber?: string, vesselRegistrationNumber?: string): Promise<any> {
+    addVehicle(name: string, type: string, vehiclePlateNumber?: string, vesselRegistrationNumber?: string, initialKilometers?: number): Promise<any> {
         const session = this.authService.getSession();
         const bearerToken = session?.access_token || '';
         const headers = new HttpHeaders({
@@ -440,7 +440,8 @@ export class DbFunctionService {
         const body: any = { name, type };
         if (vehiclePlateNumber) body.vehiclePlateNumber = vehiclePlateNumber;
         if (vesselRegistrationNumber) body.vesselRegistrationNumber = vesselRegistrationNumber;
-
+        if (initialKilometers) body.initialKilometers = initialKilometers;
+        console.log('Adding vehicle with data:', body);
         return this.http
             .post<{ data: any; error: any }>(url, body, { headers })
             .toPromise()

@@ -15,9 +15,10 @@ export class AdminComponent {
   newVesselRegistrationNumber = '';
   updateVehiclePlateNumber = '';
   updateVesselRegistrationNumber = '';
+  initialKilometers = 0;
 
-    userVehicleLicenses: any[] = [];
-    userBoatLicenses: any[] = [];
+  userVehicleLicenses: any[] = [];
+  userBoatLicenses: any[] = [];
 
   loggedInUserId = '';
   isUserLoggedIn = false;
@@ -69,7 +70,7 @@ export class AdminComponent {
   vehicleMessageType: 'success' | 'danger' | '' = '';
   isVehicleActionSuccessfull = false;
 
-  constructor(private router: Router, private manageUsersService: ManageUsersService, private dbFunctionService: DbFunctionService) {}
+  constructor(private router: Router, private manageUsersService: ManageUsersService, private dbFunctionService: DbFunctionService) { }
 
   ngOnInit() {
 
@@ -246,8 +247,10 @@ export class AdminComponent {
           name: v.name,
           type: v.type,
           vehiclePlateNumber: v.vehiclePlateNumber || '',
-          vesselRegistrationNumber: v.vesselRegistrationNumber || ''
+          vesselRegistrationNumber: v.vesselRegistrationNumber || '',
+          initialKilometers: v.initialKilometers || 0
         }));
+        console.log('Fetched vehicles:', this.vehicles);
       })
       .catch((err: any) => console.error('Failed to fetch vehicles:', err));
   }
@@ -273,6 +276,7 @@ export class AdminComponent {
       this.updateVehicleType = selected.type;
       this.updateVehiclePlateNumber = selected.vehiclePlateNumber || '';
       this.updateVesselRegistrationNumber = selected.vesselRegistrationNumber || '';
+      this.initialKilometers = selected.initialKilometers || 0;
     }
   }
 
@@ -291,7 +295,8 @@ export class AdminComponent {
         this.newVehicleName.trim(),
         this.newVehicleType,
         this.newVehicleType === 'vehicle' ? this.newVehiclePlateNumber : '',
-        this.newVehicleType === 'boat' ? this.newVesselRegistrationNumber : ''
+        this.newVehicleType === 'boat' ? this.newVesselRegistrationNumber : '',
+        this.initialKilometers
       );
 
       if (this.vehiclePhotoFile) {
@@ -378,6 +383,7 @@ export class AdminComponent {
     this.newVehicleType = 'vehicle';
     this.newVehiclePlateNumber = '';
     this.newVesselRegistrationNumber = '';
+    this.initialKilometers = 0;
     this.vehiclePhotoFile = null;
     this.vehicleToDelete = 0;
     this.vehicleToUpdate = 0;

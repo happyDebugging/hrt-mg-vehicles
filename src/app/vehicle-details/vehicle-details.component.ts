@@ -80,12 +80,31 @@ export class VehicleDetailsComponent {
           }
 
           const data = res.data;
+
+          // If no vehicleDetails row exists, use initialKilometers from vehicle
+          if (!data || data.length === 0) {
+            if (res.vehicle && res.vehicle.initialKilometers !== undefined) {
+              this.vehicleDetails.TotalKm = res.vehicle.initialKilometers;
+            } else if (this.vehicle && this.vehicle.initialKilometers !== undefined) {
+              this.vehicleDetails.TotalKm = this.vehicle.initialKilometers;
+            } else {
+              this.vehicleDetails.TotalKm = 0;
+            }
+            return;
+          }
+          
           if (data && data.length > 0) {
             console.log('Vehicle details data:', data);
             // VehicleDetails fields
             this.vehicleDetails.VehicleName = data[0].VehicleName;
             this.vehicleDetails.VehicleType = data[0].VehicleType;
-            this.vehicleDetails.KilometersSum = data[0].KilometersSum;
+            if ((data[0].TotalKm == null || data[0].TotalKm == undefined || data[0].TotalKm == 0) && data[0].vehicles && data[0].vehicles.initialKilometers !== undefined) {
+              this.vehicleDetails.TotalKm = data[0].vehicles.initialKilometers;
+            } else {
+              this.vehicleDetails.TotalKm = data[0].TotalKm + data[0].FinalKmOfShift;
+            }
+            this.vehicleDetails.StartingKmOfShift = data[0].FinalKmOfShift; data[0].StartingKmOfShift;
+            this.vehicleDetails.FinalKmOfShift = 0;//data[0].FinalKmOfShift;
             this.vehicleDetails.KteoExpiryDate = data[0].KteoExpiryDate;
             this.vehicleDetails.InsuranceExpiryDate = data[0].InsuranceExpiryDate;
             this.vehicleDetails.LastServiceDate = data[0].LastServiceDate;
@@ -106,7 +125,8 @@ export class VehicleDetailsComponent {
                 type: data[0].vehicles.type,
                 vehiclePlateNumber: data[0].vehicles.vehiclePlateNumber,
                 vesselRegistrationNumber: data[0].vehicles.vesselRegistrationNumber,
-                vehicleImageName: data[0].vehicles.vehicleImageName
+                vehicleImageName: data[0].vehicles.vehicleImageName,
+                initialKilometers: data[0].vehicles.initialKilometers
               };
             }
           }
@@ -123,11 +143,11 @@ export class VehicleDetailsComponent {
     this.invalidFields.clear();
 
     // Validate required fields
-    if (!this.vehicleDetails.KilometersSum && this.vehicleDetails.KilometersSum !== 0) {
-      this.invalidFields.add('kilometersSum');
+    if (!this.vehicleDetails.FinalKmOfShift && this.vehicleDetails.FinalKmOfShift !== 0) {
+      this.invalidFields.add('FinalKmOfShift');
     }
-    if (this.vehicleDetails.KilometersSum && isNaN(Number(this.vehicleDetails.KilometersSum))) {
-      this.invalidFields.add('kilometersSum');
+    if (this.vehicleDetails.FinalKmOfShift && isNaN(Number(this.vehicleDetails.FinalKmOfShift))) {
+      this.invalidFields.add('FinalKmOfShift');
     }
     if (this.vehicleDetails.FuelAdditionCost && isNaN(Number(this.vehicleDetails.FuelAdditionCost))) {
       this.invalidFields.add('fuelAdditionCost');
