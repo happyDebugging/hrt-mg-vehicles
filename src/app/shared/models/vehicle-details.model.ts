@@ -19,6 +19,7 @@ export class VehicleDetails {
     CarTiresReplacementDate!: string;
     CarExhaustExpiryDate!: string;
     FuelAdditionCost!: number;
+    FuelAdditionLiters!: number;
     FuelAdditionDate!: string;
 
     LastUpdatedAt!: string;

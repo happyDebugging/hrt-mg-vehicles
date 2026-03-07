@@ -112,6 +112,7 @@ export class VehicleDetailsComponent {
             this.vehicleDetails.CarTiresReplacementDate = data[0].CarTiresReplacementDate;
             this.vehicleDetails.CarExhaustExpiryDate = data[0].CarExhaustExpiryDate;
             this.vehicleDetails.FuelAdditionCost = data[0].FuelAdditionCost;
+            this.vehicleDetails.FuelAdditionLiters = data[0].FuelAdditionLiters;
             this.vehicleDetails.FuelAdditionDate = data[0].FuelAdditionDate;
             this.vehicleDetails.LastUpdatedAt = data[0].LastUpdatedAt;
             this.vehicleDetails.LastUpdatedBy = data[0].LastUpdatedBy;
@@ -151,7 +152,10 @@ export class VehicleDetailsComponent {
       this.invalidFields.add('FinalKmOfShift');
     }
     if (this.vehicleDetails.FuelAdditionCost && isNaN(Number(this.vehicleDetails.FuelAdditionCost))) {
-      this.invalidFields.add('fuelAdditionCost');
+      this.invalidFields.add('FuelAdditionCost');
+    }
+    if (this.vehicleDetails.FuelAdditionLiters && isNaN(Number(this.vehicleDetails.FuelAdditionLiters))) {
+      this.invalidFields.add('FuelAdditionLiters');
     }
 
     if (this.invalidFields.size > 0) {

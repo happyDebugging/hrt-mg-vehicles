@@ -178,11 +178,19 @@
     <div class="card-body">
       <div class="row g-3">
         <div class="col-12 col-md-6">
-          <label for="fuelAdditionCost" class="form-label">Ποσο σε Ευρω</label>
+          <label for="fuelAdditionCost" class="form-label">Ποσο (€)</label>
           <input type="text" class="form-control" id="fuelAdditionCost" name="fuelAdditionCost"
             [(ngModel)]="vehicleDetails.FuelAdditionCost" [disabled]="!isEditEnabled"
             [ngClass]="{'is-invalid': invalidFields.has('fuelAdditionCost')}" required>
           <div *ngIf="invalidFields.has('fuelAdditionCost')" class="invalid-feedback">Εισάγετε έγκυρο ποσό.</div>
+        </div>
+        <div class="col-12 col-md-6">
+          <label for="fuelAdditionLiters" class="form-label">Λιτρα (lt)</label>
+          <input type="text" class="form-control" id="fuelAdditionLiters" name="fuelAdditionLiters"
+            [(ngModel)]="vehicleDetails.FuelAdditionLiters" [disabled]="!isEditEnabled"
+            [ngClass]="{'is-invalid': invalidFields.has('FuelAdditionLiters')}" required>
+          <div *ngIf="invalidFields.has('FuelAdditionLiters')" class="invalid-feedback">Εισάγετε έγκυρο αριθμό λιτρών.
+          </div>
         </div>
         <div class="col-12 col-md-6">
           <label for="fuelAdditionDate" class="form-label">Ημερομηνια</label>
