@@ -127,7 +127,7 @@
   </div>
 
   <!-- Kilometers Form -->
-  <div class="card mb-4">
+  <div *ngIf="vehicleType=='vehicle'" class="card mb-4">
     <div class="card-header d-flex align-items-center">
       <strong>Χιλιομετρικά Στοιχεία</strong>
     </div>
@@ -167,7 +167,74 @@
 
       </div>
     </div>
+  </div>
 
+  <!-- Engine Details Form -->
+  <div *ngIf="vehicleType=='boat'" class="card mb-4">
+    <div class="card-header d-flex align-items-center">
+      <strong>Πληροφορίες Μηχανών</strong>
+    </div>
+    <div class="card-body">
+      <div class="row g-3">
+
+        <div class="col-12 col-md-6">
+          <label for="EngineAHours" class="form-label">Ωρες μηχανης Α</label>
+          <input type="text" class="form-control" id="EngineAHours" name="EngineAHours"
+            [(ngModel)]="vehicleDetails.EngineAHours" [disabled]="!isEditEnabled"
+            (change)="CalculateBoatTotalOperatingHours()"
+            [ngClass]="{'is-invalid': invalidFields.has('EngineAHours')}" required>
+          <div *ngIf="invalidFields.has('EngineAHours')" class="invalid-feedback">Εισάγετε έγκυρο αριθμό χιλιομέτρων.
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label for="EngineBHours" class="form-label">Ωρες μηχανης Β</label>
+          <input type="text" class="form-control" id="EngineBHours" name="EngineBHours"
+            [(ngModel)]="vehicleDetails.EngineBHours" [disabled]="!isEditEnabled"
+            (change)="CalculateBoatTotalOperatingHours()"
+            [ngClass]="{'is-invalid': invalidFields.has('EngineBHours')}" required>
+          <div *ngIf="invalidFields.has('EngineBHours')" class="invalid-feedback">Εισάγετε έγκυρο αριθμό χιλιομέτρων.
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label for="BoatFuelLevel" class="form-label">Σταθμη καυσιμου</label>
+          <select class="form-select" id="BoatFuelLevel" name="BoatFuelLevel" [(ngModel)]="vehicleDetails.BoatFuelLevel" [disabled]="!isEditEnabled">
+            <option value="4_4">4/4</option>
+            <option value="3_4">3/4</option>
+            <option value="2_4">2/4</option>
+            <option value="1_4">1/4</option>
+            <option value="low">LOW</option>
+          </select>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label for="BoatOilLevel" class="form-label">Σταθμη Λαδιου</label>
+          <select class="form-select" id="BoatOilLevel" name="BoatOilLevel" [(ngModel)]="vehicleDetails.BoatOilLevel" [disabled]="!isEditEnabled">
+            <option value="4_4">4/4</option>
+            <option value="3_4">3/4</option>
+            <option value="2_4">2/4</option>
+            <option value="1_4">1/4</option>
+            <option value="low">LOW</option>
+          </select>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label for="BoatTotalOperatingHours" class="form-label">Συνολικες Ωρες Λειτουργιας</label>
+          <input type="text" class="form-control" [value]="vehicleDetails.BoatTotalOperatingHours" disabled>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label for="DateOfBoatUse" class="form-label">Ημερομηνια Χρησης</label>
+          <div *ngIf="!isEditEnabled && vehicleDetails.DateOfBoatUse" class="form-control">{{
+            vehicleDetails.DateOfBoatUse | date:'dd/MM/yyyy' }}</div>
+          <input *ngIf="!isEditEnabled && !vehicleDetails.DateOfBoatUse || isEditEnabled" type="date"
+            class="form-control" id="DateOfBoatUse" name="DateOfBoatUse"
+            [(ngModel)]="vehicleDetails.DateOfBoatUse" [disabled]="!isEditEnabled" required>
+        </div>
+
+      </div>
+    </div>
   </div>
 
   <!-- Fuel Section -->

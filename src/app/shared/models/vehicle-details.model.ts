@@ -22,6 +22,13 @@ export class VehicleDetails {
     FuelAdditionLiters!: number;
     FuelAdditionDate!: string;
 
+    EngineAHours!: number;
+    EngineBHours!: number;
+    BoatFuelLevel!: string;
+    BoatOilLevel!: string;
+    BoatTotalOperatingHours!: number;
+    DateOfBoatUse!: string;
+
     LastUpdatedAt!: string;
     LastUpdatedBy!: string;
     LastUpdatedByName!: string;

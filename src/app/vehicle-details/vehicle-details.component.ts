@@ -16,7 +16,6 @@ export class VehicleDetailsComponent {
   vehicleType = '';
   vehiclePhotoUrl = '';
 
-  kilometersSum = 0;
   kteoExpiryDate = '';
   insuranceExpiryDate = '';
   lastServiceDate = '';
@@ -114,6 +113,12 @@ export class VehicleDetailsComponent {
             this.vehicleDetails.FuelAdditionCost = data[0].FuelAdditionCost;
             this.vehicleDetails.FuelAdditionLiters = data[0].FuelAdditionLiters;
             this.vehicleDetails.FuelAdditionDate = data[0].FuelAdditionDate;
+            this.vehicleDetails.EngineAHours = data[0].EngineAHours;
+            this.vehicleDetails.EngineBHours = data[0].EngineBHours;
+            this.vehicleDetails.BoatFuelLevel = data[0].BoatFuelLevel;
+            this.vehicleDetails.BoatOilLevel = data[0].BoatOilLevel;
+            this.vehicleDetails.BoatTotalOperatingHours = data[0].BoatTotalOperatingHours;
+            this.vehicleDetails.DateOfBoatUse = data[0].DateOfBoatUse;
             this.vehicleDetails.LastUpdatedAt = data[0].LastUpdatedAt;
             this.vehicleDetails.LastUpdatedBy = data[0].LastUpdatedBy;
             this.vehicleDetails.LastUpdatedByName = data[0].LastUpdatedByName;
@@ -181,6 +186,10 @@ export class VehicleDetailsComponent {
           this.saveMessageType = 'danger';
         }
       );
+  }
+
+  CalculateBoatTotalOperatingHours() {
+    this.vehicleDetails.BoatTotalOperatingHours = (Number(this.vehicleDetails.EngineAHours) || 0) + (Number(this.vehicleDetails.EngineBHours) || 0);
   }
 
   EnableVehicleDetailsEdit() {
