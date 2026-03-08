@@ -10,6 +10,13 @@ import { LogBook } from '../shared/models/logbook.model';
   styleUrl: './vehicle-details.component.css'
 })
 export class VehicleDetailsComponent {
+  showKteoExpiryAlert = false;
+  showInsuranceExpiryAlert = false;
+  showCarExhaustExpiryAlert = false;
+  showNextServiceExpiryAlert = false;
+  expiryDatesAlertMessage = '';
+  expiryDatesToShowInAlert = '';
+  today = new Date(); //new Date('2028-02-11'); //
 
   vehicleIdToPreview = 0;
   vehicleToPreview = '';
@@ -55,6 +62,66 @@ export class VehicleDetailsComponent {
     this.GetRegistrationCertificate();
   }
 
+
+  checkKteoExpiryAlert() {
+    this.showKteoExpiryAlert = false;
+    if (this.vehicleDetails && this.vehicleDetails.KteoExpiryDate) {
+      const kteoDate = new Date(this.vehicleDetails.KteoExpiryDate);
+      const diffTime = kteoDate.getTime() - this.today.getTime();
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+      if (diffDays <= 15) {
+        this.showKteoExpiryAlert = true;
+        this.expiryDatesToShowInAlert = this.expiryDatesToShowInAlert + `ΚΤΕΟ`;
+      }
+    }
+  }
+
+  checkInsuranceExpiryAlert() {
+    this.showInsuranceExpiryAlert = false;
+    if (this.vehicleDetails && this.vehicleDetails.InsuranceExpiryDate) {
+      const insuranceDate = new Date(this.vehicleDetails.InsuranceExpiryDate);
+      const diffTime = insuranceDate.getTime() - this.today.getTime();
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+      if (diffDays <= 15) {
+        this.showInsuranceExpiryAlert = true;
+        if (this.expiryDatesToShowInAlert != '') { this.expiryDatesToShowInAlert = this.expiryDatesToShowInAlert + `, `; }
+        this.expiryDatesToShowInAlert = this.expiryDatesToShowInAlert + `Ασφάλειας`;
+      }
+    }
+  }
+
+  checkCarExhaustExpiryAlert() {
+    this.showCarExhaustExpiryAlert = false;
+    if (this.vehicleDetails && this.vehicleDetails.CarExhaustExpiryDate) {
+      const exhaustDate = new Date(this.vehicleDetails.CarExhaustExpiryDate);
+      const diffTime = exhaustDate.getTime() - this.today.getTime();
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+      if (diffDays <= 15) {
+        this.showCarExhaustExpiryAlert = true;
+        if (this.expiryDatesToShowInAlert != '') { this.expiryDatesToShowInAlert = this.expiryDatesToShowInAlert + `, `; }
+        this.expiryDatesToShowInAlert = this.expiryDatesToShowInAlert + `Καυσαερίων`;
+      }
+    }
+  }
+
+  checkNextServiceExpiryAlert() {
+    this.showNextServiceExpiryAlert = false;
+    if (this.vehicleDetails && this.vehicleDetails.NextServiceDate) {
+      const nextServiceDate = new Date(this.vehicleDetails.NextServiceDate);
+      const diffTime = nextServiceDate.getTime() - this.today.getTime();
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+      if (diffDays <= 15) {
+        this.showNextServiceExpiryAlert = true;
+        if (this.expiryDatesToShowInAlert != '') { this.expiryDatesToShowInAlert = this.expiryDatesToShowInAlert + `, `; }
+        this.expiryDatesToShowInAlert = this.expiryDatesToShowInAlert + `Επόμενης Συντήρησης`;
+      }
+    }
+  }
+
   GetRegistrationCertificate() {
     this.dbFunctionService.getRegistrationCertificates(this.vehicleIdToPreview)
       .then((certificates: any[]) => {
@@ -81,19 +148,19 @@ export class VehicleDetailsComponent {
           }
 
           const data = res.data;
-      console.log('Raw vehicle details response:', res);
+          console.log('Raw vehicle details response:', res);
 
           // If no vehicleDetails row exists, use initialKilometers from vehicle
           if (!data || data.length === 0) {
             if (res.vehicle && res.vehicle.initialKilometers !== undefined) {
               this.vehicleDetails.TotalKm = res.vehicle.initialKilometers;
-      console.log('No vehicle details found, using initial kilometers from vehicle:', this.vehicleDetails.TotalKm);
+              console.log('No vehicle details found, using initial kilometers from vehicle:', this.vehicleDetails.TotalKm);
             } else if (this.vehicle && this.vehicle.initialKilometers !== undefined) {
               this.vehicleDetails.TotalKm = this.vehicle.initialKilometers;
-      console.log('No vehicle details found, using initial kilometers from vehicle object:', this.vehicleDetails.TotalKm);
+              console.log('No vehicle details found, using initial kilometers from vehicle object:', this.vehicleDetails.TotalKm);
             } else {
               this.vehicleDetails.TotalKm = 0;
-      console.log('No vehicle details or initial kilometers found, defaulting to 0');
+              console.log('No vehicle details or initial kilometers found, defaulting to 0');
             }
             return;
           }
@@ -150,6 +217,14 @@ export class VehicleDetailsComponent {
               };
             }
           }
+
+          this.checkKteoExpiryAlert();
+          this.checkInsuranceExpiryAlert();
+          this.checkCarExhaustExpiryAlert();
+          this.checkNextServiceExpiryAlert();
+
+          this.expiryDatesAlertMessage = `Προσοχή: Η ημερομηνία λήξης ${this.expiryDatesToShowInAlert} είναι σε λιγότερο από 15 ημέρες!`;
+
         },
         err => {
           console.log(err);
