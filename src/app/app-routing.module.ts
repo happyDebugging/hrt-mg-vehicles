@@ -7,6 +7,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { AdminComponent } from './admin/admin.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { LogbookComponent } from './logbook/logbook.component';
 //import { UserResolver } from './auth/auth.resolver';
 
 const routes: Routes = [
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'vehicle/:vehicle-id', component: VehicleDetailsComponent, canActivate: [AuthGuard] }, //, canActivate: [AuthGuard]
 
   { path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard] },
+  { path: 'logbook', component: LogbookComponent, canActivate: [AuthGuard] },
   { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },
 
   { path: '', pathMatch: 'full', component: AuthComponent, canActivate: [AuthGuard] }, // redirect to `app-component`  { path: '**', component: PageNotFoundComponent },  // Wildcard route for a 404 page

@@ -15,6 +15,7 @@ import { AdminComponent } from './admin/admin.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ManageUsersService } from './shared/services/manage-users.service';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { LogbookComponent } from './logbook/logbook.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     AuthComponent,
     AdminComponent,
     UserProfileComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    LogbookComponent
   ],
   imports: [
     BrowserModule,
