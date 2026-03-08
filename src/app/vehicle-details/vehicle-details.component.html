@@ -105,6 +105,33 @@
             [(ngModel)]="vehicleDetails.LastServiceDate" [disabled]="!isEditEnabled" required>
         </div>
 
+        <div class="col-12 col-md-6">
+          <label for="lastServiceKilometers" class="form-label">Χιλιομετρα Τελευταιου Service</label>
+          <input type="text" class="form-control" id="lastServiceKilometers" name="lastServiceKilometers"
+            [(ngModel)]="vehicleDetails.LastServiceKilometers" [disabled]="!isEditEnabled"
+            [ngClass]="{'is-invalid': invalidFields.has('LastServiceKilometers')}" required>
+          <div *ngIf="invalidFields.has('LastServiceKilometers')" class="invalid-feedback">Εισάγετε έγκυρο αριθμό χιλιομέτρων.
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label for="nextServiceDate" class="form-label">Επομενο Service</label>
+          <div *ngIf="!isEditEnabled && vehicleDetails.NextServiceDate" class="form-control">{{
+            vehicleDetails.NextServiceDate | date:'dd/MM/yyyy' }}</div>
+          <input *ngIf="!isEditEnabled && !vehicleDetails.NextServiceDate || isEditEnabled" type="date"
+            class="form-control" id="nextServiceDate" name="nextServiceDate"
+            [(ngModel)]="vehicleDetails.NextServiceDate" [disabled]="!isEditEnabled" required>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label for="nextServiceKilometers" class="form-label">Χιλιομετρα Επομενου Service</label>
+          <input type="text" class="form-control" id="nextServiceKilometers" name="nextServiceKilometers"
+            [(ngModel)]="vehicleDetails.NextServiceKilometers" [disabled]="!isEditEnabled"
+            [ngClass]="{'is-invalid': invalidFields.has('NextServiceKilometers')}" required>
+          <div *ngIf="invalidFields.has('NextServiceKilometers')" class="invalid-feedback">Εισάγετε έγκυρο αριθμό χιλιομέτρων.
+          </div>
+        </div>
+
         <div *ngIf="vehicleType=='vehicle'" class="col-12 col-md-6">
           <label for="carTiresReplacementDate" class="form-label">Αλλαγη Ελαστικων</label>
           <div *ngIf="!isEditEnabled && vehicleDetails.CarTiresReplacementDate" class="form-control">{{

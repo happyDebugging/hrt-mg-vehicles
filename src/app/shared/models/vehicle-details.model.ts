@@ -16,6 +16,9 @@ export class VehicleDetails {
     KteoExpiryDate!: string;
     InsuranceExpiryDate!: string;
     LastServiceDate!: string;
+    LastServiceKilometers!: number;
+    NextServiceDate!: string;
+    NextServiceKilometers!: number;
     CarTiresReplacementDate!: string;
     CarExhaustExpiryDate!: string;
     FuelAdditionCost!: number;
