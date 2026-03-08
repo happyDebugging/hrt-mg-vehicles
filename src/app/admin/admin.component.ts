@@ -11,6 +11,18 @@ import { Vehicle } from '../shared/models/vehicle.model';
   styleUrl: './admin.component.css'
 })
 export class AdminComponent {
+    // Only allow Latin characters, numbers, spaces, dots, dashes, and underscores
+    sanitizeVehicleNameInput(value: string): string {
+      return value.replace(/[^A-Za-z0-9 ._-]/g, '');
+    }
+
+    onNewVehicleNameChange(value: string) {
+      this.newVehicleName = this.sanitizeVehicleNameInput(value);
+    }
+
+    onUpdateVehicleNameChange(value: string) {
+      this.updateVehicleName = this.sanitizeVehicleNameInput(value);
+    }
   newVehiclePlateNumber = '';
   newVesselRegistrationNumber = '';
   updateVehiclePlateNumber = '';
@@ -286,7 +298,7 @@ console.log(`Downloading ${type} license:`, fileName);
     this.vehicleMessageType = '';
 
     if (!this.newVehicleName.trim()) {
-      this.vehicleMessage = 'Παρακαλώ εισάγετε το όνομα του οχήματος.';
+      this.vehicleMessage = 'Παρακαλώ εισάγετε το όνομα του οχήματος. Επιτρέπονται μόνο λατινικοί χαρακτήρες, αριθμοί, κενά, τελείες, παύλες και κάτω παύλες.';
       this.vehicleMessageType = 'danger';
       return;
     }

@@ -175,7 +175,8 @@
           <div class="col-12 col-md-6">
             <label for="newVehicleName" class="form-label">Ονομα οχηματος</label>
             <input type="text" class="form-control" id="newVehicleName" [(ngModel)]="newVehicleName"
-              placeholder="π.χ. Toyota-HILUX">
+              placeholder="π.χ. Toyota-HILUX"
+              (ngModelChange)="onNewVehicleNameChange($event)">
           </div>
           <div class="col-12 col-md-6">
             <label for="newVehicleType" class="form-label">Τυπος</label>
@@ -232,7 +233,8 @@
         <div *ngIf="vehicleToUpdate" class="row g-3 mb-3">
           <div class="col-12 col-md-6">
             <label for="updateVehicleName" class="form-label">Ονομα οχηματος</label>
-            <input type="text" class="form-control" id="updateVehicleName" [(ngModel)]="updateVehicleName">
+            <input type="text" class="form-control" id="updateVehicleName" [(ngModel)]="updateVehicleName"
+             (ngModelChange)="onUpdateVehicleNameChange($event)">
           </div>
           <div class="col-12 col-md-6">
             <label for="updateVehicleType" class="form-label">Τυπος</label>
