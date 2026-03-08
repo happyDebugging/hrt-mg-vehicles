@@ -162,16 +162,8 @@
       <div class="row g-3">
 
         <div class="col-12 col-md-6">
-          <label for="TotalKm" class="form-label">Συνολικα Χιλιομετρα</label>
+          <label for="TotalKm" class="form-label">Συνολικα Χιλιομετρα (Αρχικα Χλμ. Βαρδιας)</label>
           <input type="text" class="form-control" [value]="vehicleDetails.TotalKm" disabled>
-        </div>
-
-        <div class="col-12 col-md-6">
-          <label for="StartingKmOfShift" class="form-label">Αρχικα Χιλιομετρα Βαρδιας</label>
-          <input type="text" class="form-control"
-            [value]="vehicleDetails.StartingKmOfShift != null ? vehicleDetails.StartingKmOfShift : ''" disabled>
-          <small class="text-muted">* Το πεδίο αυτό αναφέρεται στα "Τελικά Χιλιόμετρα Βάρδιας" της προηγούμενης
-            καταχώρησης.</small>
         </div>
 
         <div class="col-12 col-md-6">
