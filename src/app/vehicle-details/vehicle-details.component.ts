@@ -81,15 +81,19 @@ export class VehicleDetailsComponent {
           }
 
           const data = res.data;
+      console.log('Raw vehicle details response:', res);
 
           // If no vehicleDetails row exists, use initialKilometers from vehicle
           if (!data || data.length === 0) {
             if (res.vehicle && res.vehicle.initialKilometers !== undefined) {
               this.vehicleDetails.TotalKm = res.vehicle.initialKilometers;
+      console.log('No vehicle details found, using initial kilometers from vehicle:', this.vehicleDetails.TotalKm);
             } else if (this.vehicle && this.vehicle.initialKilometers !== undefined) {
               this.vehicleDetails.TotalKm = this.vehicle.initialKilometers;
+      console.log('No vehicle details found, using initial kilometers from vehicle object:', this.vehicleDetails.TotalKm);
             } else {
               this.vehicleDetails.TotalKm = 0;
+      console.log('No vehicle details or initial kilometers found, defaulting to 0');
             }
             return;
           }

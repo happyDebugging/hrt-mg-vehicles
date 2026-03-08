@@ -11,18 +11,19 @@ import { Vehicle } from '../shared/models/vehicle.model';
   styleUrl: './admin.component.css'
 })
 export class AdminComponent {
-    // Only allow Latin characters, numbers, spaces, dots, dashes, and underscores
-    sanitizeVehicleNameInput(value: string): string {
-      return value.replace(/[^A-Za-z0-9 ._-]/g, '');
-    }
+    previousInitialKilometers: number | null = null;
+  // Only allow Latin characters, numbers, spaces, dots, dashes, and underscores
+  sanitizeVehicleNameInput(value: string): string {
+    return value.replace(/[^A-Za-z0-9 ._-]/g, '');
+  }
 
-    onNewVehicleNameChange(value: string) {
-      this.newVehicleName = this.sanitizeVehicleNameInput(value);
-    }
+  onNewVehicleNameChange(value: string) {
+    this.newVehicleName = this.sanitizeVehicleNameInput(value);
+  }
 
-    onUpdateVehicleNameChange(value: string) {
-      this.updateVehicleName = this.sanitizeVehicleNameInput(value);
-    }
+  onUpdateVehicleNameChange(value: string) {
+    this.updateVehicleName = this.sanitizeVehicleNameInput(value);
+  }
   newVehiclePlateNumber = '';
   newVesselRegistrationNumber = '';
   updateVehiclePlateNumber = '';
@@ -134,7 +135,7 @@ export class AdminComponent {
 
   ManageSelectedUserDetails() {
     let selectedUser = this.users.find((user: Users) => user.UserId === this.userToManage)
-console.log('Selected user:', selectedUser);
+    console.log('Selected user:', selectedUser);
     this.newUserFirstName = selectedUser!.FirstName;
     this.newUserLastName = selectedUser!.LastName;
     this.newUserEmail = selectedUser!.Email;
@@ -155,7 +156,7 @@ console.log('Selected user:', selectedUser);
     }
   }
   downloadLicense(fileName: string, type: 'vehicle' | 'boat') {
-console.log(`Downloading ${type} license:`, fileName);
+    console.log(`Downloading ${type} license:`, fileName);
     this.dbFunctionService.downloadDriverLicense(this.userToManage, fileName, type).then(blob => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -290,6 +291,7 @@ console.log(`Downloading ${type} license:`, fileName);
       this.updateVehiclePlateNumber = selected.vehiclePlateNumber || '';
       this.updateVesselRegistrationNumber = selected.vesselRegistrationNumber || '';
       this.initialKilometers = selected.initialKilometers || 0;
+      this.previousInitialKilometers = selected.initialKilometers || 0;
     }
   }
 
@@ -370,9 +372,30 @@ console.log(`Downloading ${type} license:`, fileName);
         name: this.updateVehicleName.trim(),
         type: this.updateVehicleType,
         vehiclePlateNumber: this.updateVehicleType === 'vehicle' ? this.updateVehiclePlateNumber : '',
-        vesselRegistrationNumber: this.updateVehicleType === 'boat' ? this.updateVesselRegistrationNumber : ''
+        vesselRegistrationNumber: this.updateVehicleType === 'boat' ? this.updateVesselRegistrationNumber : '',
+        initialKilometers: this.initialKilometers
       };
       await this.dbFunctionService.updateVehicle(vehicleData);
+
+      // If initialKilometers changed, reset TotalKm in vehicleDetails
+      if (this.previousInitialKilometers !== null && this.initialKilometers !== this.previousInitialKilometers) {
+        // Get the latest vehicleDetails for this vehicle
+        const detailsArr = await this.dbFunctionService.getVehicleDetailsFromDb(this.vehicleToUpdate);
+        if (detailsArr && detailsArr.length > 0) {
+          const details = { ...detailsArr[0] };
+          details.TotalKm = 0;
+          // Remove vehicles property if present
+          if ('vehicles' in details) {
+            delete details.vehicles;
+          }
+            // Remove id property if present (autoincremented in DB)
+            if ('id' in details) {
+              delete details.id;
+            }
+            console.log('Initial kilometers changed, resetting TotalKm in vehicleDetails for vehicle ID', details);
+            await this.dbFunctionService.postVehicleDetailsToDb(details);
+        }
+      }
 
       if (this.updateVehiclePhotoFile) {
         await this.dbFunctionService.replaceVehiclePhoto(this.updateVehicleName.trim(), this.updateVehiclePhotoFile);

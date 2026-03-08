@@ -360,7 +360,7 @@ export class DbFunctionService {
             });
     }
 
-    updateVehicle(vehicleData: { id: number; name: string; type: string; vehiclePlateNumber?: string; vesselRegistrationNumber?: string }): Promise<any> {
+    updateVehicle(vehicleData: { id: number; name: string; type: string; vehiclePlateNumber?: string; vesselRegistrationNumber?: string, initialKilometers?: number }): Promise<any> {
         const session = this.authService.getSession();
         const bearerToken = session?.access_token || '';
         const headers = new HttpHeaders({
