@@ -203,9 +203,9 @@
 
         <div class="mb-3">
           <label for="vehiclePhoto" class="form-label">Φωτογραφια οχηματος</label>
-          <input class="form-control" type="file" accept="image/png,image/jpeg,image/webp" id="vehiclePhoto"
+          <input class="form-control" type="file" accept=".jpg,.jpeg,.png" id="vehiclePhoto"
             (change)="OnVehiclePhotoSelected($event)">
-          <small class="text-muted">Αποδεκτά αρχεία: PNG, JPEG, WebP</small>
+          <small class="text-muted">Αποδεκτά αρχεία: PDF, Word, JPG, PNG</small>
         </div>
       </div>
 
@@ -257,7 +257,7 @@
           </div>
           <div class="col-12">
             <label for="updateVehiclePhoto" class="form-label">Αντικατασταση φωτογραφιας</label>
-            <input class="form-control" type="file" accept="image/png,image/jpeg,image/webp" id="updateVehiclePhoto"
+            <input class="form-control" type="file" accept=".jpg,.jpeg,.png" id="updateVehiclePhoto"
               (change)="OnUpdateVehiclePhotoSelected($event)">
             <small class="text-muted">Αφήστε κενό για να διατηρήσετε την υπάρχουσα φωτογραφία</small>
           </div>
