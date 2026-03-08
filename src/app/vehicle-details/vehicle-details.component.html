@@ -238,7 +238,7 @@
   </div>
 
   <!-- Fuel Section -->
-  <div class="card mb-4">
+  <div *ngIf="vehicleType=='vehicle'" class="card mb-4">
     <div class="card-header d-flex align-items-center">
       <strong>Προσθήκη Καυσίμου</strong>
     </div>
@@ -251,7 +251,7 @@
             [ngClass]="{'is-invalid': invalidFields.has('fuelAdditionCost')}" required>
           <div *ngIf="invalidFields.has('fuelAdditionCost')" class="invalid-feedback">Εισάγετε έγκυρο ποσό.</div>
         </div>
-        <div *ngIf="vehicleType=='vehicle'" class="col-12 col-md-6">
+        <div class="col-12 col-md-6">
           <label for="fuelAdditionLiters" class="form-label">Λιτρα (lt)</label>
           <input type="text" class="form-control" id="fuelAdditionLiters" name="fuelAdditionLiters"
             [(ngModel)]="vehicleDetails.FuelAdditionLiters" [disabled]="!isEditEnabled"
@@ -266,6 +266,49 @@
           <input *ngIf="!isEditEnabled && !vehicleDetails.FuelAdditionDate || isEditEnabled" type="date"
             class="form-control" id="fuelAdditionDate" name="fuelAdditionDate"
             [(ngModel)]="vehicleDetails.FuelAdditionDate" [disabled]="!isEditEnabled" required>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Boat Fuel Section -->
+  <div *ngIf="vehicleType=='boat'" class="card mb-4">
+    <div class="card-header d-flex align-items-center">
+      <strong>Προσθήκη Καυσίμου-Λαδιού</strong>
+    </div>
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-12 col-md-6">
+          <label for="BoatGasAdditionLiters" class="form-label">Λιτρα Βενζινης (lt)</label>
+          <input type="text" class="form-control" id="BoatGasAdditionLiters" name="BoatGasAdditionLiters"
+            [(ngModel)]="vehicleDetails.BoatGasAdditionLiters" [disabled]="!isEditEnabled"
+            [ngClass]="{'is-invalid': invalidFields.has('BoatGasAdditionLiters')}" required>
+          <div *ngIf="invalidFields.has('BoatGasAdditionLiters')" class="invalid-feedback">Εισάγετε έγκυρο αριθμό λιτρών.
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <label for="BoatGasAdditionDate" class="form-label">Ημ/νια Συμπληρωσης Βενζινης</label>
+          <div *ngIf="!isEditEnabled && vehicleDetails.BoatGasAdditionDate" class="form-control">{{
+            vehicleDetails.BoatGasAdditionDate | date:'dd/MM/yyyy' }}</div>
+          <input *ngIf="!isEditEnabled && !vehicleDetails.BoatGasAdditionDate || isEditEnabled" type="date"
+            class="form-control" id="BoatGasAdditionDate" name="BoatGasAdditionDate"
+            [(ngModel)]="vehicleDetails.BoatGasAdditionDate" [disabled]="!isEditEnabled" required>
+        </div>
+        <div class="col-12 col-md-6">
+          <label for="BoatOilAdditionLiters" class="form-label">Λιτρα Λαδιου (lt)</label>
+          <input type="text" class="form-control" id="BoatOilAdditionLiters" name="BoatOilAdditionLiters"
+            [(ngModel)]="vehicleDetails.BoatOilAdditionLiters" [disabled]="!isEditEnabled"
+            [ngClass]="{'is-invalid': invalidFields.has('BoatOilAdditionLiters')}" required>
+          <div *ngIf="invalidFields.has('BoatOilAdditionLiters')" class="invalid-feedback">Εισάγετε έγκυρο αριθμό λιτρών.
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <label for="BoatOilAdditionDate" class="form-label">Ημ/νια Συμπληρωσης Λαδιου</label>
+          <div *ngIf="!isEditEnabled && vehicleDetails.BoatOilAdditionDate" class="form-control">{{
+            vehicleDetails.BoatOilAdditionDate | date:'dd/MM/yyyy' }}</div>
+          <input *ngIf="!isEditEnabled && !vehicleDetails.BoatOilAdditionDate || isEditEnabled" type="date"
+            class="form-control" id="BoatOilAdditionDate" name="BoatOilAdditionDate"
+            [(ngModel)]="vehicleDetails.BoatOilAdditionDate" [disabled]="!isEditEnabled" required>
         </div>
       </div>
     </div>
