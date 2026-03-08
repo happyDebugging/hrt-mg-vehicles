@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { VehicleDetails } from '../shared/models/vehicle-details.model';
 import { Vehicle } from '../shared/models/vehicle.model';
 import { DbFunctionService } from '../shared/services/db-functions.service';
+import { LogBook } from '../shared/models/logbook.model';
 
 @Component({
   selector: 'app-vehicle-details',
@@ -40,6 +41,7 @@ export class VehicleDetailsComponent {
 
   vehicleDetails: VehicleDetails = new VehicleDetails();
   vehicle: Vehicle | null = null;
+  vehicleDetailsChanges: LogBook = new LogBook();
 
   constructor(private dbFunctionService: DbFunctionService) { }
 
@@ -91,7 +93,7 @@ export class VehicleDetailsComponent {
             }
             return;
           }
-          
+
           if (data && data.length > 0) {
             console.log('Vehicle details data:', data);
             // VehicleDetails fields
@@ -181,6 +183,25 @@ export class VehicleDetailsComponent {
         (res: any) => {
           this.isSaveSuccessfull = true;
           this.saveMessage = 'Τα στοιχεία αποθηκεύτηκαν με επιτυχία!';
+          this.saveMessageType = 'success';
+
+          this.SaveVehicleDetailsChangesToLogbook();
+        },
+        err => {
+          console.log(err);
+          this.isSaveButtonClicked = false;
+          this.saveMessage = 'Σφάλμα κατά την αποθήκευση. Παρακαλώ δοκιμάστε ξανά.';
+          this.saveMessageType = 'danger';
+        }
+      );
+  }
+
+  SaveVehicleDetailsChangesToLogbook() {
+    this.dbFunctionService.postvehicleDetailsChangesToDb(this.vehicleDetailsChanges)
+      .then(
+        (res: any) => {
+          this.isSaveSuccessfull = true;
+          this.saveMessage = 'Το ιστορικό αποθηκεύτηκε με επιτυχία!';
           this.saveMessageType = 'success';
         },
         err => {

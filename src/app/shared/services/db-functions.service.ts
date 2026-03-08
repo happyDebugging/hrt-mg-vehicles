@@ -7,6 +7,7 @@ import { createClient, Session, SupabaseClient, User } from '@supabase/supabase-
 import { VehicleDetails } from '../models/vehicle-details.model';
 import { Vehicle } from '../models/vehicle.model';
 import { AuthService } from '../../auth/auth.service';
+import { LogBook } from '../models/logbook.model';
 
 @Injectable()
 export class DbFunctionService {
@@ -402,7 +403,26 @@ export class DbFunctionService {
             });
     }
 
-    
+
+    async postvehicleDetailsChangesToDb(vehicleDetailsChanges: LogBook) {
+
+        const session = this.authService.getSession();
+        const bearerToken = session?.access_token || '';
+        const headers = new HttpHeaders({
+            'Authorization': `Bearer ${bearerToken}`
+        });
+
+        const url = `${this.workerUrl}/logbook`;
+
+        return this.http
+            .post<{ data: any; error: any }>(url, vehicleDetailsChanges, { headers })
+            .toPromise()
+            .then(res => {
+                if (!res) throw new Error('No response from server');
+                if (res.error) throw new Error(res.error.message || res.error)
+                return res.data
+            })
+    }
 
 }
 
