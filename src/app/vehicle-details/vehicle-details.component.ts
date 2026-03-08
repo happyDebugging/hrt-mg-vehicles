@@ -106,7 +106,7 @@ export class VehicleDetailsComponent {
             if ((data[0].TotalKm == null || data[0].TotalKm == undefined || data[0].TotalKm == 0) && data[0].vehicles && data[0].vehicles.initialKilometers !== undefined) {
               this.vehicleDetails.TotalKm = data[0].vehicles.initialKilometers;
             } else {
-              this.vehicleDetails.TotalKm = data[0].TotalKm + data[0].FinalKmOfShift;
+              this.vehicleDetails.TotalKm = data[0].FinalKmOfShift;//data[0].TotalKm + data[0].FinalKmOfShift;
             }
             this.vehicleDetails.StartingKmOfShift = data[0].FinalKmOfShift; data[0].StartingKmOfShift;
             this.vehicleDetails.FinalKmOfShift = 0;//data[0].FinalKmOfShift;
