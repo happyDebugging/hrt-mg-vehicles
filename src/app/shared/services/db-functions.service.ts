@@ -274,14 +274,14 @@ export class DbFunctionService {
             });
     }
 
-    downloadDriverLicense(fileName: string, licenseType: 'vehicle' | 'boat'): Promise<Blob> {
+    downloadDriverLicense(userId: string, fileName: string, licenseType: 'vehicle' | 'boat'): Promise<Blob> {
         const session = this.authService.getSession();
         const bearerToken = session?.access_token || '';
         const headers = new HttpHeaders({
             'Authorization': `Bearer ${bearerToken}`
         });
 
-        const url = `${this.workerUrl}/driver-license?path=${encodeURIComponent(fileName)}&type=${licenseType}`;
+        const url = `${this.workerUrl}/driver-license?userId=${encodeURIComponent(userId)}&path=${encodeURIComponent(fileName)}&type=${licenseType}`;
 
         return this.http
             .get(url, { headers, responseType: 'blob' })

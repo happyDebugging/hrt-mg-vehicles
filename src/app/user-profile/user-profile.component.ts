@@ -125,7 +125,7 @@ export class UserProfileComponent implements OnInit {
     }
 
     try {
-      const blob = await this.dbFunctionService.downloadDriverLicense(card.licenseFileName, card.type);
+      const blob = await this.dbFunctionService.downloadDriverLicense(this.userId, card.licenseFileName, card.type);
       const filename = card.licenseFileName.split('/').pop() || 'license';
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');

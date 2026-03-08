@@ -122,7 +122,7 @@ export class AdminComponent {
 
   ManageSelectedUserDetails() {
     let selectedUser = this.users.find((user: Users) => user.UserId === this.userToManage)
-
+console.log('Selected user:', selectedUser);
     this.newUserFirstName = selectedUser!.FirstName;
     this.newUserLastName = selectedUser!.LastName;
     this.newUserEmail = selectedUser!.Email;
@@ -143,7 +143,8 @@ export class AdminComponent {
     }
   }
   downloadLicense(fileName: string, type: 'vehicle' | 'boat') {
-    this.dbFunctionService.downloadDriverLicense(fileName, type).then(blob => {
+console.log(`Downloading ${type} license:`, fileName);
+    this.dbFunctionService.downloadDriverLicense(this.userToManage, fileName, type).then(blob => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
