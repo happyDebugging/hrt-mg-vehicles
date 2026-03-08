@@ -17,8 +17,10 @@ export class VehicleDetails {
     InsuranceExpiryDate!: string;
     LastServiceDate!: string;
     LastServiceKilometers!: number;
+    LastBoatServiceHours!: number;
     NextServiceDate!: string;
     NextServiceKilometers!: number;
+    NextBoatServiceHours!: number;
     CarTiresReplacementDate!: string;
     CarExhaustExpiryDate!: string;
     FuelAdditionCost!: number;

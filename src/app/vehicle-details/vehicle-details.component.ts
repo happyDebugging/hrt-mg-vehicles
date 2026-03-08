@@ -182,7 +182,9 @@ export class VehicleDetailsComponent {
             this.vehicleDetails.InsuranceExpiryDate = data[0].InsuranceExpiryDate;
             this.vehicleDetails.LastServiceDate = data[0].LastServiceDate;
             this.vehicleDetails.LastServiceKilometers = data[0].LastServiceKilometers;
+            this.vehicleDetails.LastBoatServiceHours = data[0].LastBoatServiceHours;
             this.vehicleDetails.NextServiceDate = data[0].NextServiceDate;
+            this.vehicleDetails.NextBoatServiceHours = data[0].NextBoatServiceHours;
             this.vehicleDetails.NextServiceKilometers = data[0].NextServiceKilometers;
             this.vehicleDetails.CarTiresReplacementDate = data[0].CarTiresReplacementDate;
             this.vehicleDetails.CarExhaustExpiryDate = data[0].CarExhaustExpiryDate;

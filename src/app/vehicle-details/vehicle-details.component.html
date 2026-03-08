@@ -1,8 +1,10 @@
 <div class="content-container">
   <h2 class="section-title">{{ vehicleName }}</h2>
 
-    <!-- KTEO Expiry Alert -->
-  <div *ngIf="showKteoExpiryAlert || showInsuranceExpiryAlert || showCarExhaustExpiryAlert || showNextServiceExpiryAlert" class="alert alert-warning mb-4" role="alert">
+  <!-- KTEO Expiry Alert -->
+  <div
+    *ngIf="showKteoExpiryAlert || showInsuranceExpiryAlert || showCarExhaustExpiryAlert || showNextServiceExpiryAlert"
+    class="alert alert-warning mb-4" role="alert">
     {{ expiryDatesAlertMessage }}
   </div>
 
@@ -67,23 +69,19 @@
     <span *ngIf="vehicleDetails.LastUpdatedByName"> από {{ vehicleDetails.LastUpdatedByName }}</span>
   </div>
 
-  <!-- Details Form -->
-  <div class="card mb-4">
+  <!-- Vehicle Details Form -->
+  <div *ngIf="vehicleType=='vehicle'" class="card mb-4">
     <div class="card-header d-flex align-items-center">
       <strong>Πληροφορίες Οχήματος</strong>
     </div>
     <div class="card-body">
       <div class="row g-3">
-        <div class="col-12 col-md-6" *ngIf="vehicleType === 'vehicle' && vehicle">
+        <div class="col-12 col-md-6" *ngIf="vehicle">
           <label class="form-label">Αριθμος Πινακιδας</label>
           <input type="text" class="form-control" [value]="vehicle.vehiclePlateNumber" disabled>
         </div>
-        <div class="col-12 col-md-6" *ngIf="vehicleType === 'boat' && vehicle">
-          <label class="form-label">Αριθμος Νηολογιου</label>
-          <input type="text" class="form-control" [value]="vehicle.vesselRegistrationNumber" disabled>
-        </div>
 
-        <div *ngIf="vehicleType=='vehicle'" class="col-12 col-md-6">
+        <div class="col-12 col-md-6">
           <label for="kteoExpiryDate" class="form-label">Ληξη ΚΤΕΟ</label>
           <div *ngIf="!isEditEnabled && vehicleDetails.KteoExpiryDate" class="form-control">{{
             vehicleDetails.KteoExpiryDate | date:'dd/MM/yyyy' }}</div>
@@ -115,7 +113,8 @@
           <input type="text" class="form-control" id="lastServiceKilometers" name="lastServiceKilometers"
             [(ngModel)]="vehicleDetails.LastServiceKilometers" [disabled]="!isEditEnabled"
             [ngClass]="{'is-invalid': invalidFields.has('LastServiceKilometers')}" required>
-          <div *ngIf="invalidFields.has('LastServiceKilometers')" class="invalid-feedback">Εισάγετε έγκυρο αριθμό χιλιομέτρων.
+          <div *ngIf="invalidFields.has('LastServiceKilometers')" class="invalid-feedback">Εισάγετε έγκυρο αριθμό
+            χιλιομέτρων.
           </div>
         </div>
 
@@ -133,11 +132,12 @@
           <input type="text" class="form-control" id="nextServiceKilometers" name="nextServiceKilometers"
             [(ngModel)]="vehicleDetails.NextServiceKilometers" [disabled]="!isEditEnabled"
             [ngClass]="{'is-invalid': invalidFields.has('NextServiceKilometers')}" required>
-          <div *ngIf="invalidFields.has('NextServiceKilometers')" class="invalid-feedback">Εισάγετε έγκυρο αριθμό χιλιομέτρων.
+          <div *ngIf="invalidFields.has('NextServiceKilometers')" class="invalid-feedback">Εισάγετε έγκυρο αριθμό
+            χιλιομέτρων.
           </div>
         </div>
 
-        <div *ngIf="vehicleType=='vehicle'" class="col-12 col-md-6">
+        <div class="col-12 col-md-6">
           <label for="carTiresReplacementDate" class="form-label">Αλλαγη Ελαστικων</label>
           <div *ngIf="!isEditEnabled && vehicleDetails.CarTiresReplacementDate" class="form-control">{{
             vehicleDetails.CarTiresReplacementDate | date:'dd/MM/yyyy' }}</div>
@@ -146,7 +146,7 @@
             [(ngModel)]="vehicleDetails.CarTiresReplacementDate" [disabled]="!isEditEnabled" required>
         </div>
 
-        <div *ngIf="vehicleType=='vehicle'" class="col-12 col-md-6">
+        <div class="col-12 col-md-6">
           <label for="carExhaustExpiryDate" class="form-label">Καρτα Καυσαεριων</label>
           <div *ngIf="!isEditEnabled && vehicleDetails.CarExhaustExpiryDate" class="form-control">{{
             vehicleDetails.CarExhaustExpiryDate | date:'dd/MM/yyyy' }}</div>
@@ -154,6 +154,69 @@
             class="form-control" id="carExhaustExpiryDate" name="carExhaustExpiryDate"
             [(ngModel)]="vehicleDetails.CarExhaustExpiryDate" [disabled]="!isEditEnabled" required>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Boat Details Form -->
+  <div *ngIf="vehicleType=='boat'" class="card mb-4">
+    <div class="card-header d-flex align-items-center">
+      <strong>Πληροφορίες Σκάφους</strong>
+    </div>
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-12 col-md-6" *ngIf="vehicle">
+          <label class="form-label">Αριθμος Νηολογιου</label>
+          <input type="text" class="form-control" [value]="vehicle.vesselRegistrationNumber" disabled>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label for="insuranceExpiryDate" class="form-label">Ληξη Ασφαλειας</label>
+          <div *ngIf="!isEditEnabled && vehicleDetails.InsuranceExpiryDate" class="form-control">{{
+            vehicleDetails.InsuranceExpiryDate | date:'dd/MM/yyyy' }}</div>
+          <input *ngIf="!isEditEnabled && !vehicleDetails.InsuranceExpiryDate || isEditEnabled" type="date"
+            class="form-control" id="insuranceExpiryDate" name="insuranceExpiryDate"
+            [(ngModel)]="vehicleDetails.InsuranceExpiryDate" [disabled]="!isEditEnabled" required>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label for="lastServiceDate" class="form-label">Τελευταιο Service</label>
+          <div *ngIf="!isEditEnabled && vehicleDetails.LastServiceDate" class="form-control">{{
+            vehicleDetails.LastServiceDate | date:'dd/MM/yyyy' }}</div>
+          <input *ngIf="!isEditEnabled && !vehicleDetails.LastServiceDate || isEditEnabled" type="date"
+            class="form-control" id="lastServiceDate" name="lastServiceDate"
+            [(ngModel)]="vehicleDetails.LastServiceDate" [disabled]="!isEditEnabled" required>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label for="lastBoatServiceHours" class="form-label">Ωρες Τελευταιου Service</label>
+          <input type="text" class="form-control" id="lastBoatServiceHours" name="lastBoatServiceHours"
+            [(ngModel)]="vehicleDetails.LastBoatServiceHours" [disabled]="!isEditEnabled"
+            [ngClass]="{'is-invalid': invalidFields.has('LastBoatServiceHours')}" required>
+          <div *ngIf="invalidFields.has('LastBoatServiceHours')" class="invalid-feedback">Εισάγετε έγκυρο αριθμό
+            ωρών.
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label for="nextServiceDate" class="form-label">Επομενο Service</label>
+          <div *ngIf="!isEditEnabled && vehicleDetails.NextServiceDate" class="form-control">{{
+            vehicleDetails.NextServiceDate | date:'dd/MM/yyyy' }}</div>
+          <input *ngIf="!isEditEnabled && !vehicleDetails.NextServiceDate || isEditEnabled" type="date"
+            class="form-control" id="nextServiceDate" name="nextServiceDate"
+            [(ngModel)]="vehicleDetails.NextServiceDate" [disabled]="!isEditEnabled" required>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <label for="nextBoatServiceHours" class="form-label">Ωρες Επομενου Service</label>
+          <input type="text" class="form-control" id="nextBoatServiceHours" name="nextBoatServiceHours"
+            [(ngModel)]="vehicleDetails.NextBoatServiceHours" [disabled]="!isEditEnabled"
+            [ngClass]="{'is-invalid': invalidFields.has('NextBoatServiceHours')}" required>
+          <div *ngIf="invalidFields.has('NextBoatServiceHours')" class="invalid-feedback">Εισάγετε έγκυρο αριθμό
+            ωρών.
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -205,8 +268,8 @@
           <label for="EngineAHours" class="form-label">Ωρες μηχανης Α</label>
           <input type="text" class="form-control" id="EngineAHours" name="EngineAHours"
             [(ngModel)]="vehicleDetails.EngineAHours" [disabled]="!isEditEnabled"
-            (change)="CalculateBoatTotalOperatingHours()"
-            [ngClass]="{'is-invalid': invalidFields.has('EngineAHours')}" required>
+            (change)="CalculateBoatTotalOperatingHours()" [ngClass]="{'is-invalid': invalidFields.has('EngineAHours')}"
+            required>
           <div *ngIf="invalidFields.has('EngineAHours')" class="invalid-feedback">Εισάγετε έγκυρο αριθμό χιλιομέτρων.
           </div>
         </div>
@@ -215,15 +278,16 @@
           <label for="EngineBHours" class="form-label">Ωρες μηχανης Β</label>
           <input type="text" class="form-control" id="EngineBHours" name="EngineBHours"
             [(ngModel)]="vehicleDetails.EngineBHours" [disabled]="!isEditEnabled"
-            (change)="CalculateBoatTotalOperatingHours()"
-            [ngClass]="{'is-invalid': invalidFields.has('EngineBHours')}" required>
+            (change)="CalculateBoatTotalOperatingHours()" [ngClass]="{'is-invalid': invalidFields.has('EngineBHours')}"
+            required>
           <div *ngIf="invalidFields.has('EngineBHours')" class="invalid-feedback">Εισάγετε έγκυρο αριθμό χιλιομέτρων.
           </div>
         </div>
 
         <div class="col-12 col-md-6">
           <label for="BoatFuelLevel" class="form-label">Σταθμη καυσιμου</label>
-          <select class="form-select" id="BoatFuelLevel" name="BoatFuelLevel" [(ngModel)]="vehicleDetails.BoatFuelLevel" [disabled]="!isEditEnabled">
+          <select class="form-select" id="BoatFuelLevel" name="BoatFuelLevel" [(ngModel)]="vehicleDetails.BoatFuelLevel"
+            [disabled]="!isEditEnabled">
             <option value="4_4">4/4</option>
             <option value="3_4">3/4</option>
             <option value="2_4">2/4</option>
@@ -234,7 +298,8 @@
 
         <div class="col-12 col-md-6">
           <label for="BoatOilLevel" class="form-label">Σταθμη Λαδιου</label>
-          <select class="form-select" id="BoatOilLevel" name="BoatOilLevel" [(ngModel)]="vehicleDetails.BoatOilLevel" [disabled]="!isEditEnabled">
+          <select class="form-select" id="BoatOilLevel" name="BoatOilLevel" [(ngModel)]="vehicleDetails.BoatOilLevel"
+            [disabled]="!isEditEnabled">
             <option value="4_4">4/4</option>
             <option value="3_4">3/4</option>
             <option value="2_4">2/4</option>
@@ -253,8 +318,8 @@
           <div *ngIf="!isEditEnabled && vehicleDetails.DateOfBoatUse" class="form-control">{{
             vehicleDetails.DateOfBoatUse | date:'dd/MM/yyyy' }}</div>
           <input *ngIf="!isEditEnabled && !vehicleDetails.DateOfBoatUse || isEditEnabled" type="date"
-            class="form-control" id="DateOfBoatUse" name="DateOfBoatUse"
-            [(ngModel)]="vehicleDetails.DateOfBoatUse" [disabled]="!isEditEnabled" required>
+            class="form-control" id="DateOfBoatUse" name="DateOfBoatUse" [(ngModel)]="vehicleDetails.DateOfBoatUse"
+            [disabled]="!isEditEnabled" required>
         </div>
 
       </div>
@@ -307,7 +372,8 @@
           <input type="text" class="form-control" id="BoatGasAdditionLiters" name="BoatGasAdditionLiters"
             [(ngModel)]="vehicleDetails.BoatGasAdditionLiters" [disabled]="!isEditEnabled"
             [ngClass]="{'is-invalid': invalidFields.has('BoatGasAdditionLiters')}" required>
-          <div *ngIf="invalidFields.has('BoatGasAdditionLiters')" class="invalid-feedback">Εισάγετε έγκυρο αριθμό λιτρών.
+          <div *ngIf="invalidFields.has('BoatGasAdditionLiters')" class="invalid-feedback">Εισάγετε έγκυρο αριθμό
+            λιτρών.
           </div>
         </div>
         <div class="col-12 col-md-6">
@@ -323,7 +389,8 @@
           <input type="text" class="form-control" id="BoatOilAdditionLiters" name="BoatOilAdditionLiters"
             [(ngModel)]="vehicleDetails.BoatOilAdditionLiters" [disabled]="!isEditEnabled"
             [ngClass]="{'is-invalid': invalidFields.has('BoatOilAdditionLiters')}" required>
-          <div *ngIf="invalidFields.has('BoatOilAdditionLiters')" class="invalid-feedback">Εισάγετε έγκυρο αριθμό λιτρών.
+          <div *ngIf="invalidFields.has('BoatOilAdditionLiters')" class="invalid-feedback">Εισάγετε έγκυρο αριθμό
+            λιτρών.
           </div>
         </div>
         <div class="col-12 col-md-6">
