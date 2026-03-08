@@ -47,15 +47,15 @@ export class UserProfileComponent implements OnInit {
           grouped[type].push(v.replace(/-/g, ' '));
         }
 
-        // Build one card per type
+        // Build one card per type, using license file names from navigators table if present
         this.licenseCards = [];
         if (grouped['vehicle']) {
           this.licenseCards.push({
             type: 'vehicle',
             label: 'Δίπλωμα Οδήγησης',
             vehicleNames: grouped['vehicle'],
-            hasLicense: false,
-            licenseFileName: '',
+            hasLicense: !!profile.vehicleLicense,
+            licenseFileName: profile.vehicleLicense || '',
             selectedFile: null,
             isUploading: false,
             message: '',
@@ -66,15 +66,13 @@ export class UserProfileComponent implements OnInit {
             type: 'boat',
             label: 'Δίπλωμα Σκάφους',
             vehicleNames: grouped['boat'],
-            hasLicense: false,
-            licenseFileName: '',
+            hasLicense: !!profile.boatLicense,
+            licenseFileName: profile.boatLicense || '',
             selectedFile: null,
             isUploading: false,
             message: '',
           });
         }
-
-        this.loadAllLicenses();
       })
       .catch((error: any) => {
         console.error('Failed to load user profile:', error);
@@ -84,18 +82,7 @@ export class UserProfileComponent implements OnInit {
       });
   }
 
-  private loadAllLicenses() {
-    for (const card of this.licenseCards) {
-      this.dbFunctionService.listDriverLicenses(card.type)
-        .then((files: any[]) => {
-          if (!files || files.length === 0) return;
-          // Take the most recent file (already sorted desc by created_at)
-          card.hasLicense = true;
-          card.licenseFileName = files[0].name;
-        })
-        .catch((error: any) => console.error(`Failed to list ${card.type} licenses:`, error));
-    }
-  }
+  // No longer needed: loadAllLicenses() is removed, as license file names are now read from the navigators table.
 
   onFileSelected(event: any, card: LicenseCard) {
     const files = event.target.files;
