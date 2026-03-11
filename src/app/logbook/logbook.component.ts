@@ -216,7 +216,7 @@ export class LogbookComponent implements OnInit {
             body: [
               ['Ενημερωση', 'Οχημα', 'Οδηγος', 'Συν. Χλμ.', 'Αρχικά Χλμ.', 'Τελικά Χλμ.', 'Ημ/νια Χρησης', 'ΚΤΕΟ', 'Ασφαλεια', 'Service', 'Χλμ. Τελ. Service', 'Επομενο Service', 'Χλμ. Επομενου Service', 'Αλλαγη Ελαστικων', 'Καρτα Καυσαεριων', 'Καυσιμα(€)', 'Καυσιμα(lt)', 'Προσθηκη Καυσιμου', 'Παρατηρησεις'],
               ...this.vehicleDetails.map(item => [
-                item.LastUpdatedAt,
+                item.LastUpdatedAt ? `${formatDate(item.LastUpdatedAt, 'dd/MM/yyyy', 'en-US')} - ${formatDate(item.LastUpdatedAt, 'HH:mm', 'en-US')}` : '',
                 item.VehicleName,
                 item.LastUpdatedByName,
                 item.TotalKm,
@@ -255,7 +255,7 @@ export class LogbookComponent implements OnInit {
             body: [
               ['Ενημερωση', 'Σκαφος', 'Οδηγος', 'Ημ/νια Χρησης', 'Ωρες Μηχ. A', 'Ωρες Μηχ. B', 'Επιπεδο Καυσιμου', 'Επιπεδο Λαδιου', 'Συνολ. Ωρες Λειτουργιας', 'Προσθηκη Καυσιμου(lt)', 'Προσθηκη Καυσιμου', 'Προσθηκη Λαδιου(lt)', 'Προσθηκη Λαδιου', 'Παρατηρησεις'],
               ...this.boatDetails.map(item => [
-                item.LastUpdatedAt,
+                item.LastUpdatedAt ? `${formatDate(item.LastUpdatedAt, 'dd/MM/yyyy', 'en-US')} - ${formatDate(item.LastUpdatedAt, 'HH:mm', 'en-US')}` : '',
                 item.VehicleName,
                 item.LastUpdatedByName,
                 item.DateOfBoatUse,
