@@ -20,6 +20,7 @@
     "@angular/router": "^18.0.0",
     "@supabase/supabase-js": "^2.95.3",
     "bootstrap": "^5.3.6",
+    "pdfmake": "^0.3.6",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
