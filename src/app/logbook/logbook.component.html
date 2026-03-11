@@ -2,7 +2,7 @@
     <h2 class="section-title">Ιστορικο</h2>
 
     <div class="log-buttons-row">
-        <button type="button" class="btn btn-theme-outline btn-sm log-button" (click)="downloadHistoryLog('vehicle')">
+        <button type="button" class="btn btn-theme-outline btn-sm log-button" (click)="exportHistoryLog('vehicle')" [disabled]="!vehicleDetails || vehicleDetails.length === 0">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                 class="bi bi-filetype-pdf" viewBox="0 0 16 16">
                 <path fill-rule="evenodd"
@@ -10,7 +10,7 @@
             </svg>
             Ληψη Ιστορικου Οχηματων
         </button>
-        <button type="button" class="btn btn-theme-outline btn-sm log-button" (click)="downloadHistoryLog('boat')">
+        <button type="button" class="btn btn-theme-outline btn-sm log-button" (click)="exportHistoryLog('boat')" [disabled]="!boatDetails || boatDetails.length === 0">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                 class="bi bi-filetype-pdf" viewBox="0 0 16 16">
                 <path fill-rule="evenodd"
@@ -55,8 +55,8 @@
                                 <th>Οχημα</th>
                                 <th>Οδηγος</th>
                                 <th>Συν. Χλμ.</th>
-                                <th>Αρχικά Χλμ.</th>
-                                <th>Τελικά Χλμ.</th>
+                                <th>Αρχικα Χλμ.</th>
+                                <th>Τελικα Χλμ.</th>
                                 <th>Ημ/νια Χρησης</th>
                                 <th>ΚΤΕΟ</th>
                                 <th>Ασφαλεια</th>
