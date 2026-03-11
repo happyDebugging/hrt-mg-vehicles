@@ -1,3 +1,90 @@
+/* Pagination theme styles */
+.pagination {
+  --pagination-bg: var(--clr-white, #fff);
+  --pagination-border: var(--clr-border, #e0e0e0);
+  --pagination-active-bg: var(--clr-accent, #e3f2fd);
+  --pagination-active-color: var(--clr-dark, #222);
+  --pagination-hover-bg: var(--clr-accent-hover, #bbdefb);
+  --pagination-color: var(--clr-text, #222);
+  --pagination-radius: 0.375rem;
+  margin: 0.5rem 0 0 0;
+}
+.pagination .page-item {
+  margin: 0 0.1rem;
+}
+.pagination .page-link {
+  background: var(--pagination-bg);
+  color: var(--pagination-color);
+  border: 1px solid var(--pagination-border);
+  border-radius: var(--pagination-radius);
+  padding: 0.4rem 0.9rem;
+  font-size: 1rem;
+  transition: background 0.2s, color 0.2s;
+  cursor: pointer;
+}
+.pagination .page-link:hover,
+.pagination .page-link:focus {
+  background: var(--pagination-hover-bg);
+  color: var(--pagination-active-color);
+  outline: none;
+}
+.pagination .page-item.active .page-link {
+  background: var(--pagination-active-bg);
+  color: var(--pagination-active-color);
+  border-color: var(--clr-accent, #90caf9);
+  font-weight: 600;
+}
+.pagination .page-item.disabled .page-link {
+  background: var(--pagination-bg);
+  color: #bdbdbd;
+  cursor: not-allowed;
+  border-color: var(--pagination-border);
+}
+/* Pagination theme styles */
+
+/* Modern flat pagination theme */
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  justify-content: center;
+  margin: 0.5rem 0 0 0;
+  background: none;
+}
+.pagination .page-item {
+  margin: 0 0 0.25rem 0;
+}
+.pagination .page-link {
+  background: var(--clr-white);
+  color: var(--clr-accent);
+  border: 1.5px solid var(--clr-accent);
+  border-radius: 0.2rem;
+  padding: 0.35rem 1.1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  box-shadow: none;
+  transition: background var(--transition), color var(--transition), border-color var(--transition);
+  cursor: pointer;
+  outline: none;
+}
+.pagination .page-link:hover,
+.pagination .page-link:focus {
+  background: var(--clr-accent-hover);
+  color: var(--clr-dark);
+  border-color: var(--clr-accent-hover);
+}
+.pagination .page-item.active .page-link {
+  background: var(--clr-accent);
+  color: var(--clr-white);
+  border-color: var(--clr-accent);
+  font-weight: 700;
+}
+.pagination .page-item.disabled .page-link {
+  background: var(--clr-bg);
+  color: var(--clr-text-muted);
+  cursor: not-allowed;
+  border-color: var(--clr-border);
+}
 
 .table-responsive {
   width: 100%;
