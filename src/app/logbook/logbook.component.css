@@ -1,6 +1,45 @@
-.center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 50%;
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.vehicles-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--clr-white);
+  color: var(--clr-text);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+.vehicles-table th, .vehicles-table td {
+  padding: 0.75rem 1.1rem;
+  border-bottom: 1px solid var(--clr-border);
+  text-align: left;
+  font-size: 1rem;
+}
+.vehicles-table th {
+  background: var(--clr-accent);
+  color: var(--clr-dark);
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--clr-border);
+}
+.vehicles-table tr:nth-child(even) {
+  background: var(--clr-bg);
+}
+.vehicles-table tr:hover {
+  background: var(--clr-accent-hover);
+  transition: background var(--transition);
+}
+.loading, .error, .no-data {
+  margin: 1rem 0;
+  text-align: center;
+  color: var(--primary, #1976d2);
+}
+.error {
+  color: #d32f2f;
 }

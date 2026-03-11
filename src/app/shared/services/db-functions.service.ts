@@ -424,6 +424,25 @@ export class DbFunctionService {
             })
     }
 
+    getVehicleDetailsForLogbook(): Promise<VehicleDetails[]> {
+        const session = this.authService.getSession();
+        const bearerToken = session?.access_token || '';
+        const headers = new HttpHeaders({
+            'Authorization': `Bearer ${bearerToken}`
+        });
+
+        const url = `${this.workerUrl}/logbook`;
+
+        return this.http
+            .get<{ data: VehicleDetails[]; error: any }>(url, { headers })
+            .toPromise()
+            .then(res => {
+                if (!res) throw new Error('No response from server');
+                if (res.error) throw new Error(res.error.message || res.error);
+                return res.data;
+            });
+    }
+
 }
 
 
