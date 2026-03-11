@@ -39,100 +39,100 @@ export class LogbookComponent implements OnInit {
 
         console.log('Fetched vehicleDetails:', vehicleDetails);
         this.vehicleDetails = vehicleDetails
-        .filter((detail: any) => detail.vehicles.type == 'vehicle')
-        .map((detail: any) => ({
-          Id: detail.id,
-          VehicleType: detail.vehicles.type,
-          VehicleName: detail.vehicles.name ? detail.vehicles.name.replace(/-/g, ' ') : '',
+          .filter((detail: any) => detail.vehicles.type == 'vehicle')
+          .map((detail: any) => ({
+            Id: detail.id,
+            VehicleType: detail.vehicles.type,
+            VehicleName: detail.vehicles.name ? detail.vehicles.name.replace(/-/g, ' ') : '',
 
-          TotalKm: detail.TotalKm,
-          StartingKmOfShift: detail.StartingKmOfShift,
-          FinalKmOfShift: detail.FinalKmOfShift,
+            TotalKm: detail.TotalKm,
+            StartingKmOfShift: detail.StartingKmOfShift,
+            FinalKmOfShift: detail.FinalKmOfShift,
 
-          InitialKilometers: detail.InitialKilometers,
-          KilometersSum: detail.KilometersSum,
+            InitialKilometers: detail.InitialKilometers,
+            KilometersSum: detail.KilometersSum,
 
-          LastDrivenAt: detail.LastDrivenAt,
+            LastDrivenAt: detail.LastDrivenAt,
 
-          KteoExpiryDate: detail.KteoExpiryDate,
-          InsuranceExpiryDate: detail.InsuranceExpiryDate,
-          LastServiceDate: detail.LastServiceDate,
-          LastServiceKilometers: detail.LastServiceKilometers,
-          LastBoatServiceHours: detail.LastBoatServiceHours,
-          NextServiceDate: detail.NextServiceDate,
-          NextServiceKilometers: detail.NextServiceKilometers,
-          NextBoatServiceHours: detail.NextBoatServiceHours,
-          CarTiresReplacementDate: detail.CarTiresReplacementDate,
-          CarExhaustExpiryDate: detail.CarExhaustExpiryDate,
-          FuelAdditionCost: detail.FuelAdditionCost,
-          FuelAdditionLiters: detail.FuelAdditionLiters,
-          FuelAdditionDate: detail.FuelAdditionDate,
+            KteoExpiryDate: detail.KteoExpiryDate,
+            InsuranceExpiryDate: detail.InsuranceExpiryDate,
+            LastServiceDate: detail.LastServiceDate,
+            LastServiceKilometers: detail.LastServiceKilometers,
+            LastBoatServiceHours: detail.LastBoatServiceHours,
+            NextServiceDate: detail.NextServiceDate,
+            NextServiceKilometers: detail.NextServiceKilometers,
+            NextBoatServiceHours: detail.NextBoatServiceHours,
+            CarTiresReplacementDate: detail.CarTiresReplacementDate,
+            CarExhaustExpiryDate: detail.CarExhaustExpiryDate,
+            FuelAdditionCost: detail.FuelAdditionCost,
+            FuelAdditionLiters: detail.FuelAdditionLiters,
+            FuelAdditionDate: detail.FuelAdditionDate,
 
-          EngineAHours: detail.EngineAHours,
-          EngineBHours: detail.EngineBHours,
-          BoatFuelLevel: detail.BoatFuelLevel,
-          BoatOilLevel: detail.BoatOilLevel,
-          BoatTotalOperatingHours: detail.BoatTotalOperatingHours,
-          DateOfBoatUse: detail.DateOfBoatUse,
-          BoatGasAdditionLiters: detail.BoatGasAdditionLiters,
-          BoatGasAdditionDate: detail.BoatGasAdditionDate,
-          BoatOilAdditionLiters: detail.BoatOilAdditionLiters,
-          BoatOilAdditionDate: detail.BoatOilAdditionDate,
+            EngineAHours: detail.EngineAHours,
+            EngineBHours: detail.EngineBHours,
+            BoatFuelLevel: detail.BoatFuelLevel,
+            BoatOilLevel: detail.BoatOilLevel,
+            BoatTotalOperatingHours: detail.BoatTotalOperatingHours,
+            DateOfBoatUse: detail.DateOfBoatUse,
+            BoatGasAdditionLiters: detail.BoatGasAdditionLiters,
+            BoatGasAdditionDate: detail.BoatGasAdditionDate,
+            BoatOilAdditionLiters: detail.BoatOilAdditionLiters,
+            BoatOilAdditionDate: detail.BoatOilAdditionDate,
 
-          LastUpdatedAt: detail.LastUpdatedAt,
-          LastUpdatedBy: detail.LastUpdatedBy,
-          LastUpdatedByName: detail.LastUpdatedByName,
+            LastUpdatedAt: detail.LastUpdatedAt,
+            LastUpdatedBy: detail.LastUpdatedBy,
+            LastUpdatedByName: detail.LastUpdatedByName,
 
-          Notes: detail.Notes
-        }));
+            Notes: detail.Notes
+          }));
 
         this.boatDetails = vehicleDetails
-        .filter((detail: any) => detail.vehicles.type == 'boat')
-        .map((detail: any) => ({
-          Id: detail.id,
-          VehicleType: detail.vehicles.type,
-          VehicleName: detail.vehicles.name ? detail.vehicles.name.replace(/-/g, ' ') : '',
+          .filter((detail: any) => detail.vehicles.type == 'boat')
+          .map((detail: any) => ({
+            Id: detail.id,
+            VehicleType: detail.vehicles.type,
+            VehicleName: detail.vehicles.name ? detail.vehicles.name.replace(/-/g, ' ') : '',
 
-          TotalKm: detail.TotalKm,
-          StartingKmOfShift: detail.StartingKmOfShift,
-          FinalKmOfShift: detail.FinalKmOfShift,
+            TotalKm: detail.TotalKm,
+            StartingKmOfShift: detail.StartingKmOfShift,
+            FinalKmOfShift: detail.FinalKmOfShift,
 
-          InitialKilometers: detail.InitialKilometers,
-          KilometersSum: detail.KilometersSum,
+            InitialKilometers: detail.InitialKilometers,
+            KilometersSum: detail.KilometersSum,
 
-          LastDrivenAt: detail.LastDrivenAt,
+            LastDrivenAt: detail.LastDrivenAt,
 
-          KteoExpiryDate: detail.KteoExpiryDate,
-          InsuranceExpiryDate: detail.InsuranceExpiryDate,
-          LastServiceDate: detail.LastServiceDate,
-          LastServiceKilometers: detail.LastServiceKilometers,
-          LastBoatServiceHours: detail.LastBoatServiceHours,
-          NextServiceDate: detail.NextServiceDate,
-          NextServiceKilometers: detail.NextServiceKilometers,
-          NextBoatServiceHours: detail.NextBoatServiceHours,
-          CarTiresReplacementDate: detail.CarTiresReplacementDate,
-          CarExhaustExpiryDate: detail.CarExhaustExpiryDate,
-          FuelAdditionCost: detail.FuelAdditionCost,
-          FuelAdditionLiters: detail.FuelAdditionLiters,
-          FuelAdditionDate: detail.FuelAdditionDate,
+            KteoExpiryDate: detail.KteoExpiryDate,
+            InsuranceExpiryDate: detail.InsuranceExpiryDate,
+            LastServiceDate: detail.LastServiceDate,
+            LastServiceKilometers: detail.LastServiceKilometers,
+            LastBoatServiceHours: detail.LastBoatServiceHours,
+            NextServiceDate: detail.NextServiceDate,
+            NextServiceKilometers: detail.NextServiceKilometers,
+            NextBoatServiceHours: detail.NextBoatServiceHours,
+            CarTiresReplacementDate: detail.CarTiresReplacementDate,
+            CarExhaustExpiryDate: detail.CarExhaustExpiryDate,
+            FuelAdditionCost: detail.FuelAdditionCost,
+            FuelAdditionLiters: detail.FuelAdditionLiters,
+            FuelAdditionDate: detail.FuelAdditionDate,
 
-          EngineAHours: detail.EngineAHours,
-          EngineBHours: detail.EngineBHours,
-          BoatFuelLevel: detail.BoatFuelLevel,
-          BoatOilLevel: detail.BoatOilLevel,
-          BoatTotalOperatingHours: detail.BoatTotalOperatingHours,
-          DateOfBoatUse: detail.DateOfBoatUse,
-          BoatGasAdditionLiters: detail.BoatGasAdditionLiters,
-          BoatGasAdditionDate: detail.BoatGasAdditionDate,
-          BoatOilAdditionLiters: detail.BoatOilAdditionLiters,
-          BoatOilAdditionDate: detail.BoatOilAdditionDate,
+            EngineAHours: detail.EngineAHours,
+            EngineBHours: detail.EngineBHours,
+            BoatFuelLevel: detail.BoatFuelLevel,
+            BoatOilLevel: detail.BoatOilLevel,
+            BoatTotalOperatingHours: detail.BoatTotalOperatingHours,
+            DateOfBoatUse: detail.DateOfBoatUse,
+            BoatGasAdditionLiters: detail.BoatGasAdditionLiters,
+            BoatGasAdditionDate: detail.BoatGasAdditionDate,
+            BoatOilAdditionLiters: detail.BoatOilAdditionLiters,
+            BoatOilAdditionDate: detail.BoatOilAdditionDate,
 
-          LastUpdatedAt: detail.LastUpdatedAt,
-          LastUpdatedBy: detail.LastUpdatedBy,
-          LastUpdatedByName: detail.LastUpdatedByName,
+            LastUpdatedAt: detail.LastUpdatedAt,
+            LastUpdatedBy: detail.LastUpdatedBy,
+            LastUpdatedByName: detail.LastUpdatedByName,
 
-          Notes: detail.Notes
-        }));
+            Notes: detail.Notes
+          }));
 
         this.loading = false;
         this.page = 1; // Reset to first page on new fetch
@@ -166,6 +166,10 @@ export class LogbookComponent implements OnInit {
   }
   getBoatTotalPages() {
     return Math.ceil(this.getBoatsOnly().length / this.boatPageSize);
+  }
+
+  downloadHistoryLog(vehicleType: string) {
+
   }
 
 }

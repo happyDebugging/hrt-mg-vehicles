@@ -1,3 +1,10 @@
+/* Align log buttons right with space between */
+.log-buttons-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
 /* Pagination theme styles */
 .pagination {
   --pagination-bg: var(--clr-white, #fff);
