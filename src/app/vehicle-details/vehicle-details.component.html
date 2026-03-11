@@ -408,7 +408,8 @@
   <!-- Notes Section -->
   <div class="card mb-4">
     <div class="card-header d-flex align-items-center">
-      <strong>Σημειώσεις</strong>
+      <strong *ngIf="vehicleType=='vehicle'">Παρατηρήσεις</strong>
+      <strong *ngIf="vehicleType=='boat'">Αποστολή-Παρατηρήσεις</strong>
     </div>
     <div class="card-body">
       <textarea class="form-control" rows="5" [(ngModel)]="vehicleDetails.Notes" [disabled]="!isEditEnabled"></textarea>
