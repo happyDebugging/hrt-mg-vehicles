@@ -414,9 +414,7 @@
       <div class="row g-3">
         <div class="col-12 col-md-12">
           <label for="BoatMaintenance" class="form-label">Συντηρηση</label>
-          <div *ngIf="!isEditEnabled && vehicleDetails.BoatMaintenance" class="form-control">{{
-            vehicleDetails.BoatMaintenance }}</div>
-          <textarea *ngIf="!isEditEnabled && !vehicleDetails.BoatMaintenance || isEditEnabled" class="form-control" rows="5" [(ngModel)]="vehicleDetails.BoatMaintenance"
+          <textarea class="form-control" rows="5" [(ngModel)]="vehicleDetails.BoatMaintenance"
           [disabled]="!isEditEnabled"></textarea>
         </div>
         <div class="col-12 col-md-12">
