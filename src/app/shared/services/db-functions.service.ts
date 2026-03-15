@@ -14,7 +14,7 @@ export class DbFunctionService {
 
     private workerUrl = environment.apiUrl;
 
-    constructor(private http: HttpClient, private authService: AuthService) {}
+    constructor(private http: HttpClient, private authService: AuthService) { }
 
     async getVehicleDetailsFromDb(vehicleId?: number) {
 
@@ -80,6 +80,29 @@ export class DbFunctionService {
                 if (res.error) throw new Error(res.error.message || res.error)
                 return res.data
             })
+    }
+
+    async deleteVehicleDetailsFromDb(id: number) {
+        const session = this.authService.getSession();
+        const bearerToken = session?.access_token || '';
+        const headers = new HttpHeaders({
+            'Authorization': `Bearer ${bearerToken}`
+        });
+
+        const url = `${this.workerUrl}/vehicle-details?id=${encodeURIComponent(id.toString())}`;
+
+        return this.http
+            .delete<{ message?: string; error?: any }>(url, { headers })
+            .toPromise()
+            .then(res => {
+                if (!res) throw new Error('No response from server');
+                if (res.error) throw new Error(res.error.message || res.error);
+                return res;
+            });
+
+
+            
+
     }
 
     async uploadRegistrationCertificateToDb(vehicleId: number, vehicleName: string, file: File) {

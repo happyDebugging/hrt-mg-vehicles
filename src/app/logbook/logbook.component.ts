@@ -27,6 +27,7 @@ export class LogbookComponent implements OnInit {
   error: string | null = null;
   showVehiclesTable = true;
   showBoatsTable = true;
+  deletingVehicleId: number | null = null;
 
   // Pagination
   page = 1;
@@ -154,6 +155,23 @@ export class LogbookComponent implements OnInit {
         this.error = err.message || 'Σφάλμα κατά τη φόρτωση του ιστορικού';
         this.loading = false;
       });
+  }
+
+  async deleteVehiclesHistory(id: number, type: 'vehicle' | 'boat' = 'vehicle') {
+    this.deletingVehicleId = id;
+    console.log('Deleting history with ID:', id);
+    try {
+      await this.db.deleteVehicleDetailsFromDb(id);
+      if (type === 'vehicle') {
+        this.vehicleDetails = this.vehicleDetails.filter(v => v.Id !== id);
+      } else if (type === 'boat') {
+        this.boatDetails = this.boatDetails.filter(b => b.Id !== id);
+      }
+    } catch (err: any) {
+      this.error = err.message || 'Σφάλμα κατά τη διαγραφή.';
+    } finally {
+      this.deletingVehicleId = null;
+    }
   }
 
   getTotalPages(): number {
