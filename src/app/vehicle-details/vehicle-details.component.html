@@ -405,6 +405,45 @@
     </div>
   </div>
 
+  <!-- Boat Extra Notes Section -->
+  <div *ngIf="vehicleType=='boat'" class="card mb-4">
+    <div class="card-header d-flex align-items-center">
+      <strong>Πληροφορίες συντήρησης</strong>
+    </div>
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-12 col-md-12">
+          <label for="BoatMaintenance" class="form-label">Συντηρηση</label>
+          <div *ngIf="!isEditEnabled && vehicleDetails.BoatMaintenance" class="form-control">{{
+            vehicleDetails.BoatMaintenance }}</div>
+          <textarea *ngIf="!isEditEnabled && !vehicleDetails.BoatMaintenance || isEditEnabled" class="form-control" rows="5" [(ngModel)]="vehicleDetails.BoatMaintenance"
+          [disabled]="!isEditEnabled"></textarea>
+        </div>
+        <div class="col-12 col-md-12">
+          <label for="BoatBatteries" class="form-label">Μπαταρια</label>
+          <select class="form-select" id="BoatBatteries" name="BoatBatteries" [(ngModel)]="vehicleDetails.BoatBatteries"
+            [disabled]="!isEditEnabled">
+            <option value="1">1</option>
+            <option value="2">2</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- Boat Crew Section -->
+  <div *ngIf="vehicleType=='boat'" class="card mb-4">
+    <div class="card-header d-flex align-items-center">
+      <strong>Πλήρωμα</strong>
+    </div>
+    <div class="card-body">
+      <div class="row g-3">
+        <textarea class="form-control" rows="5" [(ngModel)]="vehicleDetails.BoatCrew"
+          [disabled]="!isEditEnabled"></textarea>
+      </div>
+    </div>
+  </div>
+
   <!-- Notes Section -->
   <div class="card mb-4">
     <div class="card-header d-flex align-items-center">

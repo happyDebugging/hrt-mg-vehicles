@@ -140,6 +140,9 @@ export class LogbookComponent implements OnInit {
             BoatGasAdditionDate: detail.BoatGasAdditionDate,
             BoatOilAdditionLiters: detail.BoatOilAdditionLiters,
             BoatOilAdditionDate: detail.BoatOilAdditionDate,
+            BoatMaintenance: detail.BoatMaintenance,
+            BoatBatteries: detail.BoatBatteries,
+            BoatCrew: detail.BoatCrew,
 
             LastUpdatedAt: detail.LastUpdatedAt,
             LastUpdatedBy: detail.LastUpdatedBy,

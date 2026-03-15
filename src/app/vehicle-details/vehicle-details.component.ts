@@ -201,6 +201,9 @@ export class VehicleDetailsComponent {
             this.vehicleDetails.BoatGasAdditionDate = data[0].BoatGasAdditionDate;
             this.vehicleDetails.BoatOilAdditionLiters = data[0].BoatOilAdditionLiters;
             this.vehicleDetails.BoatOilAdditionDate = data[0].BoatOilAdditionDate;
+            this.vehicleDetails.BoatMaintenance = data[0].BoatMaintenance;
+            this.vehicleDetails.BoatBatteries = data[0].BoatBatteries;
+            this.vehicleDetails.BoatCrew = data[0].BoatCrew;
             this.vehicleDetails.LastUpdatedAt = data[0].LastUpdatedAt;
             this.vehicleDetails.LastUpdatedBy = data[0].LastUpdatedBy;
             this.vehicleDetails.LastUpdatedByName = data[0].LastUpdatedByName;

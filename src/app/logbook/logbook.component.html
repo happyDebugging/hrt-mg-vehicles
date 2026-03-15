@@ -178,6 +178,9 @@
                                 <th>Προσθηκη Καυσιμου</th>
                                 <th>Προσθηκη Λαδιου(lt)</th>
                                 <th>Προσθηκη Λαδιου</th>
+                                <th>Συντηρηση</th>
+                                <th>Μπαταρια</th>
+                                <th>Πληρωμα</th>
                                 <th>Παρατηρησεις</th>
                                 <th>Διαγραφη</th>
                             </tr>
@@ -202,6 +205,9 @@
                                 <td>{{ boatDetail.BoatGasAdditionDate | date:'dd/MM/yyyy' }}</td>
                                 <td>{{ boatDetail.BoatOilAdditionLiters }}</td>
                                 <td>{{ boatDetail.BoatOilAdditionDate | date:'dd/MM/yyyy' }}</td>
+                                <td>{{ boatDetail.BoatMaintenance }}</td>
+                                <td>{{ boatDetail.BoatBatteries }}</td>
+                                <td>{{ boatDetail.BoatCrew }}</td>
                                 <td>{{ boatDetail.Notes }}</td>
                                 <td>
                                     <button class="btn btn-theme-outline btn-sm log-button" (click)="deleteVehiclesHistory(boatDetail.Id, 'boat')"
