@@ -300,4 +300,95 @@ export class LogbookComponent implements OnInit {
     pdfMake.createPdf(docDefinition).download('vehicle_log' + '_' + formatDate(Date.now(), 'ddMMyy_hhmmss', 'en_US') + '.pdf');
   }
 
+  printVehicleLineHistory(id: number, vehicleType: string) {
+    const docDefinition: any = {
+      pageSize: 'A4',
+      header: function (currentPage: number, pageCount: number) {
+        return [
+          { text: 'Ιστορικό Οχημάτων ΕΟΔ Μαγνησίας', alignment: 'right', fontSize: 8, color: 'grey', margin: [380, 10, 40, 0] } // Right side text
+        ];
+      },
+      footer: function (currentPage: number, pageCount: number) {
+        return {
+          text: `Σελίδα ${currentPage}/${pageCount}`,
+          alignment: 'center',
+          fontSize: 10,
+          color: 'grey',
+          margin: [0, 10, 0, 0]
+        };
+      }
+    };
+
+    if (vehicleType === 'vehicle') {
+      docDefinition.content = [
+        { text: 'Ιστορικό Οχήματος', style: 'header', fontSize: 15, color: '#154c79', bold: true },
+        { text: ' ', style: 'header' },
+        { text: ' ', style: 'header' },
+        { text: ' ', style: 'header' },
+        ...this.vehicleDetails.filter(item => item.Id === id).map(item => ({
+          layout: 'lightHorizontalLines',
+          fontSize: 11,
+          table: {
+            widths: ['auto', '*'],
+            body: [
+              [{ text: 'Τελευταία Ενημέρωση:', bold: true }, item.LastUpdatedAt ? `${formatDate(item.LastUpdatedAt, 'dd/MM/yyyy', 'en-US')} - ${formatDate(item.LastUpdatedAt, 'HH:mm', 'en-US')}` : ''],
+              [{ text: 'Όχημα:', bold: true }, item.VehicleName],
+              [{ text: 'Οδηγός:', bold: true }, item.LastUpdatedByName],
+              [{ text: 'Συνολικά Χλμ.:', bold: true }, item.TotalKm],
+              [{ text: 'Αρχικά Χλμ.:', bold: true }, item.StartingKmOfShift],
+              [{ text: 'Τελικά Χλμ.:', bold: true }, item.FinalKmOfShift],
+              [{ text: 'Ημ/νια Χρήσης:', bold: true }, item.LastDrivenAt ? `${formatDate(item.LastDrivenAt, 'dd/MM/yyyy', 'en-US')}` : ''],
+              [{ text: 'Λήξη ΚΤΕΟ:', bold: true }, item.KteoExpiryDate ? `${formatDate(item.KteoExpiryDate, 'dd/MM/yyyy', 'en-US')}` : ''],
+              [{ text: 'Λήξη Ασφάλειας:', bold: true }, item.InsuranceExpiryDate ? `${formatDate(item.InsuranceExpiryDate, 'dd/MM/yyyy', 'en-US')}` : ''],
+              [{ text: 'Service:', bold: true }, item.LastServiceDate ? `${formatDate(item.LastServiceDate, 'dd/MM/yyyy', 'en-US')}` : ''],
+              [{ text: 'Χλμ. Τελευταίου Service:', bold: true }, item.LastServiceKilometers],
+              [{ text: 'Επόμενο Service:', bold: true }, item.NextServiceDate ? `${formatDate(item.NextServiceDate, 'dd/MM/yyyy', 'en-US')}` : ''],
+              [{ text: 'Χλμ. Επόμενου Service:', bold: true }, item.NextServiceKilometers],
+              [{ text: 'Αλλαγή Ελαστικών:', bold: true }, item.CarTiresReplacementDate ? `${formatDate(item.CarTiresReplacementDate, 'dd/MM/yyyy', 'en-US')}` : ''],
+              [{ text: 'Κάρτα Καυσαερίων:', bold: true }, item.CarExhaustExpiryDate ? `${formatDate(item.CarExhaustExpiryDate, 'dd/MM/yyyy', 'en-US')}` : ''],
+              [{ text: 'Καύσιμα (€):', bold: true }, item.FuelAdditionCost],
+              [{ text: 'Καύσιμα (lt):', bold: true }, item.FuelAdditionLiters],
+              [{ text: 'Προσθήκη Καυσίμου:', bold: true }, item.FuelAdditionDate ? `${formatDate(item.FuelAdditionDate, 'dd/MM/yyyy', 'en-US')}` : ''],
+              [{ text: 'Παρατηρήσεις:', bold: true }, item.Notes]
+            ]
+          }
+        }))
+      ];
+    } else if (vehicleType === 'boat') {
+      docDefinition.content = [
+        { text: 'Ιστορικό Σκάφους', style: 'header', fontSize: 15, color: '#154c79', bold: true },
+        { text: ' ', style: 'header' },
+        { text: ' ', style: 'header' },
+        { text: ' ', style: 'header' },
+        ...this.boatDetails.filter(item => item.Id === id).map(item => ({
+          layout: 'lightHorizontalLines', // optional
+          fontSize: 11,
+          table: {
+            widths: ['auto', '*'],
+            body: [
+              [{ text: 'Τελευταία Ενημέρωση:', bold: true }, item.LastUpdatedAt ? `${formatDate(item.LastUpdatedAt, 'dd/MM/yyyy', 'en-US')} - ${formatDate(item.LastUpdatedAt, 'HH:mm', 'en-US')}` : ''],
+              [{ text: 'Σκάφος:', bold: true }, item.VehicleName],
+              [{ text: 'Οδηγός:', bold: true }, item.LastUpdatedByName],
+              [{ text: 'Ημερομηνία Χρήσης:', bold: true }, item.DateOfBoatUse ? `${formatDate(item.DateOfBoatUse, 'dd/MM/yyyy', 'en-US')}` : ''],
+              [{ text: 'Ώρες Κινητήρα A:', bold: true }, item.EngineAHours],
+              [{ text: 'Ώρες Κινητήρα B:', bold: true }, item.EngineBHours],
+              [{ text: 'Επίπεδο Καυσίμου:', bold: true }, item.BoatFuelLevel],
+              [{ text: 'Επίπεδο Λαδιού:', bold: true }, item.BoatOilLevel],
+              [{ text: 'Συνολικές Ώρες Λειτουργίας:', bold: true }, item.BoatTotalOperatingHours],
+              [{ text: 'Προσθήκη Καυσίμου (lt):', bold: true }, item.BoatGasAdditionLiters],
+              [{ text: 'Ημερομηνία Προσθήκης Καυσίμου:', bold: true }, item.BoatGasAdditionDate ? `${formatDate(item.BoatGasAdditionDate, 'dd/MM/yyyy', 'en-US')}` : ''],
+              [{ text: 'Προσθήκη Λαδιού (lt):', bold: true }, item.BoatOilAdditionLiters],
+              [{ text: 'Ημερομηνία Προσθήκης Λαδιού:', bold: true }, item.BoatOilAdditionDate ? `${formatDate(item.BoatOilAdditionDate, 'dd/MM/yyyy', 'en-US')}` : ''],
+              [{ text: 'Παρατηρήσεις-Αποστολή:', bold: true }, item.Notes]
+            ]
+          }
+        }))
+      ];
+
+    }
+
+    pdfMake.createPdf(docDefinition).download('vehicle_log' + '_' + formatDate(Date.now(), 'ddMMyy_hhmmss', 'en_US') + '.pdf');
+
+  }
+
 }
