@@ -69,7 +69,7 @@
         <label [for]="'file_' + card.type" class="form-label">Ανεβασμα Διπλωματος</label>
         <input class="form-control form-control-sm" type="file" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
           [id]="'file_' + card.type" (change)="onFileSelected($event, card)" [disabled]="card.isUploading">
-        <small class="text-muted">PDF, Word, JPG, PNG</small>
+        <small class="text-muted">Αποδεκτά αρχεία: PDF, Word, JPG, PNG</small>
       </div>
 
       <div *ngIf="card.selectedFile" class="d-grid mb-2">

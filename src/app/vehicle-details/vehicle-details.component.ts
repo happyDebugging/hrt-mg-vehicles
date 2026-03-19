@@ -102,7 +102,7 @@ export class VehicleDetailsComponent {
       if (diffDays <= 15) {
         this.showCarExhaustExpiryAlert = true;
         if (this.expiryDatesToShowInAlert != '') { this.expiryDatesToShowInAlert = this.expiryDatesToShowInAlert + `, `; }
-        this.expiryDatesToShowInAlert = this.expiryDatesToShowInAlert + `Καυσαερίων`;
+        this.expiryDatesToShowInAlert = this.expiryDatesToShowInAlert + `Κάρτας Καυσαερίων`;
       }
     }
   }
