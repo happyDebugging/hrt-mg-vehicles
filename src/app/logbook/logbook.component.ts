@@ -22,6 +22,10 @@ import type { TDocumentDefinition } from 'pdfmake/interfaces';
 })
 export class LogbookComponent implements OnInit {
   vehicleDetails: VehicleDetails[] = [];
+  selectedVehicleDetail: VehicleDetails | null = null;
+  selectedBoatDetail: VehicleDetails | null = null;
+  editMode: boolean = false;
+
   boatDetails: VehicleDetails[] = [];
   loading = false;
   error: string | null = null;
@@ -200,6 +204,43 @@ export class LogbookComponent implements OnInit {
   }
   getBoatTotalPages() {
     return Math.ceil(this.getBoatsOnly().length / this.boatPageSize);
+  }
+
+  editVehicleLineHistory(id: number, type: 'vehicle' | 'boat') {
+    if (type === 'vehicle') {
+      const detail = this.vehicleDetails.find(v => v.Id === id);
+      if (detail) {
+        this.selectedVehicleDetail = { ...detail };
+        this.selectedBoatDetail = null;
+        this.editMode = true;
+      }
+    } else if (type === 'boat') {
+      const detail = this.boatDetails.find(b => b.Id === id);
+      if (detail) {
+        this.selectedBoatDetail = { ...detail };
+        this.selectedVehicleDetail = null;
+        this.editMode = true;
+      }
+    }
+  }
+
+  saveVehicleLineHistory() {
+    if (this.selectedVehicleDetail) {
+      // Find index
+      const idx = this.vehicleDetails.findIndex(v => v.Id === this.selectedVehicleDetail!.Id);
+      if (idx !== -1) {
+        this.vehicleDetails[idx] = { ...this.selectedVehicleDetail };
+        this.editMode = false;
+        this.selectedVehicleDetail = null;
+      }
+      // TODO: Persist changes to backend if needed
+    }
+  }
+
+  cancelEditVehicleLineHistory() {
+    this.editMode = false;
+    this.selectedVehicleDetail = null;
+    this.selectedBoatDetail = null;
   }
 
   exportHistoryLog(vehicleType: string) {
