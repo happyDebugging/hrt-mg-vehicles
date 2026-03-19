@@ -271,10 +271,10 @@ export class LogbookComponent implements OnInit {
           fontSize: 8,
           table: {
             headerRows: 1,
-            widths: [40, 40, 40, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 50],
+            widths: [30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30],
             fontSize: 8,
             body: [
-              ['Ενημερωση', 'Σκαφος', 'Οδηγος', 'Ημ/νια Χρησης', 'Ωρες Μηχ. A', 'Ωρες Μηχ. B', 'Επιπεδο Καυσιμου', 'Επιπεδο Λαδιου', 'Συνολ. Ωρες Λειτουργιας', 'Προσθηκη Καυσιμου(lt)', 'Προσθηκη Καυσιμου', 'Προσθηκη Λαδιου(lt)', 'Προσθηκη Λαδιου', 'Παρατηρησεις'],
+              ['Ενημερωση', 'Σκαφος', 'Οδηγος', 'Ημ/νια Χρησης', 'Ωρες Μηχ. A', 'Ωρες Μηχ. B', 'Επιπεδο Καυσιμου', 'Επιπεδο Λαδιου', 'Συνολ. Ωρες Λειτουργιας', 'Προσθηκη Καυσιμου(lt)', 'Προσθηκη Καυσιμου', 'Προσθηκη Λαδιου(lt)', 'Προσθηκη Λαδιου', 'Συντηρηση', 'Μπαταρια', 'Πληρωμα', 'Παρατηρησεις'],
               ...this.boatDetails.map(item => [
                 item.LastUpdatedAt ? `${formatDate(item.LastUpdatedAt, 'dd/MM/yyyy', 'en-US')} - ${formatDate(item.LastUpdatedAt, 'HH:mm', 'en-US')}` : '',
                 item.VehicleName,
@@ -289,6 +289,9 @@ export class LogbookComponent implements OnInit {
                 item.BoatGasAdditionDate,
                 item.BoatOilAdditionLiters,
                 item.BoatOilAdditionDate,
+                item.BoatMaintenance,
+                item.BoatBatteries,
+                item.BoatCrew,
                 item.Notes
               ])
             ]
@@ -379,6 +382,9 @@ export class LogbookComponent implements OnInit {
               [{ text: 'Ημερομηνία Προσθήκης Καυσίμου:', bold: true }, item.BoatGasAdditionDate ? `${formatDate(item.BoatGasAdditionDate, 'dd/MM/yyyy', 'en-US')}` : ''],
               [{ text: 'Προσθήκη Λαδιού (lt):', bold: true }, item.BoatOilAdditionLiters],
               [{ text: 'Ημερομηνία Προσθήκης Λαδιού:', bold: true }, item.BoatOilAdditionDate ? `${formatDate(item.BoatOilAdditionDate, 'dd/MM/yyyy', 'en-US')}` : ''],
+              [{ text: 'Συντήρηση:', bold: true }, item.BoatMaintenance],
+              [{ text: 'Μπαταρία:', bold: true }, item.BoatBatteries],
+              [{ text: 'Πλήρωμα:', bold: true }, item.BoatCrew],
               [{ text: 'Παρατηρήσεις-Αποστολή:', bold: true }, item.Notes]
             ]
           }
