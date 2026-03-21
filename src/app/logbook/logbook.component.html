@@ -202,19 +202,19 @@
                                         <div class="col-md-4">
                                             <label>Ημ/νια Χρήσης</label>
                                             <input class="form-control" [(ngModel)]="selectedVehicleDetail.LastDrivenAt"
-                                                name="LastDrivenAt" />
+                                                name="LastDrivenAt" type="date" />
                                         </div>
                                         <div class="col-md-4">
                                             <label>ΚΤΕΟ</label>
                                             <input class="form-control"
-                                                [(ngModel)]="selectedVehicleDetail.KteoExpiryDate"
-                                                name="KteoExpiryDate" />
+                                                [(ngModel)]="selectedVehicleDetail.KteoExpiryDate" name="KteoExpiryDate"
+                                                type="date" />
                                         </div>
                                         <div class="col-md-4">
                                             <label>Ασφάλεια</label>
                                             <input class="form-control"
                                                 [(ngModel)]="selectedVehicleDetail.InsuranceExpiryDate"
-                                                name="InsuranceExpiryDate" />
+                                                name="InsuranceExpiryDate" type="date" />
                                         </div>
                                     </div>
                                     <div class="row mb-2">
@@ -222,7 +222,7 @@
                                             <label>Service</label>
                                             <input class="form-control"
                                                 [(ngModel)]="selectedVehicleDetail.LastServiceDate"
-                                                name="LastServiceDate" />
+                                                name="LastServiceDate" type="date" />
                                         </div>
                                         <div class="col-md-4">
                                             <label>Χλμ. Τελ. Service</label>
@@ -234,7 +234,7 @@
                                             <label>Επόμενο Service</label>
                                             <input class="form-control"
                                                 [(ngModel)]="selectedVehicleDetail.NextServiceDate"
-                                                name="NextServiceDate" />
+                                                name="NextServiceDate" type="date" />
                                         </div>
                                     </div>
                                     <div class="row mb-2">
@@ -248,13 +248,13 @@
                                             <label>Αλλαγή Ελαστικών</label>
                                             <input class="form-control"
                                                 [(ngModel)]="selectedVehicleDetail.CarTiresReplacementDate"
-                                                name="CarTiresReplacementDate" />
+                                                name="CarTiresReplacementDate" type="date" />
                                         </div>
                                         <div class="col-md-4">
                                             <label>Κάρτα Καυσαερίων</label>
                                             <input class="form-control"
                                                 [(ngModel)]="selectedVehicleDetail.CarExhaustExpiryDate"
-                                                name="CarExhaustExpiryDate" />
+                                                name="CarExhaustExpiryDate" type="date" />
                                         </div>
                                     </div>
                                     <div class="row mb-2">
@@ -274,7 +274,7 @@
                                             <label>Προσθήκη Καυσίμου</label>
                                             <input class="form-control"
                                                 [(ngModel)]="selectedVehicleDetail.FuelAdditionDate"
-                                                name="FuelAdditionDate" />
+                                                name="FuelAdditionDate" type="date" />
                                         </div>
                                     </div>
                                     <div class="row mb-2">
@@ -470,7 +470,7 @@
                                         <div class="col-md-6">
                                             <label>Ημ/νια Χρήσης</label>
                                             <input class="form-control" [(ngModel)]="selectedBoatDetail.DateOfBoatUse"
-                                                name="DateOfBoatUse" />
+                                                name="DateOfBoatUse" type="date" />
                                         </div>
                                         <div class="col-md-3">
                                             <label>Ωρες Μηχ. A</label>
@@ -484,61 +484,78 @@
                                         </div>
                                     </div>
                                     <div class="row mb-2">
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             <label>Επίπεδο Καυσίμου</label>
-                                            <input class="form-control" [(ngModel)]="selectedBoatDetail.BoatFuelLevel"
-                                                name="BoatFuelLevel" />
+                                            <select class="form-select" id="BoatFuelLevel" name="BoatFuelLevel"
+                                                [(ngModel)]="selectedBoatDetail.BoatFuelLevel">
+                                                <option value="4_4">4/4</option>
+                                                <option value="3_4">3/4</option>
+                                                <option value="2_4">2/4</option>
+                                                <option value="1_4">1/4</option>
+                                                <option value="low">LOW</option>
+                                            </select>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             <label>Επίπεδο Λαδιού</label>
-                                            <input class="form-control" [(ngModel)]="selectedBoatDetail.BoatOilLevel"
-                                                name="BoatOilLevel" />
+                                            <select class="form-select" id="BoatOilLevel" name="BoatOilLevel"
+                                                [(ngModel)]="selectedBoatDetail.BoatOilLevel">
+                                                <option value="4_4">4/4</option>
+                                                <option value="3_4">3/4</option>
+                                                <option value="2_4">2/4</option>
+                                                <option value="1_4">1/4</option>
+                                                <option value="low">LOW</option>
+                                            </select>
                                         </div>
-                                        <div class="col-md-4">
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col-md-6">
                                             <label>Συνολ. Ωρες Λειτουργίας</label>
                                             <input class="form-control"
                                                 [(ngModel)]="selectedBoatDetail.BoatTotalOperatingHours"
                                                 name="BoatTotalOperatingHours" type="number" />
                                         </div>
-                                    </div>
-                                    <div class="row mb-2">
                                         <div class="col-md-6">
                                             <label>Προσθήκη Καυσίμου (lt)</label>
                                             <input class="form-control"
                                                 [(ngModel)]="selectedBoatDetail.BoatGasAdditionLiters"
                                                 name="BoatGasAdditionLiters" type="number" />
                                         </div>
+                                    </div>
+                                    <div class="row mb-2">
                                         <div class="col-md-6">
                                             <label>Προσθήκη Καυσίμου</label>
                                             <input class="form-control"
                                                 [(ngModel)]="selectedBoatDetail.BoatGasAdditionDate"
-                                                name="BoatGasAdditionDate" />
+                                                name="BoatGasAdditionDate" type="date" />
                                         </div>
-                                    </div>
-                                    <div class="row mb-2">
                                         <div class="col-md-6">
                                             <label>Προσθήκη Λαδιού (lt)</label>
                                             <input class="form-control"
                                                 [(ngModel)]="selectedBoatDetail.BoatOilAdditionLiters"
                                                 name="BoatOilAdditionLiters" type="number" />
                                         </div>
+                                    </div>
+                                    <div class="row mb-2">
                                         <div class="col-md-6">
                                             <label>Προσθήκη Λαδιού</label>
                                             <input class="form-control"
                                                 [(ngModel)]="selectedBoatDetail.BoatOilAdditionDate"
-                                                name="BoatOilAdditionDate" />
-                                        </div>
-                                    </div>
-                                    <div class="row mb-2">
-                                        <div class="col-md-6">
-                                            <label>Συντήρηση</label>
-                                            <input class="form-control" [(ngModel)]="selectedBoatDetail.BoatMaintenance"
-                                                name="BoatMaintenance" />
+                                                name="BoatOilAdditionDate" type="date" />
                                         </div>
                                         <div class="col-md-6">
                                             <label>Μπαταρία</label>
-                                            <input class="form-control" [(ngModel)]="selectedBoatDetail.BoatBatteries"
-                                                name="BoatBatteries" />
+                                            <select class="form-select" id="BoatBatteries" name="BoatBatteries"
+                                                [(ngModel)]="selectedBoatDetail.BoatBatteries">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-2">
+                                        <div class="col-md-12">
+                                            <label>Συντήρηση</label>
+                                            <textarea class="form-control" [(ngModel)]="selectedBoatDetail.BoatMaintenance"
+                                                name="BoatMaintenance"></textarea>
                                         </div>
                                     </div>
                                     <div class="row mb-2">
