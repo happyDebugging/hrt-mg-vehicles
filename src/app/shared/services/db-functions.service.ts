@@ -82,6 +82,30 @@ export class DbFunctionService {
             })
     }
 
+    async updateVehicleDetailsInDb(vehicleDetails: VehicleDetails) {
+        const session = this.authService.getSession();
+        const bearerToken = session?.access_token || '';
+        const headers = new HttpHeaders({
+            'Authorization': `Bearer ${bearerToken}`,
+            'Content-Type': 'application/json'
+        });
+
+        const vehiclePayload = { ...vehicleDetails, id: vehicleDetails.Id };
+        delete (vehiclePayload as any).Id;
+
+        const url = `${this.workerUrl}/vehicle-details?id=${encodeURIComponent(vehiclePayload.id.toString())}`;
+
+        console.log('Updating vehicle details with data:', vehiclePayload);
+        return this.http
+            .patch<{ data: any; error: any }>(url, vehiclePayload, { headers })
+            .toPromise()
+            .then(res => {
+                if (!res) throw new Error('No response from server');
+                if (res.error) throw new Error(res.error.message || res.error);
+                return res.data;
+            });
+    }
+
     async deleteVehicleDetailsFromDb(id: number) {
         const session = this.authService.getSession();
         const bearerToken = session?.access_token || '';
@@ -101,7 +125,7 @@ export class DbFunctionService {
             });
 
 
-            
+
 
     }
 

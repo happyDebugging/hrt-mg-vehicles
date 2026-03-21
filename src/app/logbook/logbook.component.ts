@@ -21,6 +21,10 @@ import type { TDocumentDefinition } from 'pdfmake/interfaces';
   styleUrl: './logbook.component.css'
 })
 export class LogbookComponent implements OnInit {
+  // Track which boat row was just updated for UI feedback
+  lastUpdatedBoatId: number | null = null;
+  // Track which vehicle row was just updated for UI feedback
+  lastUpdatedVehicleId: number | null = null;
   vehicleDetails: VehicleDetails[] = [];
   selectedVehicleDetail: VehicleDetails | null = null;
   selectedBoatDetail: VehicleDetails | null = null;
@@ -62,13 +66,11 @@ export class LogbookComponent implements OnInit {
             Id: detail.id,
             VehicleType: detail.vehicles.type,
             VehicleName: detail.vehicles.name ? detail.vehicles.name.replace(/-/g, ' ') : '',
+            VehicleId: detail.VehicleId,
 
             TotalKm: detail.TotalKm,
             StartingKmOfShift: detail.StartingKmOfShift,
             FinalKmOfShift: detail.FinalKmOfShift,
-
-            InitialKilometers: detail.InitialKilometers,
-            KilometersSum: detail.KilometersSum,
 
             LastDrivenAt: detail.LastDrivenAt,
 
@@ -110,13 +112,11 @@ export class LogbookComponent implements OnInit {
             Id: detail.id,
             VehicleType: detail.vehicles.type,
             VehicleName: detail.vehicles.name ? detail.vehicles.name.replace(/-/g, ' ') : '',
+            VehicleId: detail.VehicleId,
 
             TotalKm: detail.TotalKm,
             StartingKmOfShift: detail.StartingKmOfShift,
             FinalKmOfShift: detail.FinalKmOfShift,
-
-            InitialKilometers: detail.InitialKilometers,
-            KilometersSum: detail.KilometersSum,
 
             LastDrivenAt: detail.LastDrivenAt,
 
@@ -226,15 +226,55 @@ export class LogbookComponent implements OnInit {
 
   saveVehicleLineHistory() {
     if (this.selectedVehicleDetail) {
-      // Find index
-      const idx = this.vehicleDetails.findIndex(v => v.Id === this.selectedVehicleDetail!.Id);
-      if (idx !== -1) {
-        this.vehicleDetails[idx] = { ...this.selectedVehicleDetail };
-        this.editMode = false;
-        this.selectedVehicleDetail = null;
-      }
-      // TODO: Persist changes to backend if needed
+      const vehiclePayload = { ...this.selectedVehicleDetail };
+      vehiclePayload.VehicleId = this.selectedVehicleDetail.VehicleId;
+
+      delete (vehiclePayload as any).VehicleType;
+      delete (vehiclePayload as any).VehicleName;
+
+      this.db.updateVehicleDetailsInDb(vehiclePayload)
+        .then(() => {
+          const idx = this.vehicleDetails.findIndex(v => v.Id === this.selectedVehicleDetail!.Id);
+          if (idx !== -1 && this.selectedVehicleDetail) {
+            this.vehicleDetails[idx] = Object.assign(new VehicleDetails(), this.selectedVehicleDetail, { Id: this.selectedVehicleDetail.Id });
+          }
+          // Set feedback state for updated row
+          this.lastUpdatedVehicleId = this.selectedVehicleDetail?.Id || null;
+          setTimeout(() => {
+            this.lastUpdatedVehicleId = null;
+          }, 4000);
+          this.editMode = false;
+          this.selectedVehicleDetail = null;
+        })
+        .catch(err => {
+          this.error = err.message || 'Σφάλμα κατά την αποθήκευση.';
+        });
+    } else if (this.selectedBoatDetail) {
+      const boatPayload = { ...this.selectedBoatDetail };
+      boatPayload.VehicleId = this.selectedBoatDetail.VehicleId;
+
+      delete (boatPayload as any).VehicleType;
+      delete (boatPayload as any).VehicleName;
+
+      this.db.updateVehicleDetailsInDb(boatPayload)
+        .then(() => {
+          const idx = this.boatDetails.findIndex(b => b.Id === this.selectedBoatDetail!.Id);
+          if (idx !== -1 && this.selectedBoatDetail) {
+            this.boatDetails[idx] = Object.assign(new VehicleDetails(), this.selectedBoatDetail, { Id: this.selectedBoatDetail.Id });
+          }
+          // Set feedback state for updated boat row
+          this.lastUpdatedBoatId = this.selectedBoatDetail?.Id || null;
+          setTimeout(() => {
+            this.lastUpdatedBoatId = null;
+          }, 4000);
+          this.editMode = false;
+          this.selectedBoatDetail = null;
+        })
+        .catch(err => {
+          this.error = err.message || 'Σφάλμα κατά την αποθήκευση.';
+        });
     }
+
   }
 
   cancelEditVehicleLineHistory() {
