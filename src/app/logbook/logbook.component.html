@@ -171,121 +171,121 @@
                             </div>
                             <div class="modal-body">
                                 <form (ngSubmit)="saveVehicleLineHistory()">
-                                    <div class="row mb-2">
-                                        <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12 mb-2">
                                             <label>Οδηγός</label>
                                             <input class="form-control"
                                                 [(ngModel)]="selectedVehicleDetail.LastUpdatedByName"
                                                 name="LastUpdatedByName" />
                                         </div>
                                     </div>
-                                    <div class="row mb-2">
-                                        <div class="col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-4 mb-2">
                                             <label>Συνολικά Χλμ.</label>
                                             <input class="form-control" [(ngModel)]="selectedVehicleDetail.TotalKm"
                                                 name="TotalKm" type="number" />
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 mb-2">
                                             <label>Αρχικά Χλμ.</label>
                                             <input class="form-control"
                                                 [(ngModel)]="selectedVehicleDetail.StartingKmOfShift"
                                                 name="StartingKmOfShift" type="number" />
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 mb-2">
                                             <label>Τελικά Χλμ.</label>
                                             <input class="form-control"
                                                 [(ngModel)]="selectedVehicleDetail.FinalKmOfShift" name="FinalKmOfShift"
                                                 type="number" />
                                         </div>
                                     </div>
-                                    <div class="row mb-2">
-                                        <div class="col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-4 mb-2">
                                             <label>Ημ/νια Χρήσης</label>
                                             <input class="form-control" [(ngModel)]="selectedVehicleDetail.LastDrivenAt"
                                                 name="LastDrivenAt" type="date" />
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 mb-2">
                                             <label>ΚΤΕΟ</label>
                                             <input class="form-control"
                                                 [(ngModel)]="selectedVehicleDetail.KteoExpiryDate" name="KteoExpiryDate"
                                                 type="date" />
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 mb-2">
                                             <label>Ασφάλεια</label>
                                             <input class="form-control"
                                                 [(ngModel)]="selectedVehicleDetail.InsuranceExpiryDate"
                                                 name="InsuranceExpiryDate" type="date" />
                                         </div>
                                     </div>
-                                    <div class="row mb-2">
-                                        <div class="col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-4 mb-2">
                                             <label>Service</label>
                                             <input class="form-control"
                                                 [(ngModel)]="selectedVehicleDetail.LastServiceDate"
                                                 name="LastServiceDate" type="date" />
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 mb-2">
                                             <label>Χλμ. Τελ. Service</label>
                                             <input class="form-control"
                                                 [(ngModel)]="selectedVehicleDetail.LastServiceKilometers"
                                                 name="LastServiceKilometers" type="number" />
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 mb-2">
                                             <label>Επόμενο Service</label>
                                             <input class="form-control"
                                                 [(ngModel)]="selectedVehicleDetail.NextServiceDate"
                                                 name="NextServiceDate" type="date" />
                                         </div>
                                     </div>
-                                    <div class="row mb-2">
-                                        <div class="col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-4 mb-2">
                                             <label>Χλμ. Επόμ. Service</label>
                                             <input class="form-control"
                                                 [(ngModel)]="selectedVehicleDetail.NextServiceKilometers"
                                                 name="NextServiceKilometers" type="number" />
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 mb-2">
                                             <label>Αλλαγή Ελαστικών</label>
                                             <input class="form-control"
                                                 [(ngModel)]="selectedVehicleDetail.CarTiresReplacementDate"
                                                 name="CarTiresReplacementDate" type="date" />
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 mb-2">
                                             <label>Κάρτα Καυσαερίων</label>
                                             <input class="form-control"
                                                 [(ngModel)]="selectedVehicleDetail.CarExhaustExpiryDate"
                                                 name="CarExhaustExpiryDate" type="date" />
                                         </div>
                                     </div>
-                                    <div class="row mb-2">
-                                        <div class="col-md-4">
+                                    <div class="row">
+                                        <div class="col-md-4 mb-2">
                                             <label>Καύσιμα (€)</label>
                                             <input class="form-control"
                                                 [(ngModel)]="selectedVehicleDetail.FuelAdditionCost"
                                                 name="FuelAdditionCost" type="number" />
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 mb-2">
                                             <label>Καύσιμα (lt)</label>
                                             <input class="form-control"
                                                 [(ngModel)]="selectedVehicleDetail.FuelAdditionLiters"
                                                 name="FuelAdditionLiters" type="number" />
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-4 mb-2">
                                             <label>Προσθήκη Καυσίμου</label>
                                             <input class="form-control"
                                                 [(ngModel)]="selectedVehicleDetail.FuelAdditionDate"
                                                 name="FuelAdditionDate" type="date" />
                                         </div>
                                     </div>
-                                    <div class="row mb-2">
-                                        <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12 mb-2">
                                             <label>Παρατηρήσεις</label>
                                             <textarea class="form-control" [(ngModel)]="selectedVehicleDetail.Notes"
                                                 name="Notes"></textarea>
                                         </div>
                                     </div>
-                                    <div class="row mb-2">
-                                        <div class="col-md-12 text-end">
+                                    <div class="row">
+                                        <div class="col-md-12 mb-2 text-end">
                                             <button type="submit" class="btn btn-success me-2">Αποθήκευση</button>
                                             <button type="button" class="btn btn-secondary"
                                                 (click)="cancelEditVehicleLineHistory()">Άκυρο</button>
@@ -458,33 +458,33 @@
                             </div>
                             <div class="modal-body">
                                 <form (ngSubmit)="saveVehicleLineHistory()">
-                                    <div class="row mb-2">
-                                        <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12 mb-2">
                                             <label>Οδηγός</label>
                                             <input class="form-control"
                                                 [(ngModel)]="selectedBoatDetail.LastUpdatedByName"
                                                 name="BoatLastUpdatedByName" />
                                         </div>
                                     </div>
-                                    <div class="row mb-2">
-                                        <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-2">
                                             <label>Ημ/νια Χρήσης</label>
                                             <input class="form-control" [(ngModel)]="selectedBoatDetail.DateOfBoatUse"
                                                 name="DateOfBoatUse" type="date" />
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-3 mb-2">
                                             <label>Ωρες Μηχ. A</label>
                                             <input class="form-control" [(ngModel)]="selectedBoatDetail.EngineAHours"
                                                 name="EngineAHours" type="number" />
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-3 mb-2">
                                             <label>Ωρες Μηχ. B</label>
                                             <input class="form-control" [(ngModel)]="selectedBoatDetail.EngineBHours"
                                                 name="EngineBHours" type="number" />
                                         </div>
                                     </div>
-                                    <div class="row mb-2">
-                                        <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-2">
                                             <label>Επίπεδο Καυσίμου</label>
                                             <select class="form-select" id="BoatFuelLevel" name="BoatFuelLevel"
                                                 [(ngModel)]="selectedBoatDetail.BoatFuelLevel">
@@ -495,7 +495,7 @@
                                                 <option value="low">LOW</option>
                                             </select>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 mb-2">
                                             <label>Επίπεδο Λαδιού</label>
                                             <select class="form-select" id="BoatOilLevel" name="BoatOilLevel"
                                                 [(ngModel)]="selectedBoatDetail.BoatOilLevel">
@@ -507,42 +507,42 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="row mb-2">
-                                        <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-2">
                                             <label>Συνολ. Ωρες Λειτουργίας</label>
                                             <input class="form-control"
                                                 [(ngModel)]="selectedBoatDetail.BoatTotalOperatingHours"
                                                 name="BoatTotalOperatingHours" type="number" />
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 mb-2">
                                             <label>Προσθήκη Καυσίμου (lt)</label>
                                             <input class="form-control"
                                                 [(ngModel)]="selectedBoatDetail.BoatGasAdditionLiters"
                                                 name="BoatGasAdditionLiters" type="number" />
                                         </div>
                                     </div>
-                                    <div class="row mb-2">
-                                        <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-2">
                                             <label>Προσθήκη Καυσίμου</label>
                                             <input class="form-control"
                                                 [(ngModel)]="selectedBoatDetail.BoatGasAdditionDate"
                                                 name="BoatGasAdditionDate" type="date" />
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 mb-2">
                                             <label>Προσθήκη Λαδιού (lt)</label>
                                             <input class="form-control"
                                                 [(ngModel)]="selectedBoatDetail.BoatOilAdditionLiters"
                                                 name="BoatOilAdditionLiters" type="number" />
                                         </div>
                                     </div>
-                                    <div class="row mb-2">
-                                        <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-2">
                                             <label>Προσθήκη Λαδιού</label>
                                             <input class="form-control"
                                                 [(ngModel)]="selectedBoatDetail.BoatOilAdditionDate"
                                                 name="BoatOilAdditionDate" type="date" />
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 mb-2">
                                             <label>Μπαταρία</label>
                                             <select class="form-select" id="BoatBatteries" name="BoatBatteries"
                                                 [(ngModel)]="selectedBoatDetail.BoatBatteries">
@@ -551,29 +551,29 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="row mb-2">
-                                        <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12 mb-2">
                                             <label>Συντήρηση</label>
                                             <textarea class="form-control" [(ngModel)]="selectedBoatDetail.BoatMaintenance"
                                                 name="BoatMaintenance"></textarea>
                                         </div>
                                     </div>
-                                    <div class="row mb-2">
-                                        <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12 mb-2">
                                             <label>Πλήρωμα</label>
                                             <textarea class="form-control" [(ngModel)]="selectedBoatDetail.BoatCrew"
                                                 name="BoatCrew"></textarea>
                                         </div>
                                     </div>
-                                    <div class="row mb-2">
-                                        <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12 mb-2">
                                             <label>Παρατηρήσεις-Αποστολή</label>
                                             <textarea class="form-control" [(ngModel)]="selectedBoatDetail.Notes"
                                                 name="BoatNotes"></textarea>
                                         </div>
                                     </div>
-                                    <div class="row mb-2">
-                                        <div class="col-md-12 text-end">
+                                    <div class="row">
+                                        <div class="col-md-12 mb-2 text-end">
                                             <button type="submit" class="btn btn-success me-2">Αποθήκευση</button>
                                             <button type="button" class="btn btn-secondary"
                                                 (click)="cancelEditVehicleLineHistory()">Άκυρο</button>
