@@ -246,19 +246,19 @@ export class VehicleDetailsComponent {
     this.saveMessageType = '';
     this.invalidFields.clear();
 
-    // Validate required fields
-    if (!this.vehicleDetails.FinalKmOfShift && this.vehicleDetails.FinalKmOfShift !== 0) {
-      this.invalidFields.add('FinalKmOfShift');
-    }
-    if (this.vehicleDetails.FinalKmOfShift && isNaN(Number(this.vehicleDetails.FinalKmOfShift))) {
-      this.invalidFields.add('FinalKmOfShift');
-    }
-    if (this.vehicleDetails.FuelAdditionCost && isNaN(Number(this.vehicleDetails.FuelAdditionCost))) {
-      this.invalidFields.add('FuelAdditionCost');
-    }
-    if (this.vehicleDetails.FuelAdditionLiters && isNaN(Number(this.vehicleDetails.FuelAdditionLiters))) {
-      this.invalidFields.add('FuelAdditionLiters');
-    }
+    // // Validate required fields
+    // if (!this.vehicleDetails.FinalKmOfShift && this.vehicleDetails.FinalKmOfShift !== 0) {
+    //   this.invalidFields.add('FinalKmOfShift');
+    // }
+    // if (this.vehicleDetails.FinalKmOfShift && isNaN(Number(this.vehicleDetails.FinalKmOfShift))) {
+    //   this.invalidFields.add('FinalKmOfShift');
+    // }
+    // if (this.vehicleDetails.FuelAdditionCost && isNaN(Number(this.vehicleDetails.FuelAdditionCost))) {
+    //   this.invalidFields.add('FuelAdditionCost');
+    // }
+    // if (this.vehicleDetails.FuelAdditionLiters && isNaN(Number(this.vehicleDetails.FuelAdditionLiters))) {
+    //   this.invalidFields.add('FuelAdditionLiters');
+    // }
 
     if (this.invalidFields.size > 0) {
       this.saveMessage = 'Παρακαλώ διορθώστε τα πεδία που επισημαίνονται με κόκκινο.';
