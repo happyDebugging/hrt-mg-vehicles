@@ -139,6 +139,8 @@ export class VehicleDetailsComponent {
   GetVehicleDetails() {
     this.vehicleDetails = new VehicleDetails();
     this.vehicle = null;
+    // Set default value for BoatTotalOperatingHours
+    this.vehicleDetails.BoatTotalOperatingHours = 0;
 
     this.dbFunctionService.getVehicleDetailsRaw(this.vehicleIdToPreview)
       .then(
@@ -162,6 +164,8 @@ export class VehicleDetailsComponent {
               this.vehicleDetails.TotalKm = 0;
               console.log('No vehicle details or initial kilometers found, defaulting to 0');
             }
+            // Ensure BoatTotalOperatingHours is set to 0 if no data
+            this.vehicleDetails.BoatTotalOperatingHours = 0;
             return;
           }
 
